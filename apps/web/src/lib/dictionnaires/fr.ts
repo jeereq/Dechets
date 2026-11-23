@@ -169,14 +169,14 @@ export const fr = {
       {
         nom: 'Phase 2',
         etat: 'À venir',
-        zone: '[Communes à définir]',
+        zone: 'Communes voisines',
         texte:
           'Les communes voisines de Limete, choisies selon les demandes reçues et les tournées possibles.',
       },
       {
         nom: 'Phase 3',
         etat: 'À venir',
-        zone: '[Communes à définir]',
+        zone: 'Autres communes de Kinshasa',
         texte: 'Extension progressive, avec une équipe et un véhicule par nouvelle zone.',
       },
     ],
