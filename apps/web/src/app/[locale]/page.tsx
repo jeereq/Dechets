@@ -191,7 +191,7 @@ export default async function Accueil({ params }: { params: Promise<{ locale: st
               {t.services.items.map((item) => (
                 <Link
                   key={item.id}
-                  href={`${lien(locale, 'services')}#${item.id}`}
+                  href={`${lien(locale, 'services')}/${item.id}`}
                   className="carte carte--lien"
                 >
                   <span className="pastille">

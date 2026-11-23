@@ -627,67 +627,62 @@ img {
 
 /* --- carte des zones ----------------------------------------------------- */
 
-.carte-zones {
-  position: relative;
-  height: 440px;
-  border-radius: var(--r-lg);
-  overflow: hidden;
-  background: var(--fond);
-  border: 1px solid var(--ligne);
-}
-
-.carte-zones__quadrillage {
-  position: absolute;
-  inset: 0;
-  background-image: linear-gradient(var(--ligne) 1px, transparent 1px),
-    linear-gradient(90deg, var(--ligne) 1px, transparent 1px);
-  background-size: 10% 12.5%;
-}
-
-.carte-zones__legende {
-  position: absolute;
-  left: 14px;
-  bottom: 14px;
+.carte-kinshasa {
+  margin: 0;
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  padding: 14px 16px;
-  border-radius: var(--r);
-  background: var(--blanc);
-  border: 1px solid var(--ligne);
-  font-size: 16px;
+  gap: 14px;
 }
 
-.carte-zones__note {
-  position: absolute;
-  left: 50%;
-  top: 62%;
-  transform: translateX(-50%);
-  max-width: 420px;
-  text-align: center;
-  font-size: 15px;
+.carte-kinshasa__cadre {
+  overflow-x: auto;
+  border-radius: var(--r-lg);
+  border: 1px solid var(--ligne);
+  background: #eef4f0;
+}
+
+.carte-kinshasa__cadre svg {
+  display: block;
+  width: 100%;
+  min-width: 720px;
+  height: auto;
+}
+
+.carte-kinshasa__pied {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 28px;
+  font-size: 17px;
+}
+
+.carte-kinshasa__legende {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.carte-kinshasa__puce {
+  width: 20px;
+  height: 20px;
+  border-radius: 5px;
+  background: #dcebe1;
+  border: 1.5px solid var(--contour);
+}
+
+.carte-kinshasa__puce--ouverte {
+  background: var(--vert);
+  border-color: var(--vert);
+}
+
+.carte-kinshasa__aide {
+  display: none;
   color: var(--gris);
 }
 
-.carte-zones__repere {
-  position: absolute;
-  left: 50%;
-  top: 40%;
-  transform: translate(-50%, -100%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
-}
-
-.carte-zones__etiquette {
-  padding: 8px 16px;
-  border-radius: 999px;
-  background: var(--vert);
-  color: var(--blanc);
-  font-size: 17px;
-  font-weight: 700;
-  white-space: nowrap;
+.carte-kinshasa__note {
+  flex-basis: 100%;
+  font-size: 15px;
 }
 
 /* --- questions ----------------------------------------------------------- */
@@ -945,12 +940,8 @@ figcaption {
     height: 200px;
   }
 
-  .carte-zones {
-    height: 340px;
-  }
-
-  .carte-zones__note {
-    display: none;
+  .carte-kinshasa__aide {
+    display: inline;
   }
 
   .bouton {
@@ -981,4 +972,48 @@ figcaption {
   clip: rect(0 0 0 0);
   white-space: nowrap;
   border: 0;
+}
+
+/* Pages dediees a chaque service */
+.grille--trois {
+  grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
+}
+
+.grille--quatre {
+  grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
+}
+
+.galerie {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.galerie img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: var(--r);
+}
+
+.lien-retour {
+  align-self: flex-start;
+  font-weight: 700;
+  color: var(--vert);
+  text-decoration: none;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.lien-retour:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 860px) {
+  .galerie {
+    grid-template-columns: 1fr;
+  }
 }

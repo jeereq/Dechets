@@ -8,7 +8,7 @@ import { PiedDePage } from '@/components/PiedDePage';
 import { TitrePage } from '@/components/TitrePage';
 import { estLocale, getDictionnaire, lien } from '@/lib/i18n';
 import { VISUELS_SERVICES } from '@/lib/services';
-import { COORDONNEES, telLien } from '@/lib/societe';
+import { COORDONNEES } from '@/lib/societe';
 import type { Metadata } from 'next';
 
 export async function generateMetadata({
@@ -48,13 +48,13 @@ export default async function Services({ params }: { params: Promise<{ locale: s
               {s.items.map((item) => {
                 const visuel = VISUELS_SERVICES[item.id];
                 return (
-                  <a key={item.id} href={`#${item.id}`} className="carte carte--lien">
+                  <Link key={item.id} href={`${lien(locale, 'services')}/${item.id}`} className="carte carte--lien">
                     <span className="pastille">
-                      <Icone nom={visuel?.icone ?? 'check'} taille={26} epaisseur={1.9} />
+                      <Icone nom={visuel.icone ?? 'check'} taille={26} epaisseur={1.9} />
                     </span>
                     <strong style={{ fontSize: 18 }}>{item.titre}</strong>
                     <span className="discret">{item.accroche}</span>
-                  </a>
+                  </Link>
                 );
               })}
             </div>
@@ -75,25 +75,18 @@ export default async function Services({ params }: { params: Promise<{ locale: s
             >
               <div className={`conteneur service ${index % 2 === 1 ? 'service--inverse' : ''}`}>
                 <div className="service__media">
-                  {visuel?.photo ? (
-                    <Image
-                      src={`/photos/${visuel.photo}`}
-                      alt={visuel.alt ?? item.titre}
-                      width={720}
-                      height={450}
-                      sizes="(max-width: 860px) 100vw, 50vw"
-                    />
-                  ) : (
-                    <div className="photo-manquante">
-                      <Icone nom={visuel?.icone ?? 'appareil-photo'} taille={44} epaisseur={1.5} />
-                      {t.commun.photoAFournir}
-                    </div>
-                  )}
+                  <Image
+                    src={`/photos/${visuel.photos[0].fichier}`}
+                    alt={visuel.photos[0].alt}
+                    width={720}
+                    height={450}
+                    sizes="(max-width: 860px) 100vw, 50vw"
+                  />
                 </div>
 
                 <div className="service__texte pile" style={{ gap: 16 }}>
                   <span className="pastille">
-                    <Icone nom={visuel?.icone ?? 'check'} taille={28} epaisseur={1.9} />
+                    <Icone nom={visuel.icone ?? 'check'} taille={28} epaisseur={1.9} />
                   </span>
                   <h2>{item.titre}</h2>
                   <p className="chapeau chapeau--encre">{item.accroche}</p>
@@ -114,23 +107,19 @@ export default async function Services({ params }: { params: Promise<{ locale: s
                   </ul>
 
                   <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12 }}>
+                    <Link className="bouton bouton--principal" href={`${lien(locale, 'services')}/${item.id}`}>
+                      {s.ficheCta}
+                    </Link>
                     {estAssainissement ? (
                       <>
-                        <Link className="bouton bouton--principal" href={lien(locale, 'formules')}>
+                        <Link className="bouton bouton--secondaire" href={lien(locale, 'formules')}>
                           {t.nav.formules}
-                        </Link>
-                        <Link className="bouton bouton--secondaire" href={lien(locale, 'zones')}>
-                          {t.nav.zones}
                         </Link>
                       </>
                     ) : (
                       <>
-                        <a className="bouton bouton--principal" href={`mailto:${COORDONNEES.email}?subject=${sujet}`}>
+                        <a className="bouton bouton--secondaire" href={`mailto:${COORDONNEES.email}?subject=${sujet}`}>
                           {s.devis}
-                        </a>
-                        <a className="bouton bouton--secondaire" href={telLien(COORDONNEES.telephone1)}>
-                          <Icone nom="telephone" taille={20} />
-                          {s.appeler}
                         </a>
                       </>
                     )}

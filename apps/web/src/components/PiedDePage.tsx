@@ -37,7 +37,7 @@ export function PiedDePage({ locale }: { locale: Locale }) {
         <div className="pied__colonne">
           <span className="surtitre">{t.pied.services}</span>
           {t.services.items.map((service) => (
-            <Link key={service.id} href={`${lien(locale, 'services')}#${service.id}`}>
+            <Link key={service.id} href={`${lien(locale, 'services')}/${service.id}`}>
               {service.titre}
             </Link>
           ))}
