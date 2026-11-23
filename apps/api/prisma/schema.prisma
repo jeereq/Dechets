@@ -1,0 +1,365 @@
+// Schema de donnees de BENIME CONGO Assainissement.
+// Les noms sont en francais, comme le reste du projet.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ---------------------------------------------------------------------------
+// Zones
+// ---------------------------------------------------------------------------
+
+enum StatutCommune {
+  OUVERTE
+  DEMANDES_RECUES
+  FERMEE
+}
+
+model Commune {
+  id        String        @id @default(cuid())
+  slug      String        @unique
+  nom       String
+  statut    StatutCommune @default(FERMEE)
+  ouverteLe DateTime?
+  // Coordonnees du centre, pour le futur affichage sur la carte.
+  latitude  Float?
+  longitude Float?
+
+  menages Menage[]
+  equipes Equipe[]
+  leads   Lead[]
+
+  creeLe     DateTime @default(now())
+  modifieLe  DateTime @updatedAt
+
+  @@index([statut])
+}
+
+/// Un visiteur hors zone qui laisse son numero pour etre prevenu.
+model Lead {
+  id         String   @id @default(cuid())
+  telephone  String
+  nom        String?
+  communeId  String
+  commune    Commune  @relation(fields: [communeId], references: [id])
+  prevenuLe  DateTime?
+  creeLe     DateTime @default(now())
+
+  @@index([communeId])
+  @@unique([telephone, communeId])
+}
+
+/// Message envoye depuis le formulaire de contact du site.
+model MessageContact {
+  id        String   @id @default(cuid())
+  nom       String
+  telephone String
+  email     String?
+  message   String
+  traiteLe  DateTime?
+  creeLe    DateTime @default(now())
+}
+
+// ---------------------------------------------------------------------------
+// Abonnes
+// ---------------------------------------------------------------------------
+
+enum Formule {
+  PAR_PASSAGE
+  MENSUELLE
+}
+
+enum Langue {
+  FR
+  LN
+  EN
+}
+
+enum StatutMenage {
+  ACTIF
+  SUSPENDU
+  RESILIE
+}
+
+model Menage {
+  id        String       @id @default(cuid())
+  code      String       @unique // MN-0001
+  nom       String
+  telephone String       @unique
+  communeId String
+  commune   Commune      @relation(fields: [communeId], references: [id])
+  avenue    String
+  parcelle  String
+  repere    String?
+  formule   Formule      @default(MENSUELLE)
+  langue    Langue       @default(FR)
+  alerteSms Boolean      @default(true)
+  alerteWa  Boolean      @default(true)
+  credit    Int          @default(0) // en francs congolais
+  statut    StatutMenage @default(ACTIF)
+  equipeId  String?
+  equipe    Equipe?      @relation(fields: [equipeId], references: [id])
+
+  demandes      DemandeCollecte[]
+  passages      Passage[]
+  paiements     Paiement[]
+  avis          Avis[]
+  notifications Notification[]
+
+  creeLe    DateTime @default(now())
+  modifieLe DateTime @updatedAt
+
+  @@index([communeId])
+  @@index([equipeId])
+}
+
+// ---------------------------------------------------------------------------
+// Equipes de terrain
+// ---------------------------------------------------------------------------
+
+enum Poste {
+  SUPERVISEUR
+  CHAUFFEUR
+  EBOUEUR
+  RECOUVREMENT
+}
+
+enum Vehicule {
+  CAMION
+  TRICYCLE
+}
+
+model Equipe {
+  id        String   @id @default(cuid())
+  nom       String // « Equipe 1 »
+  vehicule  Vehicule @default(TRICYCLE)
+  jours     Int[] // 1 = lundi ... 7 = dimanche
+  communeId String?
+  commune   Commune? @relation(fields: [communeId], references: [id])
+
+  membres  Personnel[]
+  menages  Menage[]
+  passages Passage[]
+  demandes DemandeCollecte[]
+
+  creeLe    DateTime @default(now())
+  modifieLe DateTime @updatedAt
+}
+
+model Personnel {
+  id        String  @id @default(cuid())
+  nom       String
+  telephone String  @unique
+  poste     Poste
+  actif     Boolean @default(true)
+  equipeId  String?
+  equipe    Equipe? @relation(fields: [equipeId], references: [id])
+
+  passagesFaits   Passage[]  @relation("PassageAgent")
+  passagesValides Passage[]  @relation("PassageValidateur")
+  encaissements   Paiement[] @relation("PaiementAgent")
+
+  creeLe    DateTime @default(now())
+  modifieLe DateTime @updatedAt
+
+  @@index([equipeId])
+  @@index([poste])
+}
+
+// ---------------------------------------------------------------------------
+// Collectes
+// ---------------------------------------------------------------------------
+
+enum TypeDemande {
+  DES_QUE_POSSIBLE
+  JOUR_PRECIS
+  PROCHAIN_PASSAGE
+}
+
+enum StatutDemande {
+  RECUE
+  PLANIFIEE
+  TERMINEE
+  ANNULEE
+}
+
+model DemandeCollecte {
+  id            String        @id @default(cuid())
+  reference     String        @unique // DM-0001
+  menageId      String
+  menage        Menage        @relation(fields: [menageId], references: [id])
+  type          TypeDemande   @default(DES_QUE_POSSIBLE)
+  dateSouhaitee DateTime?
+  statut        StatutDemande @default(RECUE)
+  equipeId      String?
+  equipe        Equipe?       @relation(fields: [equipeId], references: [id])
+  datePlanifiee DateTime?
+
+  creeLe    DateTime @default(now())
+  modifieLe DateTime @updatedAt
+
+  @@index([statut])
+  @@index([menageId])
+}
+
+enum ResultatPassage {
+  COLLECTE
+  PERSONNE_SUR_PLACE
+  ACCES_IMPOSSIBLE
+  DECHETS_REFUSES
+  RIEN_A_PRENDRE
+}
+
+enum StatutPassage {
+  A_FAIRE
+  FAIT
+  VALIDE
+  REFUSE
+}
+
+model Passage {
+  id         String           @id @default(cuid())
+  menageId   String
+  menage     Menage           @relation(fields: [menageId], references: [id])
+  equipeId   String
+  equipe     Equipe           @relation(fields: [equipeId], references: [id])
+  date       DateTime
+  statut     StatutPassage    @default(A_FAIRE)
+  resultat   ResultatPassage?
+  nbSacs     Int?
+  photoAvant String?
+  photoApres String?
+
+  agentId      String?
+  agent        Personnel? @relation("PassageAgent", fields: [agentId], references: [id])
+  valideParId  String?
+  validePar    Personnel? @relation("PassageValidateur", fields: [valideParId], references: [id])
+  valideLe     DateTime?
+
+  creeLe    DateTime @default(now())
+  modifieLe DateTime @updatedAt
+
+  @@index([date])
+  @@index([menageId])
+  @@index([equipeId])
+}
+
+// ---------------------------------------------------------------------------
+// Paiements
+// ---------------------------------------------------------------------------
+
+enum ModePaiement {
+  AIRTEL_MONEY
+  ORANGE_MONEY
+  M_PESA
+  AFRIMONEY
+  CARTE
+  CASH
+  VIREMENT
+}
+
+enum StatutPaiement {
+  EN_ATTENTE
+  RECU
+  A_RAPPROCHER
+  ECHEC
+}
+
+enum ObjetPaiement {
+  PASSAGE
+  ABONNEMENT
+  RECHARGE_CREDIT
+}
+
+model Paiement {
+  id        String         @id @default(cuid())
+  reference String         @unique // PM-0001
+  menageId  String
+  menage    Menage         @relation(fields: [menageId], references: [id])
+  montant   Int // en francs congolais
+  mode      ModePaiement
+  objet     ObjetPaiement  @default(PASSAGE)
+  statut    StatutPaiement @default(EN_ATTENTE)
+
+  // Rempli par FlexPay pour le mobile money et la carte.
+  flexpayOrderNumber String?
+  flexpayReference   String?
+
+  // Rempli quand un agent encaisse en especes ou par virement.
+  agentId String?
+  agent   Personnel? @relation("PaiementAgent", fields: [agentId], references: [id])
+
+  creeLe    DateTime @default(now())
+  modifieLe DateTime @updatedAt
+
+  @@index([statut])
+  @@index([menageId])
+}
+
+// ---------------------------------------------------------------------------
+// Avis, realisations, notifications, reglages
+// ---------------------------------------------------------------------------
+
+model Avis {
+  id         String   @id @default(cuid())
+  menageId   String
+  menage     Menage   @relation(fields: [menageId], references: [id])
+  note       Int // 1 a 5
+  commentaire String?
+  creeLe     DateTime @default(now())
+
+  @@index([menageId])
+}
+
+model Realisation {
+  id         String   @id @default(cuid())
+  lieu       String
+  date       DateTime
+  legende    String?
+  photoAvant String?
+  photoApres String?
+  publiee    Boolean  @default(false)
+
+  creeLe    DateTime @default(now())
+  modifieLe DateTime @updatedAt
+}
+
+enum Canal {
+  SMS
+  WHATSAPP
+}
+
+enum StatutNotification {
+  EN_ATTENTE
+  ENVOYEE
+  ECHEC
+}
+
+model Notification {
+  id       String             @id @default(cuid())
+  menageId String
+  menage   Menage             @relation(fields: [menageId], references: [id])
+  canal    Canal
+  modele   String // « alerte_passage », « recu_paiement », ...
+  contenu  String
+  statut   StatutNotification @default(EN_ATTENTE)
+  envoyeLe DateTime?
+  erreur   String?
+
+  creeLe DateTime @default(now())
+
+  @@index([statut])
+  @@index([menageId])
+}
+
+/// Reglages modifiables depuis le back-office : prix, canaux, langues.
+model Reglage {
+  cle       String   @id
+  valeur    String
+  modifieLe DateTime @updatedAt
+}

@@ -1,0 +1,112 @@
+import type { DeepPartial } from '../i18n';
+import type { Dictionnaire } from './fr';
+
+export const en: DeepPartial<Dictionnaire> = {
+  meta: {
+    nomSite: 'BENIME CONGO Sanitation',
+    descriptionSite:
+      'Household waste collection in Kinshasa. You are alerted before every pickup, and you pay the way you want.',
+  },
+  nav: {
+    accueil: 'Home',
+    travaux: 'Our work',
+    zones: 'Where we collect',
+    valorisation: 'Where your waste goes',
+    formules: 'Plans',
+    questions: 'Questions',
+    espace: 'My account',
+  },
+  commun: {
+    sInscrire: 'Sign up',
+    appeler: 'Call',
+    voirTout: 'See all',
+    envoyer: 'Send',
+    envoiEnCours: 'Sending...',
+    prixExemple: 'Example prices: to be replaced with BENIME real rates.',
+    photoAFournir: 'Photo to be provided',
+  },
+  accueil: {
+    surtitre: 'Sanitation · Limete, Kinshasa',
+    titre: 'Keeping your neighbourhood clean is our work',
+    chapeau:
+      'We collect household waste, take it out of the neighbourhood and have it recovered.',
+    etapesTitre: 'Collection, transport, recovery',
+    materielTitre: 'Our teams and our equipment',
+    zoneTitre: 'We are running a pilot in Limete',
+    zoneTexte: 'Other communes of Kinshasa will follow, step by step.',
+    zoneLien: 'See the areas we serve',
+  },
+  travaux: {
+    titre: 'Our work',
+    chapeau: 'Our teams in the field, and the results of our collections in Limete.',
+    terrainTitre: 'In the field',
+    avantApresTitre: 'Before and after',
+    avant: 'Before',
+    apres: 'After',
+    contactTitre: 'A place that needs cleaning?',
+    contactTexte: 'Tell us. A team comes, and you see the result here.',
+  },
+  zones: {
+    surtitre: 'Areas served',
+    titre: 'Where we collect today',
+    chapeau:
+      'Communes we serve appear in green. The others will follow as teams and vehicles are in place.',
+    communeDesservie: 'commune served',
+    communesDesservies: 'communes served',
+    communesKinshasa: 'communes in Kinshasa',
+    carteTitre: 'The map of our areas',
+    legende: 'Legend',
+    legendeOuverte: 'Commune served',
+    legendeFermee: 'Not served yet',
+    listeTitre: 'The 24 communes of Kinshasa',
+    filtreToutes: 'All',
+    filtreOuvertes: 'Served',
+    filtreFermees: 'Not yet',
+    rechercher: 'Search your commune',
+    deploiementTitre: 'Our rollout',
+    prevenirTitre: 'Your commune is not served yet?',
+    prevenirTexte: 'Leave us your number. We will tell you as soon as our teams reach you.',
+    champCommune: 'Your commune',
+    champTelephone: 'Your phone number',
+    boutonPrevenir: 'Notify me',
+    prevenirSucces: 'Thank you. We will write to you as soon as your commune opens.',
+    prevenirErreur: 'The message could not be sent. Please try again in a moment.',
+  },
+  valorisation: {
+    surtitre: 'Our purpose',
+    titre: 'Keeping the environment healthy',
+    chapeau:
+      'Collecting is not enough. We take your waste out of the neighbourhood and have it recovered, so it ends up neither burnt nor in the gutters.',
+    chaineTitre: 'From your plot to recovery',
+    triTitre: 'What we take',
+    accepte: 'Accepted',
+    refuse: 'Refused',
+  },
+  formules: {
+    titre: 'Plans and payment',
+    chapeau: 'Two simple plans and every payment method. You pay the way you want.',
+    formulesTitre: 'Two plans to choose from',
+    parPassage: { nom: 'Per pickup', unite: 'per pickup' },
+    mensuelle: { nom: 'Monthly', unite: 'per month' },
+    paiementTitre: 'Seven ways to pay',
+    creditTitre: 'Pay in advance, with credit',
+  },
+  questions: {
+    titre: 'Frequently asked questions',
+    chapeau: 'Answers to the most common questions. Another question? Write to us.',
+    communesIntro: 'Today, the communes we serve are:',
+    communesAucune: 'No commune is open at the moment.',
+  },
+  contact: {
+    titre: 'Sign your contract',
+    texte:
+      'Contact us to choose the plan that fits your needs, or sign up yourself in a few minutes.',
+    telephone: 'Phone',
+    telephone2: 'Phone 2',
+    email: 'E-mail',
+    bureau: 'Office',
+  },
+  pied: {
+    services: 'Our services',
+  },
+};
