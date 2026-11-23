@@ -1,4 +1,4 @@
-type Nom =
+export type NomIcone =
   | 'check'
   | 'croix'
   | 'horloge'
@@ -14,9 +14,13 @@ type Nom =
   | 'appareil-photo'
   | 'fleche'
   | 'plus'
-  | 'moins';
+  | 'moins'
+  | 'eclair'
+  | 'batiment'
+  | 'plante'
+  | 'etoile';
 
-const CHEMINS: Record<Nom, string> = {
+const CHEMINS: Record<NomIcone, string> = {
   check: 'M20 6 9 17l-5-5',
   croix: 'M18 6 6 18M6 6l12 12',
   horloge: 'M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18ZM12 7v5l3 2',
@@ -36,6 +40,11 @@ const CHEMINS: Record<Nom, string> = {
   fleche: 'M9 18l6-6-6-6',
   plus: 'M12 5v14M5 12h14',
   moins: 'M5 12h14',
+  eclair: 'M13 2 3 14h9l-1 8 10-12h-9l1-8Z',
+  batiment: 'M3 21h18M5 21V7l8-4v18M19 21V11l-6-4M9 9v.01M9 12v.01M9 15v.01M9 18v.01',
+  plante:
+    'M7 20h10M10 20c5.5-2.5.8-6.4 3-10M9.5 9.4c1.1.8 1.8 2.2 2.3 3.7-2 .4-3.5.4-4.8-.3-1.2-.6-2.3-1.9-3-4.2 2.8-.5 4.4 0 5.5.8ZM14.1 6a7 7 0 0 0-1.1 4c1.9-.1 3.3-.6 4.3-1.4 1-1 1.6-2.3 1.7-4.6-2.7.1-4 1-4.9 2Z',
+  etoile: 'M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.9L12 17.8 5.8 21.1 7 14.2 2 9.3l6.9-1L12 2Z',
 };
 
 export function Icone({
@@ -44,7 +53,7 @@ export function Icone({
   epaisseur = 2,
   rempli = false,
 }: {
-  nom: Nom;
+  nom: NomIcone;
   taille?: number;
   epaisseur?: number;
   rempli?: boolean;

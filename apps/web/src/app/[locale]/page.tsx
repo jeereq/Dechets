@@ -8,6 +8,7 @@ import { PiedDePage } from '@/components/PiedDePage';
 import { getCommunes, getReglages } from '@/lib/api';
 import { formaterPrix } from '@/lib/format';
 import { estLocale, getDictionnaire, lien } from '@/lib/i18n';
+import { VISUELS_SERVICES } from '@/lib/services';
 import { COORDONNEES, telLien } from '@/lib/societe';
 
 const ICONES_FAITS = ['calendrier', 'cloche', 'portefeuille'] as const;
@@ -27,7 +28,7 @@ export default async function Accueil({ params }: { params: Promise<{ locale: st
     ['camion.jpg', 'Notre camion compacteur'],
     ['agents.jpg', 'Nos agents · Limete'],
     ['tri-arriere.jpg', 'La benne du tricycle'],
-    ['équipe-large.jpg', 'Sur le terrain · Kinshasa'],
+    ['equipe-large.jpg', 'Sur le terrain · Kinshasa'],
   ];
 
   return (
@@ -178,6 +179,33 @@ export default async function Accueil({ params }: { params: Promise<{ locale: st
                   </figcaption>
                 </figure>
               ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="section section--pale">
+          <div className="conteneur pile" style={{ gap: 24 }}>
+            <h2>{t.accueil.groupeTitre}</h2>
+            <p className="chapeau chapeau--encre">{t.accueil.groupeTexte}</p>
+            <div className="grille grille--cinq">
+              {t.services.items.map((item) => (
+                <Link
+                  key={item.id}
+                  href={`${lien(locale, 'services')}#${item.id}`}
+                  className="carte carte--lien"
+                >
+                  <span className="pastille">
+                    <Icone nom={VISUELS_SERVICES[item.id]?.icone ?? 'check'} taille={26} epaisseur={1.9} />
+                  </span>
+                  <strong style={{ fontSize: 18 }}>{item.titre}</strong>
+                  <span className="discret">{item.accroche}</span>
+                </Link>
+              ))}
+            </div>
+            <div>
+              <Link className="bouton bouton--secondaire" href={lien(locale, 'services')}>
+                {t.accueil.groupeLien}
+              </Link>
             </div>
           </div>
         </section>

@@ -6,6 +6,7 @@ export const fr = {
   },
   nav: {
     accueil: 'Accueil',
+    services: 'Nos services',
     travaux: 'Nos travaux',
     zones: 'Où nous passons',
     valorisation: 'Où vont vos déchets',
@@ -46,6 +47,84 @@ export const fr = {
     zoneTexte:
       "D'autres communes de Kinshasa suivront, étape par étape. Regardez où nous passons aujourd'hui.",
     zoneLien: 'Voir les zones desservies',
+    groupeTitre: 'BENIME CONGO, cinq activités',
+    groupeTexte:
+      "L'assainissement est notre activité en service à Limete. Découvrez aussi nos autres métiers.",
+    groupeLien: 'Voir tous nos services',
+  },
+  services: {
+    surtitre: 'Le groupe BENIME CONGO',
+    titre: 'Nos services',
+    chapeau:
+      "BENIME CONGO SARL regroupe cinq activités : l'assainissement, l'énergie, la construction et les travaux publics, l'agriculture, et les événements et industries créatives.",
+    sommaireTitre: 'Cinq activités, une même société',
+    note: 'Descriptions à confirmer par BENIME. Les photos de chaque activité seront ajoutées.',
+    enSavoirPlus: 'Voir la fiche',
+    inclusTitre: 'Ce que nous faisons',
+    devis: 'Demander un devis',
+    sujetDevis: 'Demande de devis',
+    appeler: 'Appeler',
+    contactTitre: 'Parlez-nous de votre projet',
+    contactTexte:
+      'Dites-nous ce dont vous avez besoin. Nous vous répondons et nous vous proposons un devis.',
+    items: [
+      {
+        id: 'assainissement',
+        titre: 'Assainissement',
+        accroche: 'Collecte, transport et valorisation des déchets des ménages.',
+        texte:
+          "Notre activité en service aujourd'hui, en phase pilote à Limete. Vous êtes prévenu avant chaque passage et vous payez comme vous voulez.",
+        points: [
+          'Un passage chaque semaine, et des passages en plus sur demande',
+          'Alertes par SMS et WhatsApp avant chaque passage',
+          'Mobile money, carte, cash à un agent ou virement',
+        ],
+      },
+      {
+        id: 'energie',
+        titre: 'Énergie',
+        accroche: "Des solutions d'énergie pour les maisons et les entreprises.",
+        texte:
+          "Nous accompagnons les ménages, les commerces et les entreprises qui veulent une alimentation en électricité plus fiable.",
+        points: [
+          'Énergie solaire',
+          'Installations électriques',
+          'Éclairage et alimentation de secours',
+        ],
+      },
+      {
+        id: 'construction',
+        titre: 'Construction & BTP',
+        accroche: 'Construire, rénover et aménager.',
+        texte:
+          'Nous réalisons des travaux de bâtiment pour les particuliers et les entreprises, avec un suivi de chantier clair.',
+        points: [
+          'Construction de maisons et de locaux',
+          'Rénovation et aménagement',
+          'Suivi de chantier',
+        ],
+      },
+      {
+        id: 'agriculture',
+        titre: 'Agriculture',
+        accroche: 'Produire et valoriser les produits de la terre.',
+        texte:
+          "Une activité tournée vers la production agricole et la mise en valeur de ses produits.",
+        points: ['Cultures et élevage', 'Transformation des produits', 'Vente de produits agricoles'],
+      },
+      {
+        id: 'events',
+        titre: 'Events / Industrie créative',
+        accroche: 'Organiser, produire et créer.',
+        texte:
+          "Nous organisons des événements et produisons des contenus pour les entreprises, les associations et les particuliers.",
+        points: [
+          "Organisation d'événements",
+          'Sonorisation, scène et logistique',
+          'Communication et contenus créatifs',
+        ],
+      },
+    ],
   },
   travaux: {
     titre: 'Nos travaux',
@@ -236,13 +315,6 @@ export const fr = {
   },
   pied: {
     services: 'Nos services',
-    listeServices: [
-      'Assainissement',
-      'Énergie',
-      'Construction & BTP',
-      'Agriculture',
-      'Events / Industrie créative',
-    ],
   },
 };
 

@@ -24,7 +24,7 @@ const TERRAIN: Array<[string, string, string]> = [
   ['tri-agent.jpg', 'Au volant', 'Un agent conduit le tricycle sur sa tournée.'],
   ['camion.jpg', 'Le camion compacteur', 'Pour les volumes et le transport hors du quartier.'],
   ['tri-face.jpg', 'Prêt à partir', 'Le tricycle au départ du dépôt.'],
-  ['équipe-large.jpg', 'Nos équipes', 'Casque, gilet et materiel adapté pour chaque agent.'],
+  ['equipe-large.jpg', 'Nos équipes', 'Casque, gilet et materiel adapté pour chaque agent.'],
 ];
 
 export default async function Travaux({ params }: { params: Promise<{ locale: string }> }) {

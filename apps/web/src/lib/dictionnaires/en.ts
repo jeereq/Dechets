@@ -9,6 +9,7 @@ export const en: DeepPartial<Dictionnaire> = {
   },
   nav: {
     accueil: 'Home',
+    services: 'Our services',
     travaux: 'Our work',
     zones: 'Where we collect',
     valorisation: 'Where your waste goes',
@@ -35,6 +36,69 @@ export const en: DeepPartial<Dictionnaire> = {
     zoneTitre: 'We are running a pilot in Limete',
     zoneTexte: 'Other communes of Kinshasa will follow, step by step.',
     zoneLien: 'See the areas we serve',
+    groupeTitre: 'BENIME CONGO, five activities',
+    groupeTexte: 'Sanitation is our service in operation in Limete. Discover our other lines of work too.',
+    groupeLien: 'See all our services',
+  },
+  services: {
+    surtitre: 'The BENIME CONGO group',
+    titre: 'Our services',
+    chapeau:
+      'BENIME CONGO SARL brings together five activities: sanitation, energy, construction and public works, agriculture, and events and creative industries.',
+    sommaireTitre: 'Five activities, one company',
+    note: 'Descriptions to be confirmed by BENIME. Photos of each activity will be added.',
+    enSavoirPlus: 'See details',
+    inclusTitre: 'What we do',
+    devis: 'Request a quote',
+    sujetDevis: 'Quote request',
+    appeler: 'Call',
+    contactTitre: 'Tell us about your project',
+    contactTexte: 'Tell us what you need. We will get back to you with a quote.',
+    items: [
+      {
+        id: 'assainissement',
+        titre: 'Sanitation',
+        accroche: 'Collection, transport and recovery of household waste.',
+        texte:
+          'Our service in operation today, as a pilot in Limete. You are alerted before every pickup and you pay the way you want.',
+        points: [
+          'One pickup a week, and extra pickups on request',
+          'SMS and WhatsApp alerts before every pickup',
+          'Mobile money, card, cash to an agent or bank transfer',
+        ],
+      },
+      {
+        id: 'energie',
+        titre: 'Energy',
+        accroche: 'Energy solutions for homes and businesses.',
+        texte:
+          'We support households, shops and businesses that want a more reliable electricity supply.',
+        points: ['Solar energy', 'Electrical installations', 'Lighting and backup power'],
+      },
+      {
+        id: 'construction',
+        titre: 'Construction & public works',
+        accroche: 'Build, renovate and fit out.',
+        texte:
+          'We carry out building work for individuals and companies, with clear site follow-up.',
+        points: ['Building houses and premises', 'Renovation and fit-out', 'Site follow-up'],
+      },
+      {
+        id: 'agriculture',
+        titre: 'Agriculture',
+        accroche: 'Grow and add value to farm products.',
+        texte: 'An activity focused on farm production and on adding value to its products.',
+        points: ['Crops and livestock', 'Processing of products', 'Sale of farm products'],
+      },
+      {
+        id: 'events',
+        titre: 'Events / Creative industry',
+        accroche: 'Organise, produce and create.',
+        texte:
+          'We organise events and produce content for companies, associations and individuals.',
+        points: ['Event organisation', 'Sound, stage and logistics', 'Communication and creative content'],
+      },
+    ],
   },
   travaux: {
     titre: 'Our work',

@@ -69,6 +69,7 @@ export function estLocale(valeur: string): valeur is Locale {
 /** Chemins des pages, par langue. Les segments restent en francais. */
 export const CHEMINS = {
   accueil: '',
+  services: 'nos-services',
   travaux: 'nos-travaux',
   zones: 'ou-nous-passons',
   valorisation: 'ou-vont-vos-dechets',

@@ -11,6 +11,7 @@ import {
 
 const PAGES: Array<keyof typeof CHEMINS> = [
   'accueil',
+  'services',
   'travaux',
   'zones',
   'valorisation',

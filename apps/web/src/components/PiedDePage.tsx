@@ -3,6 +3,7 @@ import { CHEMINS, getDictionnaire, lien, type Locale } from '@/lib/i18n';
 import { COORDONNEES, MENTIONS, telLien } from '@/lib/societe';
 
 const PAGES: Array<keyof typeof CHEMINS> = [
+  'services',
   'travaux',
   'zones',
   'valorisation',
@@ -35,8 +36,10 @@ export function PiedDePage({ locale }: { locale: Locale }) {
 
         <div className="pied__colonne">
           <span className="surtitre">{t.pied.services}</span>
-          {t.pied.listeServices.map((service) => (
-            <span key={service}>{service}</span>
+          {t.services.items.map((service) => (
+            <Link key={service.id} href={`${lien(locale, 'services')}#${service.id}`}>
+              {service.titre}
+            </Link>
           ))}
         </div>
       </div>
