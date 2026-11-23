@@ -3,6 +3,7 @@ import { BandeauContact } from '@/components/BandeauContact';
 import { Entete } from '@/components/Entete';
 import { Icone } from '@/components/Icone';
 import { PiedDePage } from '@/components/PiedDePage';
+import { TitrePage } from '@/components/TitrePage';
 import { getReglages } from '@/lib/api';
 import { formaterPrix } from '@/lib/format';
 import { estLocale, getDictionnaire } from '@/lib/i18n';
@@ -30,14 +31,12 @@ export default async function Formules({ params }: { params: Promise<{ locale: s
       <Entete locale={locale} page="formules" />
 
       <main>
-        <section className="bandeau-sombre">
-          <div className="conteneur section">
-            <div className="pile" style={{ maxWidth: 760, gap: 14 }}>
-              <h1>{t.formules.titre}</h1>
-              <p className="chapeau">{t.formules.chapeau}</p>
-            </div>
-          </div>
-        </section>
+        <TitrePage
+          titre={t.formules.titre}
+          chapeau={t.formules.chapeau}
+          photo="/photos/agents.jpg"
+          alt="Agents BENIME sur le terrain"
+        />
 
         <section className="section section--pale">
           <div className="conteneur pile" style={{ gap: 24 }}>

@@ -4,6 +4,7 @@ import { BandeauContact } from '@/components/BandeauContact';
 import { Entete } from '@/components/Entete';
 import { Icone } from '@/components/Icone';
 import { PiedDePage } from '@/components/PiedDePage';
+import { TitrePage } from '@/components/TitrePage';
 import { estLocale, getDictionnaire } from '@/lib/i18n';
 import type { Metadata } from 'next';
 
@@ -37,14 +38,12 @@ export default async function Travaux({ params }: { params: Promise<{ locale: st
       <Entete locale={locale} page="travaux" />
 
       <main>
-        <section className="bandeau-sombre">
-          <div className="conteneur section">
-            <div className="pile" style={{ maxWidth: 760, gap: 14 }}>
-              <h1>{t.travaux.titre}</h1>
-              <p className="chapeau">{t.travaux.chapeau}</p>
-            </div>
-          </div>
-        </section>
+        <TitrePage
+          titre={t.travaux.titre}
+          chapeau={t.travaux.chapeau}
+          photo="/photos/tri-agent.jpg"
+          alt="Un agent BENIME au volant du tricycle de collecte"
+        />
 
         <section className="section">
           <div className="conteneur pile" style={{ gap: 24 }}>

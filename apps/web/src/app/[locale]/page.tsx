@@ -45,20 +45,18 @@ export default async function Accueil({ params }: { params: Promise<{ locale: st
                 <a className="bouton bouton--soleil bouton--grand" href="#espace">
                   {t.commun.sInscrire}
                 </a>
-                <a
-                  className="bouton bouton--clair bouton--grand"
-                  href={telLien(COORDONNEES.telephone1)}
-                >
+                <a className="bouton bouton--clair bouton--grand" href={telLien(COORDONNEES.telephone1)}>
                   <Icone nom="telephone" taille={22} />
-                  {t.commun.appeler} {COORDONNEES.telephone1}
+                  <span style={{ whiteSpace: 'nowrap' }}>{COORDONNEES.telephone1}</span>
                 </a>
               </div>
             </div>
             <div className="heros__image">
               <Image
-                src="/photos/équipe-hero.jpg"
+                src="/photos/equipe-hero.jpg"
                 alt="Équipe BENIME à Kinshasa devant un véhicule de collecte"
-                fill
+                width={1200}
+                height={900}
                 sizes="(max-width: 860px) 100vw, 50vw"
                 style={{ objectPosition: '55% 30%' }}
                 priority

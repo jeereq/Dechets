@@ -5,6 +5,7 @@ import { FormulairePrevenir } from '@/components/FormulairePrevenir';
 import { Icone } from '@/components/Icone';
 import { ListeCommunes } from '@/components/ListeCommunes';
 import { PiedDePage } from '@/components/PiedDePage';
+import { TitrePage } from '@/components/TitrePage';
 import { getCommunes } from '@/lib/api';
 import { estLocale, getDictionnaire } from '@/lib/i18n';
 import type { Metadata } from 'next';
@@ -32,41 +33,18 @@ export default async function Zones({ params }: { params: Promise<{ locale: stri
       <Entete locale={locale} page="zones" />
 
       <main>
-        <section className="bandeau-sombre">
-          <div className="conteneur section">
-            <div
-              style={{
-                display: 'flex',
-                flexWrap: 'wrap',
-                gap: '28px 56px',
-                alignItems: 'flex-end',
-                justifyContent: 'space-between',
-              }}
-            >
-              <div className="pile" style={{ maxWidth: 700, gap: 14 }}>
-                <span className="surtitre surtitre--clair">{t.zones.surtitre}</span>
-                <h1>{t.zones.titre}</h1>
-                <p className="chapeau">{t.zones.chapeau}</p>
-              </div>
-              <div style={{ display: 'flex', gap: 32 }}>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                  <span className="chiffre" style={{ color: 'var(--soleil)' }}>
-                    {ouvertes.length}
-                  </span>
-                  <span className="surtitre surtitre--clair">
-                    {ouvertes.length > 1 ? t.zones.communesDesservies : t.zones.communeDesservie}
-                  </span>
-                </div>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                  <span className="chiffre" style={{ color: 'var(--soleil)' }}>
-                    {communes.length}
-                  </span>
-                  <span className="surtitre surtitre--clair">{t.zones.communesKinshasa}</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
+        <TitrePage
+          surtitre={t.zones.surtitre}
+          titre={t.zones.titre}
+          chapeau={t.zones.chapeau}
+          chiffres={[
+            {
+              valeur: String(ouvertes.length),
+              libelle: ouvertes.length > 1 ? t.zones.communesDesservies : t.zones.communeDesservie,
+            },
+            { valeur: String(communes.length), libelle: t.zones.communesKinshasa },
+          ]}
+        />
 
         <section className="section">
           <div className="conteneur pile" style={{ gap: 20 }}>

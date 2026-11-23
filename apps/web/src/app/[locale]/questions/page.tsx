@@ -4,6 +4,7 @@ import { BandeauContact } from '@/components/BandeauContact';
 import { Entete } from '@/components/Entete';
 import { Icone } from '@/components/Icone';
 import { PiedDePage } from '@/components/PiedDePage';
+import { TitrePage } from '@/components/TitrePage';
 import { getCommunes } from '@/lib/api';
 import { estLocale, getDictionnaire, lien } from '@/lib/i18n';
 import type { Metadata } from 'next';
@@ -31,14 +32,12 @@ export default async function Questions({ params }: { params: Promise<{ locale: 
       <Entete locale={locale} page="questions" />
 
       <main>
-        <section className="bandeau-sombre">
-          <div className="conteneur section">
-            <div className="pile" style={{ maxWidth: 760, gap: 14 }}>
-              <h1>{t.questions.titre}</h1>
-              <p className="chapeau">{t.questions.chapeau}</p>
-            </div>
-          </div>
-        </section>
+        <TitrePage
+          titre={t.questions.titre}
+          chapeau={t.questions.chapeau}
+          photo="/photos/equipe-large.jpg"
+          alt="Équipe BENIME à Kinshasa"
+        />
 
         <section className="section">
           <div className="conteneur">

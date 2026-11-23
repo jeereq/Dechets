@@ -1,5 +1,14 @@
-import { getDictionnaire, type Locale } from '@/lib/i18n';
-import { COORDONNEES, MENTIONS } from '@/lib/societe';
+import Link from 'next/link';
+import { CHEMINS, getDictionnaire, lien, type Locale } from '@/lib/i18n';
+import { COORDONNEES, MENTIONS, telLien } from '@/lib/societe';
+
+const PAGES: Array<keyof typeof CHEMINS> = [
+  'travaux',
+  'zones',
+  'valorisation',
+  'formules',
+  'questions',
+];
 
 export function PiedDePage({ locale }: { locale: Locale }) {
   const t = getDictionnaire(locale);
@@ -7,27 +16,33 @@ export function PiedDePage({ locale }: { locale: Locale }) {
   return (
     <footer className="pied">
       <div className="pied__contenu">
-        <div style={{ display: 'flex', flexDirection: 'column' }}>
-          <span style={{ fontSize: 19, fontWeight: 700, color: 'var(--encre)' }}>
-            BENIME CONGO SARL
-          </span>
+        <div className="pied__colonne">
+          <span className="pied__titre">BENIME CONGO SARL</span>
           <span>{COORDONNEES.adresse}</span>
-          <span>
-            {COORDONNEES.telephone1} · {COORDONNEES.telephone2}
-          </span>
-          <span>{COORDONNEES.email}</span>
+          <a href={telLien(COORDONNEES.telephone1)}>{COORDONNEES.telephone1}</a>
+          <a href={telLien(COORDONNEES.telephone2)}>{COORDONNEES.telephone2}</a>
+          <a href={`mailto:${COORDONNEES.email}`}>{COORDONNEES.email}</a>
         </div>
 
-        <div style={{ display: 'flex', flexDirection: 'column' }}>
-          <span className="surtitre">{t.pied.services}</span>
-          {t.pied.listeServices.map((service) => (
-            <span key={service} style={{ minHeight: 32, display: 'flex', alignItems: 'center' }}>
-              {service}
-            </span>
+        <div className="pied__colonne">
+          <span className="surtitre">{t.nav.accueil}</span>
+          {PAGES.map((cle) => (
+            <Link key={cle} href={lien(locale, cle)}>
+              {t.nav[cle]}
+            </Link>
           ))}
         </div>
 
-        <div style={{ display: 'flex', flexDirection: 'column', fontSize: 15 }}>
+        <div className="pied__colonne">
+          <span className="surtitre">{t.pied.services}</span>
+          {t.pied.listeServices.map((service) => (
+            <span key={service}>{service}</span>
+          ))}
+        </div>
+      </div>
+
+      <div className="pied__bas">
+        <div>
           {MENTIONS.map((mention) => (
             <span key={mention}>{mention}</span>
           ))}
