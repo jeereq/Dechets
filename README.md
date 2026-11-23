@@ -44,10 +44,9 @@ packages/
 Prérequis : Node.js 20+, pnpm 10+, Docker (pour PostgreSQL).
 
 ```bash
-pnpm install
+pnpm install                  # construit aussi packages/shared
 cp .env.example .env          # puis remplir les valeurs
 pnpm db:up                    # PostgreSQL dans Docker
-pnpm --filter @benime/shared build
 pnpm --filter @benime/api prisma:migrate   # crée les tables
 pnpm db:seed                  # 24 communes + réglages
 pnpm dev                      # web sur :3000, api sur :4000
@@ -67,6 +66,24 @@ repli, pour qu'une API en panne ne fasse jamais tomber le site public.
 | `pnpm db:up` | démarre PostgreSQL |
 | `pnpm db:migrate` | applique les migrations Prisma |
 | `pnpm db:seed` | charge les communes et les réglages |
+
+## Déploiement
+
+`packages/shared` est compilé avant tout le reste : son `dist/` n'est pas
+versionné. Trois garde-fous le garantissent, quel que soit l'outil de
+déploiement :
+
+- un `postinstall` à la racine le construit juste après `pnpm install` ;
+- `apps/web` et `apps/api` le reconstruisent eux-mêmes dans leur `build` ;
+- `vercel.json` fixe la commande de build et le dossier de sortie
+  (`apps/web/.next`).
+
+Sur Vercel, laissez la **racine du projet** sur le dépôt entier, pas sur
+`apps/web` : le monorepo doit être installé depuis la racine.
+
+L'API se déploie à part (`pnpm --filter @benime/api build`, puis
+`node apps/api/dist/server.js`), avec `DATABASE_URL` vers votre PostgreSQL et
+`CORS_ORIGINS` contenant l'adresse du site.
 
 ## Points de vigilance
 
