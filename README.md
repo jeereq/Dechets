@@ -69,21 +69,39 @@ repli, pour qu'une API en panne ne fasse jamais tomber le site public.
 
 ## Déploiement
 
-`packages/shared` est compilé avant tout le reste : son `dist/` n'est pas
-versionné. Trois garde-fous le garantissent, quel que soit l'outil de
-déploiement :
+### Le site (Vercel)
 
-- un `postinstall` à la racine le construit juste après `pnpm install` ;
-- `apps/web` et `apps/api` le reconstruisent eux-mêmes dans leur `build` ;
-- `vercel.json` fixe la commande de build et le dossier de sortie
-  (`apps/web/.next`).
+Dans les réglages du projet Vercel, mettez **Root Directory = `apps/web`**.
 
-Sur Vercel, laissez la **racine du projet** sur le dépôt entier, pas sur
-`apps/web` : le monorepo doit être installé depuis la racine.
+C'est le point qui fait échouer la construction si on l'oublie : Vercel
+cherche `next` dans le `package.json` du dossier racine, et celui de la
+racine du monorepo n'en a pas. Avec `apps/web` comme racine, Vercel détecte
+Next.js, tout en installant les dépendances depuis la racine du dépôt, parce
+qu'il reconnaît l'espace de travail pnpm.
 
-L'API se déploie à part (`pnpm --filter @benime/api build`, puis
-`node apps/api/dist/server.js`), avec `DATABASE_URL` vers votre PostgreSQL et
-`CORS_ORIGINS` contenant l'adresse du site.
+`apps/web/vercel.json` fixe le reste : framework, commande d'installation et
+commande de build.
+
+### Le paquet partagé
+
+`packages/shared` est compilé vers `dist/`, qui n'est pas versionné. Deux
+garde-fous le construisent, quelle que soit la commande lancée :
+
+- un `postinstall` à la racine, juste après `pnpm install` ;
+- le `build` de `apps/web` et de `apps/api`, qui le recompile avant le sien.
+
+### L'API
+
+Elle se déploie à part, sur une machine qui accepte un serveur Node :
+
+```bash
+pnpm install
+pnpm --filter @benime/api build
+node apps/api/dist/server.js
+```
+
+Avec `DATABASE_URL` vers votre PostgreSQL et `CORS_ORIGINS` contenant
+l'adresse du site. Le site reste consultable si l'API est arrêtée.
 
 ## Points de vigilance
 
