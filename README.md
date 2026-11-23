@@ -71,16 +71,20 @@ repli, pour qu'une API en panne ne fasse jamais tomber le site public.
 
 ### Le site (Vercel)
 
-Dans les réglages du projet Vercel, mettez **Root Directory = `apps/web`**.
+Le dépôt se construit que la racine du projet Vercel soit le dépôt entier ou
+`apps/web` :
 
-C'est le point qui fait échouer la construction si on l'oublie : Vercel
-cherche `next` dans le `package.json` du dossier racine, et celui de la
-racine du monorepo n'en a pas. Avec `apps/web` comme racine, Vercel détecte
-Next.js, tout en installant les dépendances depuis la racine du dépôt, parce
-qu'il reconnaît l'espace de travail pnpm.
+- **racine du dépôt** — `vercel.json` à la racine donne le framework, la
+  commande de build et le dossier de sortie (`apps/web/.next`). Le
+  `package.json` de la racine déclare `next` : sans cela, Vercel ne détecte
+  pas le framework et s'arrête sur `NEXT_NO_VERSION`. Cette dépendance
+  n'existe que pour la détection ; c'est `apps/web` qui construit le site.
+- **`apps/web`** — `apps/web/vercel.json` prend alors le relais. Vercel
+  installe quand même depuis la racine du dépôt, parce qu'il reconnaît
+  l'espace de travail pnpm.
 
-`apps/web/vercel.json` fixe le reste : framework, commande d'installation et
-commande de build.
+Si vous changez de réglage, gardez les deux fichiers : seul celui du dossier
+racine choisi est lu.
 
 ### Le paquet partagé
 
