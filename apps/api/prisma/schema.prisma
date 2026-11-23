@@ -195,6 +195,7 @@ model DemandeCollecte {
   menage        Menage        @relation(fields: [menageId], references: [id])
   type          TypeDemande   @default(DES_QUE_POSSIBLE)
   dateSouhaitee DateTime?
+  cout          Int           @default(0) // debite du credit a la demande, rendu si annulee
   statut        StatutDemande @default(RECUE)
   equipeId      String?
   equipe        Equipe?       @relation(fields: [equipeId], references: [id])
@@ -362,4 +363,27 @@ model Reglage {
   cle       String   @id
   valeur    String
   modifieLe DateTime @updatedAt
+}
+
+// ---------------------------------------------------------------------------
+// Connexion et numerotation
+// ---------------------------------------------------------------------------
+
+/// Code a usage unique envoye par SMS. Seule l'empreinte est conservee.
+model CodeConnexion {
+  id          String    @id @default(cuid())
+  telephone   String
+  empreinte   String
+  expireLe    DateTime
+  tentatives  Int       @default(0)
+  utiliseLe   DateTime?
+  creeLe      DateTime  @default(now())
+
+  @@index([telephone, creeLe])
+}
+
+/// Compteurs pour les references lisibles : MN-0001, DM-0001, PM-0001.
+model Compteur {
+  cle    String @id
+  valeur Int    @default(0)
 }

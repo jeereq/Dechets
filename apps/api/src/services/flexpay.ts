@@ -80,3 +80,101 @@ export interface NotificationFlexpay {
 export function paiementConfirme(notification: NotificationFlexpay): boolean {
   return notification.code === '0';
 }
+
+// ---------------------------------------------------------------------------
+// Carte bancaire et verification
+// ---------------------------------------------------------------------------
+
+/**
+ * A valider avec la documentation FlexPay au moment d'ouvrir le compte
+ * marchand : les adresses et les champs ci-dessous suivent le fonctionnement
+ * decrit pour leur API carte et leur verification de transaction, mais n'ont
+ * pas encore ete testes contre leur serveur. Le mode « mock » permet de
+ * developper tout le parcours en attendant.
+ */
+
+export interface ReponseCarte extends ReponsePaiement {
+  /** Page de paiement FlexPay ou envoyer le client. */
+  url?: string;
+}
+
+export async function demanderPaiementCarte(demande: {
+  reference: string;
+  montant: number;
+  devise?: 'CDF' | 'USD';
+  description: string;
+  retour: string; // page du site ou revenir apres le paiement
+}): Promise<ReponseCarte> {
+  if (!configure()) {
+    console.info('[flexpay:mock:carte] %s %s FC', demande.reference, demande.montant);
+    return {
+      accepte: true,
+      orderNumber: `MOCK-${demande.reference}`,
+      url: `${demande.retour}?paiement=${demande.reference}&simule=1`,
+      message: 'Mode simule : aucun paiement reel na ete demande.',
+    };
+  }
+
+  const reponse = await fetch(env.FLEXPAY_CARD_URL, {
+    method: 'POST',
+    headers: { 'content-type': 'application/json' },
+    body: JSON.stringify({
+      authorization: `Bearer ${env.FLEXPAY_TOKEN}`,
+      merchant: env.FLEXPAY_MERCHANT,
+      reference: demande.reference,
+      amount: String(demande.montant),
+      currency: demande.devise ?? 'CDF',
+      description: demande.description,
+      callback_url: env.FLEXPAY_CALLBACK_URL,
+      approve_url: `${demande.retour}?paiement=${demande.reference}&statut=ok`,
+      cancel_url: `${demande.retour}?paiement=${demande.reference}&statut=annule`,
+      decline_url: `${demande.retour}?paiement=${demande.reference}&statut=refuse`,
+      home_url: demande.retour,
+    }),
+  });
+
+  const corps = (await reponse.json().catch(() => ({}))) as {
+    code?: string | number;
+    message?: string;
+    orderNumber?: string;
+    url?: string;
+  };
+
+  return {
+    accepte: reponse.ok && String(corps.code) === '0' && Boolean(corps.url),
+    orderNumber: corps.orderNumber,
+    url: corps.url,
+    message: corps.message ?? `HTTP ${reponse.status}`,
+  };
+}
+
+export type EtatTransaction = 'RECU' | 'ECHEC' | 'EN_ATTENTE';
+
+/**
+ * Demande a FlexPay l'etat reel d'une transaction. On ne croit jamais
+ * seulement le message de rappel recu : n'importe qui peut appeler cette
+ * adresse, alors on verifie aupres de la source.
+ */
+export async function verifierTransaction(orderNumber: string): Promise<EtatTransaction> {
+  if (!configure()) {
+    return orderNumber.startsWith('MOCK-') ? 'RECU' : 'EN_ATTENTE';
+  }
+
+  const reponse = await fetch(`${env.FLEXPAY_BASE_URL}/check/${encodeURIComponent(orderNumber)}`, {
+    headers: { authorization: `Bearer ${env.FLEXPAY_TOKEN}` },
+  });
+  if (!reponse.ok) return 'EN_ATTENTE';
+
+  const corps = (await reponse.json().catch(() => ({}))) as {
+    code?: string | number;
+    transaction?: { status?: string | number };
+  };
+  if (String(corps.code) !== '0') return 'EN_ATTENTE';
+
+  // 0 = paye, 1 = echec, 2 = en attente.
+  const statut = String(corps.transaction?.status);
+  return statut === '0' ? 'RECU' : statut === '1' ? 'ECHEC' : 'EN_ATTENTE';
+}
+
+/** Vrai quand FlexPay est configure avec de vrais identifiants. */
+export const flexpayReel = configure;

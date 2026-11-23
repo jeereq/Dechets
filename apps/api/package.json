@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "tsx watch src/server.ts",
+    "test:e2e": "tsx test/parcours.e2e.ts",
     "build": "pnpm --filter @benime/shared build && tsc -p tsconfig.json",
     "start": "node dist/server.js",
     "typecheck": "pnpm --filter @benime/shared build && tsc -p tsconfig.json --noEmit",

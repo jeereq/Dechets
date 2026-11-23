@@ -14,10 +14,18 @@ const schema = z.object({
   API_HOST: z.string().default('0.0.0.0'),
   CORS_ORIGINS: z.string().default('http://localhost:3000'),
 
+  // Secret de signature des sessions. Obligatoire en production.
+  JWT_SECRET: z.string().min(32, 'JWT_SECRET doit faire au moins 32 caracteres').optional(),
+  SESSION_JOURS: z.coerce.number().int().positive().default(30),
+
   FLEXPAY_BASE_URL: z.string().default('https://backend.flexpay.cd/api/rest/v1'),
   FLEXPAY_MERCHANT: z.string().optional(),
   FLEXPAY_TOKEN: z.string().optional(),
   FLEXPAY_CALLBACK_URL: z.string().optional(),
+  // Valeur secrete ajoutee a l'adresse de rappel (?cle=...) pour reconnaitre FlexPay.
+  FLEXPAY_CALLBACK_SECRET: z.string().optional(),
+  FLEXPAY_CARD_URL: z.string().default('https://cardpayment.flexpay.cd/v1.1/pay'),
+  SITE_URL: z.string().default('http://localhost:3000'),
 
   SMS_PROVIDER: z.string().default('mock'),
   SMS_API_URL: z.string().optional(),
@@ -37,7 +45,16 @@ if (!parsed.success) {
   process.exit(1);
 }
 
-export const env = parsed.data;
+if (parsed.data.NODE_ENV === 'production' && !parsed.data.JWT_SECRET) {
+  console.error('JWT_SECRET est obligatoire en production.');
+  process.exit(1);
+}
+
+export const env = {
+  ...parsed.data,
+  // Cle de developpement : jamais utilisee en production (voir ci-dessus).
+  JWT_SECRET: parsed.data.JWT_SECRET ?? 'cle-de-developpement-benime-a-ne-pas-utiliser-en-production',
+};
 
 export const corsOrigins = env.CORS_ORIGINS.split(',')
   .map((o) => o.trim())
