@@ -330,31 +330,78 @@ img {
   font-weight: 700;
 }
 
-.langues {
-  display: flex;
+.langue {
+  position: relative;
 }
 
-.langues a {
-  min-width: 40px;
-  min-height: 42px;
+.langue__bouton {
+  list-style: none;
   display: flex;
   align-items: center;
-  justify-content: center;
-  font-size: 15px;
+  gap: 8px;
+  min-height: 46px;
+  padding: 0 16px;
+  border: 2px solid var(--vert);
   border-radius: 999px;
+  background: var(--blanc);
+  color: var(--encre);
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.langue__bouton::-webkit-details-marker {
+  display: none;
+}
+
+.langue__bouton:hover,
+.langue[open] .langue__bouton {
+  background: var(--vert-pale);
+}
+
+.langue__fleche {
+  transition: transform 0.15s ease;
+}
+
+.langue[open] .langue__fleche {
+  transform: rotate(180deg);
+}
+
+.langue__liste {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 8px);
+  z-index: 30;
+  margin: 0;
+  padding: 6px;
+  list-style: none;
+  min-width: 190px;
+  background: var(--blanc);
+  border: 1px solid var(--ligne);
+  border-radius: var(--r-lg);
+  box-shadow: 0 10px 28px rgba(11, 60, 34, 0.18);
+}
+
+.langue__liste a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  min-height: 48px;
+  padding: 0 14px;
+  border-radius: 10px;
+  font-size: 18px;
+  color: var(--encre);
+}
+
+.langue__liste a span {
+  font-size: 14px;
+  font-weight: 700;
   color: var(--gris);
 }
 
-.langues a:hover {
+.langue__liste a:hover {
   background: var(--vert-pale);
-  color: var(--encre);
-}
-
-.langues a[aria-current='true'] {
-  font-weight: 700;
-  color: var(--encre);
-  text-decoration: underline;
-  text-underline-offset: 4px;
 }
 
 /* menu mobile, sans JavaScript */
@@ -408,10 +455,21 @@ img {
 
 .menu__langues {
   display: flex;
-  gap: 4px;
   padding-top: 8px;
   margin-top: 6px;
   border-top: 1px solid var(--ligne);
+}
+
+.langue--menu {
+  width: 100%;
+}
+
+.langue--menu .langue__liste {
+  position: static;
+  margin-top: 8px;
+  padding: 0;
+  border: 0;
+  box-shadow: none;
 }
 
 .pied {
@@ -888,7 +946,7 @@ figcaption {
   }
 
   .nav--bureau,
-  .langues--bureau {
+  .langue--bureau {
     display: none;
   }
 

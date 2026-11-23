@@ -4,6 +4,7 @@ import {
   CHEMINS,
   ETIQUETTES_LOCALES,
   LOCALES,
+  NOMS_LOCALES,
   getDictionnaire,
   lien,
   type Locale,
@@ -33,11 +34,34 @@ export function Entete({ locale, page }: { locale: Locale; page: keyof typeof CH
     </Link>
   ));
 
-  const langues = LOCALES.map((l) => (
-    <Link key={l} href={lien(l, page)} aria-current={l === locale ? 'true' : undefined} hrefLang={l}>
-      {ETIQUETTES_LOCALES[l]}
-    </Link>
-  ));
+  const autresLangues = LOCALES.filter((l) => l !== locale);
+  const langue = (variante: 'bureau' | 'menu') => (
+    <details className={`langue langue--${variante}`}>
+      <summary
+        className="langue__bouton"
+        aria-label={`Langue du site : ${NOMS_LOCALES[locale]}. Changer de langue`}
+      >
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="9" />
+          <path d="M3 12h18M12 3c3 3.2 3 14.8 0 18M12 3c-3 3.2-3 14.8 0 18" />
+        </svg>
+        <span>{ETIQUETTES_LOCALES[locale]}</span>
+        <svg className="langue__fleche" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+          <path d="M6 9l6 6 6-6" />
+        </svg>
+      </summary>
+      <ul className="langue__liste">
+        {autresLangues.map((l) => (
+          <li key={l}>
+            <Link href={lien(l, page)} hrefLang={l} lang={l}>
+              {NOMS_LOCALES[l]}
+              <span>{ETIQUETTES_LOCALES[l]}</span>
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </details>
+  );
 
   return (
     <header className="entete">
@@ -55,9 +79,7 @@ export function Entete({ locale, page }: { locale: Locale; page: keyof typeof CH
         </nav>
 
         <div className="entete__actions">
-          <div className="langues langues--bureau" role="group" aria-label="Langue du site">
-            {langues}
-          </div>
+          {langue('bureau')}
 
           <a className="bouton bouton--principal bouton--auto" href="#espace">
             {t.nav.espace}
@@ -84,9 +106,7 @@ export function Entete({ locale, page }: { locale: Locale; page: keyof typeof CH
               <nav className="nav" aria-label="Menu" style={{ flexDirection: 'column' }}>
                 {liens}
               </nav>
-              <div className="langues menu__langues" role="group" aria-label="Langue du site">
-                {langues}
-              </div>
+              <div className="menu__langues">{langue('menu')}</div>
             </div>
           </details>
         </div>

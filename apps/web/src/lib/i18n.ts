@@ -12,6 +12,13 @@ export const ETIQUETTES_LOCALES: Record<Locale, string> = {
   en: 'EN',
 };
 
+/** Nom de chaque langue, ecrit dans sa propre langue. */
+export const NOMS_LOCALES: Record<Locale, string> = {
+  fr: 'Français',
+  ln: 'Lingála',
+  en: 'English',
+};
+
 export type DeepPartial<T> = {
   [K in keyof T]?: T[K] extends readonly (infer U)[]
     ? readonly U[]
