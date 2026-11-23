@@ -1,21 +1,18 @@
 import { en } from './dictionnaires/en';
 import { fr, type Dictionnaire } from './dictionnaires/fr';
-import { ln } from './dictionnaires/ln';
 
-export const LOCALES = ['fr', 'ln', 'en'] as const;
+export const LOCALES = ['fr', 'en'] as const;
 export type Locale = (typeof LOCALES)[number];
 export const LOCALE_PAR_DEFAUT: Locale = 'fr';
 
 export const ETIQUETTES_LOCALES: Record<Locale, string> = {
   fr: 'FR',
-  ln: 'LN',
   en: 'EN',
 };
 
 /** Nom de chaque langue, ecrit dans sa propre langue. */
 export const NOMS_LOCALES: Record<Locale, string> = {
   fr: 'Français',
-  ln: 'Lingála',
   en: 'English',
 };
 
@@ -56,7 +53,6 @@ function fusionner<T>(base: T, surcouche: DeepPartial<T> | undefined): T {
 
 const SURCOUCHES: Record<Locale, DeepPartial<Dictionnaire> | undefined> = {
   fr: undefined,
-  ln,
   en,
 };
 

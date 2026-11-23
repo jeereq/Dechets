@@ -1,7 +1,7 @@
 import type { StatutCommune } from './communes.js';
 
 /** Langues de l'interface. */
-export const LOCALES = ['fr', 'ln', 'en'] as const;
+export const LOCALES = ['fr', 'en'] as const;
 export type Locale = (typeof LOCALES)[number];
 export const DEFAULT_LOCALE: Locale = 'fr';
 

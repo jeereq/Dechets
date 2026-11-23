@@ -9,6 +9,7 @@ import { TitrePage } from '@/components/TitrePage';
 import { estLocale, getDictionnaire, lien } from '@/lib/i18n';
 import { VISUELS_SERVICES } from '@/lib/services';
 import { COORDONNEES } from '@/lib/societe';
+import { metaPage } from '@/lib/seo';
 import type { Metadata } from 'next';
 
 export async function generateMetadata({
@@ -18,7 +19,8 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
   if (!estLocale(locale)) return {};
-  return { title: getDictionnaire(locale).services.titre };
+  const t = getDictionnaire(locale).services;
+  return metaPage({ locale, chemin: 'nos-services', titre: t.titre, description: t.chapeau });
 }
 
 export default async function Services({ params }: { params: Promise<{ locale: string }> }) {

@@ -17,14 +17,14 @@ const corpsInscription = z.object({
   parcelle: z.string().trim().min(1, 'Le numero de parcelle').max(40),
   repere: z.string().trim().max(200).optional(),
   formule: z.enum(['PAR_PASSAGE', 'MENSUELLE']),
-  langue: z.enum(['FR', 'LN', 'EN']).default('FR'),
+  langue: z.enum(['FR', 'EN']).default('FR'),
 });
 
 const corpsProfil = z
   .object({
     nom: z.string().trim().min(2).max(120),
     repere: z.string().trim().max(200).nullable(),
-    langue: z.enum(['FR', 'LN', 'EN']),
+    langue: z.enum(['FR', 'EN']),
     alerteSms: z.boolean(),
     alerteWa: z.boolean(),
     formule: z.enum(['PAR_PASSAGE', 'MENSUELLE']),

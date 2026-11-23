@@ -6,6 +6,7 @@ import { Icone } from '@/components/Icone';
 import { PiedDePage } from '@/components/PiedDePage';
 import { TitrePage } from '@/components/TitrePage';
 import { estLocale, getDictionnaire } from '@/lib/i18n';
+import { metaPage } from '@/lib/seo';
 import type { Metadata } from 'next';
 
 export async function generateMetadata({
@@ -15,7 +16,8 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
   if (!estLocale(locale)) return {};
-  return { title: getDictionnaire(locale).travaux.titre };
+  const t = getDictionnaire(locale).travaux;
+  return metaPage({ locale, chemin: 'nos-travaux', titre: t.titre, description: t.chapeau });
 }
 
 const TERRAIN: Array<[string, string, string]> = [
@@ -107,7 +109,7 @@ function PaireAvantApres({
 }) {
   return (
     <div className="carte" style={{ gap: 10, padding: 16, borderRadius: 'var(--r-lg)' }}>
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) minmax(0, 1fr)', gap: 8 }}>
         {avant ? (
           <div style={{ position: 'relative', borderRadius: 'var(--r)', overflow: 'hidden' }}>
             <Image
@@ -134,13 +136,13 @@ function PaireAvantApres({
             </span>
           </div>
         ) : (
-          <div className="photo-manquante" style={{ height: 190 }}>
+          <div className="photo-manquante" style={{ height: 190, aspectRatio: 'auto' }}>
             <Icone nom="appareil-photo" taille={28} epaisseur={1.7} />
             {etiquettes.avant} — {etiquettes.manquante}
           </div>
         )}
 
-        <div className="photo-manquante" style={{ height: 190 }}>
+        <div className="photo-manquante" style={{ height: 190, aspectRatio: 'auto' }}>
           <Icone nom="appareil-photo" taille={28} epaisseur={1.7} />
           {etiquettes.apres} — {etiquettes.manquante}
         </div>

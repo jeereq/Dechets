@@ -61,7 +61,7 @@ export function ListeCommunes({
           />
         </div>
 
-        <div role="group" aria-label={etiquettes.toutes} style={{ display: 'flex', gap: 8 }}>
+        <div role="group" aria-label={etiquettes.toutes} style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
           {filtres.map(([cle, libelle]) => (
             <button
               key={cle}

@@ -4,6 +4,7 @@ import type { Dictionnaire } from './fr';
 export const en: DeepPartial<Dictionnaire> = {
   meta: {
     nomSite: 'BENIME CONGO Sanitation',
+    titreAccueil: 'BENIME CONGO Sanitation · Household waste collection in Limete, Kinshasa',
     descriptionSite:
       'Household waste collection in Kinshasa. You are alerted before every pickup, and you pay the way you want.',
   },

@@ -23,7 +23,7 @@ export function BandeauContact({
     <section id="contact" className="bandeau-sombre">
       <div className="conteneur section">
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '32px 64px', alignItems: 'flex-start' }}>
-          <div style={{ flex: '1 1 380px', display: 'flex', flexDirection: 'column', gap: 18 }}>
+          <div style={{ flex: '1 1 min(380px, 100%)', display: 'flex', flexDirection: 'column', gap: 18 }}>
             <h2>{titre ?? t.contact.titre}</h2>
             <p className="chapeau">{texte ?? t.contact.texte}</p>
             <div>
@@ -33,20 +33,20 @@ export function BandeauContact({
             </div>
           </div>
 
-          <dl style={{ flex: '1 1 340px', margin: 0, fontSize: 18 }}>
+          <dl style={{ flex: '1 1 min(340px, 100%)', minWidth: 0, margin: 0, fontSize: 18 }}>
             {lignes.map(([cle, valeur]) => (
               <div
                 key={cle}
                 style={{
                   display: 'grid',
-                  gridTemplateColumns: '120px 1fr',
+                  gridTemplateColumns: 'minmax(84px, 120px) minmax(0, 1fr)',
                   gap: 12,
                   padding: '10px 0',
                   borderBottom: '1px solid #1C5A36',
                 }}
               >
                 <dt style={{ fontWeight: 700 }}>{cle}</dt>
-                <dd style={{ margin: 0, color: 'var(--clair)' }}>{valeur}</dd>
+                <dd style={{ margin: 0, color: 'var(--clair)', overflowWrap: 'anywhere' }}>{valeur}</dd>
               </div>
             ))}
           </dl>

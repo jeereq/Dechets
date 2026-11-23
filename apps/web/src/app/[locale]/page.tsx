@@ -9,10 +9,29 @@ import { getCommunes, getReglages } from '@/lib/api';
 import { formaterPrix } from '@/lib/format';
 import { estLocale, getDictionnaire, lien } from '@/lib/i18n';
 import { VISUELS_SERVICES } from '@/lib/services';
+import { metaPage } from '@/lib/seo';
 import { COORDONNEES, telLien } from '@/lib/societe';
+import type { Metadata } from 'next';
 
 const ICONES_FAITS = ['calendrier', 'cloche', 'portefeuille'] as const;
 const PHOTOS_ETAPES = ['collecte.jpg', 'tri-cote.jpg', null] as const;
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  if (!estLocale(locale)) return {};
+  const t = getDictionnaire(locale);
+  return metaPage({
+    locale,
+    chemin: '',
+    titre: t.meta.nomSite,
+    titreComplet: t.meta.titreAccueil,
+    description: t.meta.descriptionSite,
+  });
+}
 
 export default async function Accueil({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;

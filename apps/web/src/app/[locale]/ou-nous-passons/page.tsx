@@ -8,6 +8,7 @@ import { PiedDePage } from '@/components/PiedDePage';
 import { TitrePage } from '@/components/TitrePage';
 import { getCommunes } from '@/lib/api';
 import { estLocale, getDictionnaire } from '@/lib/i18n';
+import { metaPage } from '@/lib/seo';
 import type { Metadata } from 'next';
 
 export async function generateMetadata({
@@ -17,7 +18,8 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
   if (!estLocale(locale)) return {};
-  return { title: getDictionnaire(locale).zones.titre };
+  const t = getDictionnaire(locale).zones;
+  return metaPage({ locale, chemin: 'ou-nous-passons', titre: t.titre, description: t.chapeau });
 }
 
 export default async function Zones({ params }: { params: Promise<{ locale: string }> }) {

@@ -1,12 +1,14 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { BandeauContact } from '@/components/BandeauContact';
+import { DonneesStructurees } from '@/components/DonneesStructurees';
 import { Entete } from '@/components/Entete';
 import { Icone } from '@/components/Icone';
 import { PiedDePage } from '@/components/PiedDePage';
 import { TitrePage } from '@/components/TitrePage';
 import { getCommunes } from '@/lib/api';
 import { estLocale, getDictionnaire, lien } from '@/lib/i18n';
+import { metaPage } from '@/lib/seo';
 import type { Metadata } from 'next';
 
 export async function generateMetadata({
@@ -16,7 +18,8 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
   if (!estLocale(locale)) return {};
-  return { title: getDictionnaire(locale).questions.titre };
+  const t = getDictionnaire(locale).questions;
+  return metaPage({ locale, chemin: 'questions', titre: t.titre, description: t.chapeau });
 }
 
 export default async function Questions({ params }: { params: Promise<{ locale: string }> }) {
@@ -29,6 +32,20 @@ export default async function Questions({ params }: { params: Promise<{ locale: 
 
   return (
     <>
+      {/* Reponses statiques seulement : celle des communes change avec la base. */}
+      <DonneesStructurees
+        donnees={{
+          '@context': 'https://schema.org',
+          '@type': 'FAQPage',
+          mainEntity: t.questions.items
+            .filter((item) => item.r !== 'communes')
+            .map((item) => ({
+              '@type': 'Question',
+              name: item.q,
+              acceptedAnswer: { '@type': 'Answer', text: item.r },
+            })),
+        }}
+      />
       <Entete locale={locale} page="questions" />
 
       <main>

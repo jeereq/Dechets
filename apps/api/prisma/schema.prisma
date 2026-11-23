@@ -76,7 +76,6 @@ enum Formule {
 
 enum Langue {
   FR
-  LN
   EN
 }
 

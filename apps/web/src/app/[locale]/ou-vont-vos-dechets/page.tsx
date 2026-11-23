@@ -5,6 +5,7 @@ import { Entete } from '@/components/Entete';
 import { Icone } from '@/components/Icone';
 import { PiedDePage } from '@/components/PiedDePage';
 import { estLocale, getDictionnaire } from '@/lib/i18n';
+import { metaPage } from '@/lib/seo';
 import type { Metadata } from 'next';
 
 export async function generateMetadata({
@@ -14,7 +15,8 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
   if (!estLocale(locale)) return {};
-  return { title: getDictionnaire(locale).valorisation.titre };
+  const t = getDictionnaire(locale).valorisation;
+  return metaPage({ locale, chemin: 'ou-vont-vos-dechets', titre: t.titre, description: t.chapeau });
 }
 
 const ICONES_CHAINE = ['sac', 'camion', 'recyclage'] as const;

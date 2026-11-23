@@ -16,7 +16,7 @@ packages/
 
 ## Ce qui est fait
 
-- **Site public** en trois langues (français, lingála, anglais) : accueil, nos
+- **Site public** en deux langues (français, anglais) : accueil, nos
   travaux, où nous passons, où vont vos déchets, formules et paiement,
   questions fréquentes.
 - **API** : santé, communes, réglages publics, formulaire « prévenez-moi »,
@@ -37,7 +37,6 @@ packages/
 - Branchement réel de FlexPay, de la passerelle SMS et de WhatsApp.
 - Carte interactive des communes (OpenStreetMap ou Google Maps) à la place du
   cadre actuel.
-- Relecture de la traduction lingála par un locuteur.
 
 ## Démarrer
 
@@ -121,10 +120,6 @@ base ; le back-office l'ouvre ou la ferme, et le site suit.
 **Les photos manquantes sont visibles.** Là où il n'y a pas encore de photo
 (avant/après de chantier, installation énergie), le site affiche un cadre
 « Photo à fournir » plutôt qu'une image qui ne correspond pas.
-
-**Le lingála n'est pas relu.** `apps/web/src/lib/dictionnaires/ln.ts` ne
-couvre que la navigation ; tout le reste retombe sur le français, ce qui est
-voulu tant qu'un locuteur n'a pas relu.
 
 ## Conventions
 

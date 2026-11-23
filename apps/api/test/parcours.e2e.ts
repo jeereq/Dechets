@@ -28,7 +28,7 @@ assert.equal(r.corps.data.menage.code, 'MN-0001'); assert.equal(r.corps.data.men
 r = await appel('GET', '/moi', undefined, jeton); assert.equal(r.corps.data.type, 'MENAGE'); ok('/moi');
 const v = await appel('POST', '/menages', { nom: 'X Y', communeSlug: 'limete', avenue: 'a', parcelle: '1', formule: 'MENSUELLE' }, jeton);
 assert.equal(v.statut, 403); ok('menage ne peut pas se reinscrire');
-r = await appel('PATCH', '/moi', { langue: 'LN', alerteWa: true }, jeton); assert.equal(r.corps.data.langue, 'LN'); ok('profil modifie');
+r = await appel('PATCH', '/moi', { langue: 'EN', alerteWa: true }, jeton); assert.equal(r.corps.data.langue, 'EN'); ok('profil modifie');
 
 // 3. demande sans credit
 r = await appel('POST', '/demandes', { type: 'DES_QUE_POSSIBLE' }, jeton);

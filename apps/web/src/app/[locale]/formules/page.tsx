@@ -7,6 +7,7 @@ import { TitrePage } from '@/components/TitrePage';
 import { getReglages } from '@/lib/api';
 import { formaterPrix } from '@/lib/format';
 import { estLocale, getDictionnaire } from '@/lib/i18n';
+import { metaPage } from '@/lib/seo';
 import type { Metadata } from 'next';
 
 export async function generateMetadata({
@@ -16,7 +17,8 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
   if (!estLocale(locale)) return {};
-  return { title: getDictionnaire(locale).formules.titre };
+  const t = getDictionnaire(locale).formules;
+  return metaPage({ locale, chemin: 'formules', titre: t.titre, description: t.chapeau });
 }
 
 export default async function Formules({ params }: { params: Promise<{ locale: string }> }) {

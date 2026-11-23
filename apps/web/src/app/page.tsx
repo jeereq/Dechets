@@ -1,6 +1,0 @@
-import { redirect } from 'next/navigation';
-import { LOCALE_PAR_DEFAUT } from '@/lib/i18n';
-
-export default function Racine() {
-  redirect(`/${LOCALE_PAR_DEFAUT}`);
-}

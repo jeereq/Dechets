@@ -3,9 +3,7 @@ import { prisma } from '../prisma.js';
 import { envoyerSms, envoyerWhatsapp } from './notifications.js';
 
 /**
- * Messages envoyes aux menages. Les textes en lingala restent a faire relire
- * par un locuteur : en attendant, le lingala retombe sur le francais plutot
- * que d'envoyer un message approximatif.
+ * Messages envoyes aux menages, en francais ou en anglais.
  */
 type Modele = 'code_connexion' | 'bienvenue' | 'demande_recue' | 'demande_annulee' | 'recu_paiement';
 
@@ -32,13 +30,13 @@ const TEXTES: Record<Modele, { fr: (v: Record<string, string>) => string; en: (v
   },
 };
 
-export function rediger(modele: Modele, langue: 'FR' | 'LN' | 'EN', valeurs: Record<string, string>): string {
+export function rediger(modele: Modele, langue: 'FR' | 'EN', valeurs: Record<string, string>): string {
   const texte = TEXTES[modele];
   return langue === 'EN' ? texte.en(valeurs) : texte.fr(valeurs);
 }
 
 /** Code de connexion : SMS uniquement, jamais par WhatsApp ni garde en base. */
-export async function envoyerCodeConnexion(telephone: string, code: string, langue: 'FR' | 'LN' | 'EN' = 'FR') {
+export async function envoyerCodeConnexion(telephone: string, code: string, langue: 'FR' | 'EN' = 'FR') {
   return envoyerSms({ telephone, texte: rediger('code_connexion', langue, { code }) });
 }
 

@@ -2,6 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { BandeauContact } from '@/components/BandeauContact';
+import { DonneesStructurees } from '@/components/DonneesStructurees';
 import { Entete } from '@/components/Entete';
 import { Icone } from '@/components/Icone';
 import { PiedDePage } from '@/components/PiedDePage';
@@ -9,6 +10,7 @@ import { TitrePage } from '@/components/TitrePage';
 import { estLocale, getDictionnaire, lien, LOCALES } from '@/lib/i18n';
 import { IDS_SERVICES, VISUELS_SERVICES } from '@/lib/services';
 import { COORDONNEES, telLien } from '@/lib/societe';
+import { metaPage, urlAbsolue } from '@/lib/seo';
 import type { Metadata } from 'next';
 
 export function generateStaticParams() {
@@ -23,7 +25,9 @@ export async function generateMetadata({
   const { locale, service } = await params;
   if (!estLocale(locale)) return {};
   const item = getDictionnaire(locale).services.items.find((i) => i.id === service);
-  return item ? { title: item.titre, description: item.accroche } : {};
+  return item
+    ? metaPage({ locale, chemin: `nos-services/${service}`, titre: item.titre, description: item.accroche })
+    : {};
 }
 
 export default async function PageService({
@@ -48,6 +52,17 @@ export default async function PageService({
 
   return (
     <>
+      <DonneesStructurees
+        donnees={{
+          '@context': 'https://schema.org',
+          '@type': 'Service',
+          name: item.titre,
+          description: item.accroche,
+          url: urlAbsolue(`/${locale}/nos-services/${service}`),
+          provider: { '@type': 'LocalBusiness', name: COORDONNEES.raisonSociale },
+          areaServed: 'Kinshasa, CD',
+        }}
+      />
       <Entete locale={locale} page="services" />
 
       <main>

@@ -1,6 +1,7 @@
 export const fr = {
   meta: {
     nomSite: 'BENIME CONGO Assainissement',
+    titreAccueil: 'BENIME CONGO Assainissement · Collecte des déchets à Limete, Kinshasa',
     descriptionSite:
       'Collecte des déchets des ménages à Kinshasa. Vous êtes prévenu avant chaque passage et vous payez comme vous voulez.',
   },
@@ -334,7 +335,7 @@ export const fr = {
       },
       {
         q: 'En quelle langue puis-je écrire ?',
-        r: "En français, en lingála ou en anglais, depuis l'application ou par WhatsApp.",
+        r: "En français ou en anglais, depuis l'application ou par WhatsApp.",
       },
     ],
     communesIntro: "Aujourd'hui, les communes desservies sont :",
