@@ -24,7 +24,8 @@
   --r-lg: 24px;
   --r-xl: 28px;
 
-  --largeur: 1160px;
+  /* Au moins 10/12 de la fenetre (comme la maquette), jamais moins de 1160 px. */
+  --largeur: max(83.334vw, 1160px);
   --cible: 48px; /* cible tactile minimale */
 }
 
