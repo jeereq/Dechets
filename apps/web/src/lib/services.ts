@@ -14,7 +14,7 @@ export const VISUELS_SERVICES: Record<string, { icone: NomIcone; photos: PhotoSe
     icone: 'recyclage',
     photos: [
       { fichier: 'camion.jpg', alt: 'Camion de collecte BENIME' },
-      { fichier: 'equipe.jpg', alt: 'Équipe de collecte BENIME à Limete' },
+      { fichier: 'equipe.jpg', alt: 'Équipe de collecte BENIME' },
       { fichier: 'tri-agent.jpg', alt: 'Agent BENIME au tri des déchets' },
       { fichier: 'agents.jpg', alt: 'Agents BENIME en tenue' },
     ],

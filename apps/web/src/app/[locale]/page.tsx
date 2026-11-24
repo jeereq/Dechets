@@ -43,9 +43,9 @@ export default async function Accueil({ params }: { params: Promise<{ locale: st
 
   const materiel: Array<[string, string]> = [
     ['tri-cote.jpg', 'Notre tricycle de collecte'],
-    ['tri-agent.jpg', 'Un agent au volant · Kinshasa'],
+    ['transport-avenue.jpg', 'Notre tricycle dans l\'avenue'],
     ['camion.jpg', 'Notre camion compacteur'],
-    ['agents.jpg', 'Nos agents · Limete'],
+    ['agents.jpg', 'Nos agents'],
     ['tri-arriere.jpg', 'La benne du tricycle'],
     ['equipe-large.jpg', 'Sur le terrain · Kinshasa'],
   ];
@@ -166,7 +166,7 @@ export default async function Accueil({ params }: { params: Promise<{ locale: st
               <Formule
                 nom={t.formules.mensuelle.nom}
                 texte={t.formules.mensuelle.texte}
-                prix={`${formaterPrix(reglages.prix_mensuel, reglages.devise)} ${t.formules.mensuelle.unite}`}
+                prix={`${formaterPrix(reglages.prix_mensuel, reglages.devise_mensuel ?? 'USD')} ${t.formules.mensuelle.unite}`}
                 points={t.formules.mensuelle.points}
                 misEnAvant
               />

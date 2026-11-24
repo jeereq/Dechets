@@ -108,13 +108,13 @@ l'adresse du site. Le site reste consultable si l'API est arrêtée.
 
 ## Points de vigilance
 
-**Les prix sont des valeurs d'exemple.** `2 000 FC` par passage et
-`7 000 FC` par mois viennent du seed (`apps/api/prisma/seed.ts`), pas de
-BENIME. Ils s'affichent avec la mention « prix d'exemple ». Ils se changent
-dans la table `Reglage`, sans redéploiement, et la mention doit être retirée
-de `apps/web/src/lib/dictionnaires/*.ts` une fois les vrais tarifs posés.
+**Les prix viennent de la grille tarifaire.** `6 000 FC` par évacuation et
+`15 USD` par mois (ménage simple) viennent de la grille tarifaire du 18/11/2026
+et sont posés par le seed (`apps/api/prisma/seed.ts`). Ils se changent dans la
+table `Reglage`, sans redéploiement. La grille complète (appartement, commerce,
+école, hôtel, etc.) est dans `apps/web/src/lib/dictionnaires/*.ts` (`formules.grille`).
 
-**Une seule commune est ouverte**, Limete. Le statut de chaque commune vit en
+**Une seule commune est ouverte**, Lingwala (le pilote). Le statut de chaque commune vit en
 base ; le back-office l'ouvre ou la ferme, et le site suit.
 
 **Les photos manquantes sont visibles.** Là où il n'y a pas encore de photo

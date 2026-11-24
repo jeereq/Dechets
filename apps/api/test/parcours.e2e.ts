@@ -2,6 +2,8 @@ import assert from 'node:assert/strict';
 import { construireApp } from '../src/app.js';
 import { prisma } from '../src/prisma.js';
 
+// Le test raisonne sur un prix par passage de 2 000 : on le fixe, quel que soit le tarif reel.
+await prisma.reglage.upsert({ where: { cle: 'prix_par_passage' }, update: { valeur: '2000' }, create: { cle: 'prix_par_passage', valeur: '2000' } });
 const app = await construireApp();
 const appel = async (method: 'GET' | 'POST' | 'PATCH', url: string, payload?: unknown, jeton?: string) => {
   const r = await app.inject({ method, url, payload: payload as object, headers: jeton ? { authorization: `Bearer ${jeton}` } : {} });
@@ -22,11 +24,11 @@ r = await appel('POST', '/auth/verifier', { telephone: '0812345678', code });
 assert.equal(r.statut, 401); ok('code a usage unique');
 
 // 2. inscription
-r = await appel('POST', '/menages', { nom: 'Marie K', communeSlug: 'limete', avenue: 'Kasa-Vubu', parcelle: '12', formule: 'PAR_PASSAGE' }, jeton);
+r = await appel('POST', '/menages', { nom: 'Marie K', communeSlug: 'lingwala', avenue: 'Kasa-Vubu', parcelle: '12', formule: 'PAR_PASSAGE' }, jeton);
 assert.equal(r.statut, 201, JSON.stringify(r.corps)); jeton = r.corps.data.jeton;
 assert.equal(r.corps.data.menage.code, 'MN-0001'); assert.equal(r.corps.data.menage.credit, 0); ok('inscription MN-0001, jeton de menage');
 r = await appel('GET', '/moi', undefined, jeton); assert.equal(r.corps.data.type, 'MENAGE'); ok('/moi');
-const v = await appel('POST', '/menages', { nom: 'X Y', communeSlug: 'limete', avenue: 'a', parcelle: '1', formule: 'MENSUELLE' }, jeton);
+const v = await appel('POST', '/menages', { nom: 'X Y', communeSlug: 'lingwala', avenue: 'a', parcelle: '1', formule: 'MENSUELLE' }, jeton);
 assert.equal(v.statut, 403); ok('menage ne peut pas se reinscrire');
 r = await appel('PATCH', '/moi', { langue: 'EN', alerteWa: true }, jeton); assert.equal(r.corps.data.langue, 'EN'); ok('profil modifie');
 

@@ -53,12 +53,50 @@ export default async function Formules({ params }: { params: Promise<{ locale: s
               <Plan
                 nom={t.formules.mensuelle.nom}
                 texte={t.formules.mensuelle.texte}
-                prix={`${formaterPrix(reglages.prix_mensuel, reglages.devise)} ${t.formules.mensuelle.unite}`}
+                prix={`${formaterPrix(reglages.prix_mensuel, reglages.devise_mensuel ?? 'USD')} ${t.formules.mensuelle.unite}`}
                 points={t.formules.mensuelle.points}
                 misEnAvant
               />
             </div>
             <p className="discret">{t.commun.prixExemple}</p>
+          </div>
+        </section>
+
+        <section className="section section--blanche">
+          <div className="conteneur pile" style={{ gap: 20 }}>
+            <h2>{t.formules.grilleTitre}</h2>
+            <p className="chapeau" style={{ maxWidth: 760 }}>
+              {t.formules.grilleSousTitre}
+            </p>
+            <table className="grille-tarifaire">
+              <thead>
+                <tr>
+                  <th scope="col">{t.formules.grilleDesignation}</th>
+                  <th scope="col">{t.formules.grilleTarif}</th>
+                </tr>
+              </thead>
+              {t.formules.grille.map((groupe) => (
+                <tbody key={groupe.titre}>
+                  <tr className="grille-tarifaire__groupe">
+                    <th scope="colgroup" colSpan={2}>
+                      {groupe.titre}
+                    </th>
+                  </tr>
+                  {groupe.lignes.map((ligne) => (
+                    <tr key={ligne.nom}>
+                      <th scope="row">{ligne.nom}</th>
+                      <td>{ligne.prix}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              ))}
+            </table>
+            <ul className="grille-tarifaire__notes">
+              {t.formules.grilleNotes.map((note) => (
+                <li key={note}>{note}</li>
+              ))}
+            </ul>
+            <p className="discret">{t.formules.grilleDate}</p>
           </div>
         </section>
 
@@ -77,7 +115,7 @@ export default async function Formules({ params }: { params: Promise<{ locale: s
           </div>
         </section>
 
-        <section className="section section--blanche">
+        <section className="section section--pale">
           <div className="conteneur pile" style={{ gap: 24 }}>
             <h2>{t.formules.creditTitre}</h2>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '32px 64px' }}>

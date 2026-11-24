@@ -4,7 +4,7 @@ import type { Dictionnaire } from './fr';
 export const en: DeepPartial<Dictionnaire> = {
   meta: {
     nomSite: 'BENIME CONGO Sanitation',
-    titreAccueil: 'BENIME CONGO Sanitation · Household waste collection in Limete, Kinshasa',
+    titreAccueil: 'BENIME CONGO Sanitation · Household waste collection in Lingwala, Kinshasa',
     descriptionSite:
       'Household waste collection in Kinshasa. You are alerted before every pickup, and you pay the way you want.',
   },
@@ -24,7 +24,7 @@ export const en: DeepPartial<Dictionnaire> = {
     voirTout: 'See all',
     envoyer: 'Send',
     envoiEnCours: 'Sending...',
-    prixExemple: 'Example prices: to be replaced with BENIME real rates.',
+    prixExemple: 'Price for a simple household. Other rates are in the price list.',
     photoAFournir: 'Photo to be provided',
   },
   accueil: {
@@ -33,7 +33,7 @@ export const en: DeepPartial<Dictionnaire> = {
     chapeau:
       'We collect waste from households and businesses. We transport it and turn it into recycled products.',
     faits: [
-      { titre: 'One collection a week (Saturday)', texte: 'Plus extra pickups on request, as you need.' },
+      { titre: 'At least 2 collections a week', texte: 'Plus extra pickups on request, as you need.' },
       { titre: 'SMS and WhatsApp alerts', texte: 'Before every visit from our teams.' },
       { titre: 'Several ways to pay', texte: 'Mobile money, card, cash, transfer, bank transfer.' },
     ],
@@ -47,11 +47,11 @@ export const en: DeepPartial<Dictionnaire> = {
     ],
     etapesTitre: 'Collection, transport, recovery',
     materielTitre: 'Our teams and our equipment',
-    zoneTitre: 'We are running a pilot in Limete',
+    zoneTitre: 'We are running a pilot in Lingwala',
     zoneTexte: 'Other communes of Kinshasa will follow, step by step.',
     zoneLien: 'See the areas we serve',
     groupeTitre: 'BENIME CONGO, five activities',
-    groupeTexte: 'Sanitation is our service in operation in Limete. Discover our other lines of work too.',
+    groupeTexte: 'Sanitation is our service in operation in Lingwala. Discover our other lines of work too.',
     groupeLien: 'See all our services',
   },
   services: {
@@ -79,13 +79,13 @@ export const en: DeepPartial<Dictionnaire> = {
       {
         id: "assainissement",
         titre: "Sanitation",
-        accroche: "Collection, transport and recovery of household waste.",
-        texte: "Our service in operation today, as a pilot in Limete. You are alerted before every pickup and you pay the way you want.",
-        points: ["One pickup a week, and extra pickups on request", "SMS and WhatsApp alerts before every pickup", "Mobile money, card, cash to an agent or bank transfer"],
+        accroche: "Collection, transport and recovery of waste.",
+        texte: "Our service in operation today, as a pilot in Lingwala. You are alerted before every pickup and you pay the way you want.",
+        points: ["At least 2 collections a week, and extra pickups on request", "SMS and WhatsApp alerts before every pickup", "Mobile money, card, cash to an agent, bank transfer or transfer"],
         details: [
-          "A truck comes every week on a fixed day. When you have more waste, you request an extra pickup from the app.",
+          "Our trucks and tricycles come at least twice a week. When you have more waste, you request an extra pickup from the app.",
           "A message alerts you before the pickup, then confirms when it is done, with before and after photos.",
-          "Pay by mobile money or card in the app, in cash to an agent, or by bank transfer. You get a receipt for every payment.",
+          "Pay by mobile money or card in the app, in cash to an agent, or by bank transfer or transfer. You get a receipt for every payment.",
         ],
         etapes: [
           { titre: "You sign up", texte: "Choose your plan, enter your street and your number. It takes a few minutes." },
@@ -96,13 +96,13 @@ export const en: DeepPartial<Dictionnaire> = {
       {
         id: "energie",
         titre: "Energy",
-        accroche: "Energy solutions for homes and businesses.",
+        accroche: "Electrical and photovoltaic (solar) installations. Water pumping systems (boreholes).",
         texte: "We support households, shops and businesses that want a more reliable electricity supply.",
-        points: ["Solar energy", "Electrical installations", "Lighting and backup power"],
+        points: ["Electrical installations", "Photovoltaic (solar) installations", "Water pumping systems (boreholes)"],
         details: [
-          "Panels, batteries and inverters to power a home, a shop or a business.",
           "Wiring, electrical boards and safety work on new or existing installations.",
-          "Indoor and outdoor lighting, and backup solutions to get through power cuts.",
+          "Solar panels, batteries and inverters to power a home, a shop or a business.",
+          "Boreholes and water pumping systems.",
         ],
         etapes: [
           { titre: "You contact us", texte: "By phone, by email or through the form. Simply tell us what you need." },
@@ -130,13 +130,13 @@ export const en: DeepPartial<Dictionnaire> = {
       {
         id: "agriculture",
         titre: "Agriculture",
-        accroche: "Grow and add value to farm products.",
-        texte: "An activity focused on farm production and on adding value to its products.",
-        points: ["Crops and livestock", "Processing of products", "Sale of farm products"],
+        accroche: "Processing of farm and dairy products. Fish farming and livestock rearing.",
+        texte: "An activity focused on processing farm and dairy products, fish farming and livestock rearing.",
+        points: ["Processing of farm and dairy products", "Fish farming", "Livestock rearing"],
         details: [
-          "Crop and livestock production, based on needs identified with our partners.",
-          "Sorting, packaging and processing so products keep their value.",
-          "Direct sales to individuals, shops and restaurants.",
+          "Processing of farm and dairy products so they keep their value.",
+          "Fish farming: raising fish.",
+          "Livestock rearing.",
         ],
         etapes: [
           { titre: "You contact us", texte: "By phone, by email or through the form. Simply tell us what you need." },
@@ -147,13 +147,13 @@ export const en: DeepPartial<Dictionnaire> = {
       {
         id: "events",
         titre: "Events / Creative industry",
-        accroche: "Organise, produce and create.",
+        accroche: "Organise, produce, create - communication & marketing.",
         texte: "We organise events and produce content for companies, associations and individuals.",
-        points: ["Event organisation", "Sound, stage and logistics", "Communication and creative content"],
+        points: ["Event organisation", "Sound, stage and logistics", "Communication and marketing"],
         details: [
           "Conferences, ceremonies, launches and corporate events, from design to the big day.",
           "Sound, lighting, stage, chairs and tents: everything needed on site.",
-          "Photos, videos and communication material to promote your event or your activity.",
+          "Communication and marketing: photos, videos and material to promote your event or your activity.",
         ],
         etapes: [
           { titre: "You contact us", texte: "By phone, by email or through the form. Simply tell us what you need." },
@@ -165,7 +165,7 @@ export const en: DeepPartial<Dictionnaire> = {
   },
   travaux: {
     titre: 'Our work',
-    chapeau: 'Our teams in the field, and the results of our collections in Limete.',
+    chapeau: 'Our teams in the field, and the results of our collections in Lingwala.',
     terrainTitre: 'In the field',
     avantApresTitre: 'Before and after',
     avant: 'Before',
@@ -245,9 +245,66 @@ export const en: DeepPartial<Dictionnaire> = {
     titre: 'Plans and payment',
     chapeau: 'Two simple plans and every payment method. You pay the way you want.',
     formulesTitre: 'Two plans to choose from',
-    parPassage: { nom: 'Per pickup', unite: 'per pickup' },
-    mensuelle: { nom: 'Monthly', unite: 'per month' },
+    parPassage: {
+      nom: 'Per collection',
+      texte: 'You pay each time the truck or tricycle comes, according to our rates.',
+      unite: 'per collection',
+      points: ['Payment after each collection', 'SMS and WhatsApp alerts'],
+    },
+    mensuelle: {
+      nom: 'Monthly',
+      texte: 'At least 2 collections a week. You pay at the end of the month.',
+      unite: 'per month',
+      points: ['At least 2 collections a week', 'Payment at the end of the month', 'SMS and WhatsApp alerts'],
+    },
+    modes: [
+      { nom: 'Airtel Money', detail: 'Phone, via FlexPay' },
+      { nom: 'Orange Money', detail: 'Phone, via FlexPay' },
+      { nom: 'M-Pesa', detail: 'Phone, via FlexPay' },
+      { nom: 'Afrimoney', detail: 'Phone, via FlexPay' },
+      { nom: 'Bank card', detail: 'Online, via FlexPay' },
+      { nom: 'Cash', detail: 'Handed to an agent, with receipt' },
+      { nom: 'Bank transfer or transfer', detail: 'Screenshot sent to an agent' },
+    ],
+    creditEtapes: [
+      { titre: 'Choose a plan', texte: 'Per collection or per month.' },
+      { titre: 'Pay the way you want', texte: 'Mobile money, card, cash, bank transfer or transfer.' },
+      { titre: 'Get your receipt', texte: 'By SMS and WhatsApp, with every payment.' },
+    ],
     paiementTitre: 'Several ways to pay',
+    grilleTitre: 'Price list',
+    grilleSousTitre: 'BENIME CONGO Sanitation subscription · Waste collection, at least twice a week',
+    grilleDesignation: 'Description',
+    grilleTarif: 'Price',
+    grille: [
+      {
+        titre: 'Collection',
+        lignes: [
+          { nom: 'Simple household', prix: '6,000 CDF' },
+          { nom: 'Apartment', prix: '8,000 CDF' },
+          { nom: 'Shop / business', prix: '10,000 CDF' },
+        ],
+      },
+      {
+        titre: 'Monthly subscription',
+        lignes: [
+          { nom: 'Simple household', prix: '15 USD' },
+          { nom: 'Apartment', prix: '20 USD' },
+          { nom: 'School / Church', prix: '30 USD' },
+          { nom: 'Small shop', prix: '50 USD' },
+          { nom: 'Bar / Hotel / Restaurant', prix: '80 USD' },
+          { nom: 'Store / SME', prix: '100 USD' },
+          { nom: 'Supermarket', prix: '200 USD' },
+          { nom: 'Company / Corporation', prix: '300 USD' },
+        ],
+      },
+    ],
+    grilleNotes: [
+      'For more than 2 collections a week, the contract price is negotiated and set by mutual agreement between BENIME CONGO and the client (the subscriber).',
+      'This price may be adjusted according to market price changes and/or the quantity of waste to be collected.',
+      'A preferential rate applies to any subscriber who sorts waste using our bin bags.',
+    ],
+    grilleDate: 'Kinshasa price list, 18/11/2026',
     creditTitre: 'Pay in advance, with credit',
   },
   questions: {

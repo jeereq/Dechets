@@ -35,13 +35,15 @@ export interface ReglagesPublics {
   prix_mensuel?: string;
   passages_par_semaine?: string;
   devise?: string;
+  devise_mensuel?: string;
 }
 
 const REGLAGES_REPLI: ReglagesPublics = {
-  prix_par_passage: '2000',
-  prix_mensuel: '7000',
+  prix_par_passage: '6000',
+  prix_mensuel: '15',
   passages_par_semaine: '1',
   devise: 'CDF',
+  devise_mensuel: 'USD',
 };
 
 export function getReglages(): Promise<ReglagesPublics> {

@@ -4,7 +4,7 @@ export const COORDONNEES = {
   activite: 'BENIME CONGO Assainissement',
   adresse: '65A Avenue Lubefu, Quartier Mososo, Limete, Kinshasa',
   telephone1: process.env.NEXT_PUBLIC_PHONE_1 ?? '+243 823 678 354',
-  telephone2: process.env.NEXT_PUBLIC_PHONE_2 ?? '+243 974 046 459',
+  telephone2: process.env.NEXT_PUBLIC_PHONE_2 ?? '+243 844 664 989',
   email: process.env.NEXT_PUBLIC_EMAIL ?? 'benimecongo.sarl@gmail.com',
 } as const;
 

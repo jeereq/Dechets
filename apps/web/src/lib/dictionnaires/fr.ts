@@ -1,7 +1,7 @@
 export const fr = {
   meta: {
     nomSite: 'BENIME CONGO Assainissement',
-    titreAccueil: 'BENIME CONGO Assainissement · Collecte des déchets à Limete, Kinshasa',
+    titreAccueil: 'BENIME CONGO Assainissement · Collecte des déchets à Lingwala, Kinshasa',
     descriptionSite:
       'Collecte des déchets des ménages à Kinshasa. Vous êtes prévenu avant chaque passage et vous payez comme vous voulez.',
   },
@@ -21,7 +21,7 @@ export const fr = {
     voirTout: 'Voir tout',
     envoyer: 'Envoyer',
     envoiEnCours: 'Envoi…',
-    prixExemple: "Prix d'exemple : à remplacer par les tarifs réels de BENIME.",
+    prixExemple: 'Prix pour un ménage simple. Les autres tarifs sont dans la grille tarifaire.',
     photoAFournir: 'Photo à fournir',
   },
   accueil: {
@@ -30,7 +30,7 @@ export const fr = {
     chapeau:
       'Nous collectons les déchets des ménages et des entreprises. Nous les transportons et nous les valorisons en produits recyclés.',
     faits: [
-      { titre: 'Une évacuation par semaine (samedi)', texte: 'Et des passages en plus sur demande, selon vos besoins.' },
+      { titre: 'Au moins 2 évacuations par semaine', texte: 'Et des passages en plus sur demande, selon vos besoins.' },
       { titre: 'Alertes SMS et WhatsApp', texte: 'Avant chaque passage de nos équipes.' },
       { titre: 'Plusieurs façons de payer', texte: 'Mobile money, carte, cash, virement, transfert bancaire.' },
     ],
@@ -50,13 +50,13 @@ export const fr = {
       },
     ],
     materielTitre: 'Nos équipes et notre matériel',
-    zoneTitre: 'Nous sommes en phase pilote à Limete',
+    zoneTitre: 'Nous sommes en phase pilote à Lingwala',
     zoneTexte:
       "D'autres communes de Kinshasa suivront, étape par étape. Regardez où nous passons aujourd'hui.",
     zoneLien: 'Voir les zones desservies',
     groupeTitre: 'BENIME CONGO, cinq activités',
     groupeTexte:
-      "L'assainissement est notre activité en service à Limete. Découvrez aussi nos autres métiers.",
+      "L'assainissement est notre activité en service à Lingwala. Découvrez aussi nos autres métiers.",
     groupeLien: 'Voir tous nos services',
   },
   services: {
@@ -85,13 +85,13 @@ export const fr = {
       {
         id: "assainissement",
         titre: "Assainissement",
-        accroche: "Collecte, transport et valorisation des déchets des ménages.",
-        texte: "Notre activité en service aujourd'hui, en phase pilote à Limete. Vous êtes prévenu avant chaque passage et vous payez comme vous voulez.",
-        points: ["Un passage chaque semaine, et des passages en plus sur demande", "Alertes par SMS et WhatsApp avant chaque passage", "Mobile money, carte, cash à un agent ou virement"],
+        accroche: "Collecte, transport et valorisation des déchets.",
+        texte: "Notre activité en service aujourd'hui, en phase pilote à Lingwala. Vous êtes prévenu avant chaque passage et vous payez comme vous voulez.",
+        points: ["Au moins 2 évacuations par semaine, et des passages en plus sur demande", "Alertes par SMS et WhatsApp avant chaque passage", "Mobile money, carte, cash à un agent, virement ou transfert"],
         details: [
-          "Un camion passe chaque semaine à jour fixe. Quand vous avez plus de déchets, vous demandez un passage de plus depuis l'application.",
+          "Nos camions et tricycles passent au moins 2 fois par semaine. Quand vous avez plus de déchets, vous demandez un passage de plus depuis l'application.",
           "Un message vous prévient avant le passage, puis confirme quand il est fait, avec des photos avant et après.",
-          "Payez par mobile money ou par carte depuis l'application, en cash à un agent, ou par virement. Vous recevez un reçu à chaque paiement.",
+          "Payez par mobile money ou par carte depuis l'application, en cash à un agent, par virement ou par transfert. Vous recevez un reçu à chaque paiement.",
         ],
         etapes: [
           { titre: "Vous vous inscrivez", texte: "Choisissez votre formule, indiquez votre avenue et votre numéro. Cela prend quelques minutes." },
@@ -102,13 +102,13 @@ export const fr = {
       {
         id: "energie",
         titre: "Énergie",
-        accroche: "Des solutions d'énergie pour les maisons et les entreprises.",
+        accroche: "Installations électriques et photovoltaïques (solaire). Systèmes de pompage d'eau (forages).",
         texte: "Nous accompagnons les ménages, les commerces et les entreprises qui veulent une alimentation en électricité plus fiable.",
-        points: ["Énergie solaire", "Installations électriques", "Éclairage et alimentation de secours"],
+        points: ["Installations électriques", "Installations photovoltaïques (solaire)", "Systèmes de pompage d'eau (forages)"],
         details: [
-          "Panneaux, batteries et onduleurs pour alimenter une maison, un commerce ou une entreprise.",
           "Câblage, tableaux électriques et mise en sécurité des installations neuves ou existantes.",
-          "Éclairage intérieur et extérieur, et solutions de secours pour tenir pendant les coupures.",
+          "Panneaux, batteries et onduleurs solaires pour alimenter une maison, un commerce ou une entreprise.",
+          "Forages et systèmes de pompage d'eau.",
         ],
         etapes: [
           { titre: "Vous nous contactez", texte: "Par téléphone, par e-mail ou depuis le formulaire. Dites-nous simplement ce dont vous avez besoin." },
@@ -136,13 +136,13 @@ export const fr = {
       {
         id: "agriculture",
         titre: "Agriculture",
-        accroche: "Produire et valoriser les produits de la terre.",
-        texte: "Une activité tournée vers la production agricole et la mise en valeur de ses produits.",
-        points: ["Cultures et élevage", "Transformation des produits", "Vente de produits agricoles"],
+        accroche: "Transformation des produits agricoles et laitiers. Pisciculture et élevage de bétails.",
+        texte: "Une activité tournée vers la transformation des produits agricoles et laitiers, la pisciculture et l'élevage de bétails.",
+        points: ["Transformation des produits agricoles et laitiers", "Pisciculture", "Élevage de bétails"],
         details: [
-          "Production de cultures et d'élevage, selon les besoins identifiés avec nos partenaires.",
-          "Tri, conditionnement et transformation pour que les produits gardent leur valeur.",
-          "Vente directe aux particuliers, aux commerces et aux restaurants.",
+          "Transformation des produits agricoles et laitiers pour qu'ils gardent leur valeur.",
+          "Pisciculture : élevage de poissons.",
+          "Élevage de bétails.",
         ],
         etapes: [
           { titre: "Vous nous contactez", texte: "Par téléphone, par e-mail ou depuis le formulaire. Dites-nous simplement ce dont vous avez besoin." },
@@ -153,13 +153,13 @@ export const fr = {
       {
         id: "events",
         titre: "Events / Industrie créative",
-        accroche: "Organiser, produire et créer.",
+        accroche: "Organiser, produire, créer - communication & marketing.",
         texte: "Nous organisons des événements et produisons des contenus pour les entreprises, les associations et les particuliers.",
-        points: ["Organisation d'événements", "Sonorisation, scène et logistique", "Communication et contenus créatifs"],
+        points: ["Organisation d'événements", "Sonorisation, scène et logistique", "Communication et marketing"],
         details: [
           "Conférences, cérémonies, lancements et événements d'entreprise, de la conception au jour J.",
           "Son, lumière, scène, chaises et tentes : tout ce qu'il faut sur place.",
-          "Photos, vidéos et supports de communication pour faire connaître votre événement ou votre activité.",
+          "Communication et marketing : photos, vidéos et supports pour faire connaître votre événement ou votre activité.",
         ],
         etapes: [
           { titre: "Vous nous contactez", texte: "Par téléphone, par e-mail ou depuis le formulaire. Dites-nous simplement ce dont vous avez besoin." },
@@ -171,11 +171,11 @@ export const fr = {
   },
   travaux: {
     titre: 'Nos travaux',
-    chapeau: 'Nos équipes sur le terrain, et les résultats de nos collectes à Limete.',
+    chapeau: 'Nos équipes sur le terrain, et les résultats de nos collectes à Lingwala.',
     terrainTitre: 'Sur le terrain',
     avantApresTitre: 'Avant et après',
     avantApresNote:
-      "La photo « Avant » est une photo d'exemple. Les avant/après de Limete prendront la place des cadres.",
+      "La photo « Avant » est une photo d'exemple. Les avant/après de Lingwala prendront la place des cadres.",
     avant: 'Avant',
     apres: 'Après',
     contactTitre: 'Un endroit à nettoyer ?',
@@ -193,7 +193,7 @@ export const fr = {
     carteAide: 'Sur téléphone, faites glisser la carte pour la parcourir.',
     carteAttribution: 'Fond de carte : © contributeurs OpenStreetMap',
     carteChoisir: 'Touchez une commune sur la carte pour voir où nous en sommes.',
-    panneauDesservie: 'Nous passons ici : une collecte chaque semaine, et des passages en plus sur demande.',
+    panneauDesservie: 'Nous passons ici : au moins 2 évacuations par semaine, et des passages en plus sur demande.',
     panneauDemandes: "Des habitants de cette commune ont déjà demandé le service. Laissez votre numéro : nous vous prévenons dès l'ouverture.",
     panneauFermee: "Nous ne passons pas encore ici. Laissez votre numéro : nous vous prévenons dès l'ouverture.",
     panneauFormules: 'Voir les formules',
@@ -219,15 +219,15 @@ export const fr = {
       {
         nom: 'Phase 1',
         etat: 'En cours',
-        zone: 'Limete',
-        texte: 'Le pilote : les avenues du quartier Mososo et leurs alentours.',
+        zone: 'Lingwala',
+        texte: 'Le pilote : les premières avenues de la commune de Lingwala.',
       },
       {
         nom: 'Phase 2',
         etat: 'À venir',
         zone: 'Communes voisines',
         texte:
-          'Les communes voisines de Limete, choisies selon les demandes reçues et les tournées possibles.',
+          'Les communes voisines de Lingwala, choisies selon les demandes reçues et les tournées possibles.',
       },
       {
         nom: 'Phase 3',
@@ -295,7 +295,7 @@ export const fr = {
     chiffres: [
       { valeur: '[X] t', libelle: 'déchets transportés cette année' },
       { valeur: '[X] %', libelle: 'part valorisée' },
-      { valeur: '[X]', libelle: 'ménages servis à Limete' },
+      { valeur: '[X]', libelle: 'ménages servis à Lingwala' },
     ],
   },
   formules: {
@@ -303,16 +303,16 @@ export const fr = {
     chapeau: 'Deux formules simples et tous les modes de paiement. Vous payez comme vous voulez.',
     formulesTitre: 'Deux formules, au choix',
     parPassage: {
-      nom: 'Par passage',
-      texte: 'Vous payez à chaque passage du camion.',
-      unite: 'par passage',
+      nom: 'Par évacuation',
+      texte: 'Vous payez à chaque passage du camion ou du tricycle, selon notre tarification.',
+      unite: 'par évacuation',
       points: ['Paiement après chaque passage', 'Alertes par SMS et WhatsApp'],
     },
     mensuelle: {
       nom: 'Par mois',
-      texte: 'Un passage chaque semaine. Vous payez à la fin du mois.',
+      texte: 'Au moins 2 évacuations par semaine. Vous payez à la fin du mois.',
       unite: 'par mois',
-      points: ['Un passage chaque semaine', 'Paiement en fin de mois', 'Alertes par SMS et WhatsApp'],
+      points: ['Au moins 2 évacuations par semaine', 'Paiement en fin de mois', 'Alertes par SMS et WhatsApp'],
     },
     paiementTitre: 'Plusieurs façons de payer',
     paiementNote: 'Mobile money et carte : paiement traité par FlexPay.',
@@ -323,14 +323,47 @@ export const fr = {
       { nom: 'Afrimoney', detail: 'Téléphone, via FlexPay' },
       { nom: 'Carte bancaire', detail: 'En ligne, via FlexPay' },
       { nom: 'Cash', detail: 'Remis à un agent, avec reçu' },
-      { nom: 'Virement', detail: "Capture d'écran à un agent" },
+      { nom: 'Virement ou transfert', detail: "Capture d'écran à un agent" },
     ],
+    grilleTitre: 'Grille tarifaire',
+    grilleSousTitre: 'Abonnement BENIME CONGO Assainissement · Évacuation des déchets, minimum 2 fois par semaine',
+    grilleDesignation: 'Désignation',
+    grilleTarif: 'Tarification',
+    grille: [
+      {
+        titre: 'Évacuation',
+        lignes: [
+          { nom: 'Ménage simple', prix: '6 000 CDF' },
+          { nom: 'Appartement', prix: '8 000 CDF' },
+          { nom: 'Commerce', prix: '10 000 CDF' },
+        ],
+      },
+      {
+        titre: 'Abonnement mensuel',
+        lignes: [
+          { nom: 'Ménage simple', prix: '15 USD' },
+          { nom: 'Appartement', prix: '20 USD' },
+          { nom: 'École / Église', prix: '30 USD' },
+          { nom: 'Boutique', prix: '50 USD' },
+          { nom: 'Bar / Hôtel / Restaurant', prix: '80 USD' },
+          { nom: 'Magasin / PME', prix: '100 USD' },
+          { nom: 'Supermarché', prix: '200 USD' },
+          { nom: 'Entreprise / Société', prix: '300 USD' },
+        ],
+      },
+    ],
+    grilleNotes: [
+      'Pour toute évacuation de plus de 2 fois par semaine, le prix du contrat est négocié et fixé de commun accord entre BENIME CONGO et le client (l\'abonné).',
+      "Ce tarif peut subir des ajustements compte tenu de l'évolution des prix sur le marché et/ou de la quantité des déchets à évacuer.",
+      "Un tarif préférentiel est appliqué à tout abonné qui fait le tri des déchets avec nos sachets poubelles.",
+    ],
+    grilleDate: 'Grille tarifaire de Kinshasa, le 18/11/2026',
     creditTitre: "Payer à l'avance, avec du crédit",
     creditTexte:
       "Rechargez votre crédit une fois. Il est utilisé à chaque passage et vous voyez votre solde dans l'application.",
     creditEtapes: [
-      { titre: 'Choisissez une formule', texte: 'Par passage ou par mois.' },
-      { titre: 'Payez comme vous voulez', texte: 'Mobile money, carte, cash ou virement.' },
+      { titre: 'Choisissez une formule', texte: 'Par évacuation ou par mois.' },
+      { titre: 'Payez comme vous voulez', texte: 'Mobile money, carte, cash, virement ou transfert.' },
       { titre: 'Recevez votre reçu', texte: 'Par SMS et WhatsApp, à chaque paiement.' },
     ],
   },
@@ -345,7 +378,7 @@ export const fr = {
       },
       {
         q: 'Quand passez-vous ?',
-        r: 'Un passage chaque semaine, aux jours de votre avenue. Vous recevez une alerte par SMS et WhatsApp avant chaque passage.',
+        r: 'Au moins 2 fois par semaine, aux jours de votre avenue. Vous recevez une alerte par SMS et WhatsApp avant chaque passage.',
       },
       {
         q: 'Puis-je demander un passage en plus ?',
@@ -353,7 +386,7 @@ export const fr = {
       },
       {
         q: 'Comment payer ?',
-        r: "Par mobile money, carte, cash à un agent ou virement. Vous pouvez aussi payer à l'avance avec du crédit.",
+        r: "Par mobile money, carte, cash à un agent, virement ou transfert. Vous pouvez aussi payer à l'avance avec du crédit.",
       },
       {
         q: 'Que deviennent les déchets ?',

@@ -26,8 +26,9 @@ async function main() {
   console.info('%d communes enregistrees', COMMUNES_KINSHASA.length);
 
   const reglages: Array<{ cle: string; valeur: string }> = [
-    { cle: 'prix_par_passage', valeur: '2000' }, // valeur d'exemple
-    { cle: 'prix_mensuel', valeur: '7000' }, // valeur d'exemple
+    { cle: 'prix_par_passage', valeur: '6000' }, // grille du 18/11/2026, menage simple, en CDF
+    { cle: 'prix_mensuel', valeur: '15' }, // grille du 18/11/2026, menage simple
+    { cle: 'devise_mensuel', valeur: 'USD' },
     { cle: 'passages_par_semaine', valeur: '1' },
     { cle: 'devise', valeur: 'CDF' },
     { cle: 'alerte_veille_passage', valeur: 'true' },

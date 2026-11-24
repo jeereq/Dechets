@@ -7,6 +7,7 @@ const CLES_PUBLIQUES = [
   'prix_mensuel',
   'passages_par_semaine',
   'devise',
+  'devise_mensuel',
 ] as const;
 
 export async function reglagesRoutes(app: FastifyInstance) {

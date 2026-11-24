@@ -75,7 +75,7 @@ export default async function LocaleLayout({
       addressRegion: 'Kinshasa',
       addressCountry: 'CD',
     },
-    areaServed: { '@type': 'AdministrativeArea', name: 'Limete, Kinshasa' },
+    areaServed: { '@type': 'AdministrativeArea', name: 'Lingwala, Kinshasa' },
     knowsLanguage: ['fr', 'en'],
     // NIF : A2324487S (voir MENTIONS) — identifiant fiscal de la societe.
     taxID: MENTIONS.find((m) => m.startsWith('NIF'))?.replace('NIF : ', ''),

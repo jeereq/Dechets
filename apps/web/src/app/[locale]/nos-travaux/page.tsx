@@ -148,7 +148,7 @@ function PaireAvantApres({
         </div>
       </div>
       <strong style={{ fontSize: 19 }}>{lieu}</strong>
-      <span className="discret">[Date] · Limete</span>
+      <span className="discret">[Date] · Lingwala</span>
     </div>
   );
 }

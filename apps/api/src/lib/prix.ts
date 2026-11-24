@@ -1,9 +1,9 @@
 import { prisma } from '../prisma.js';
 
-/** Valeurs d'exemple utilisees tant que BENIME n'a pas fixe ses tarifs. */
+/** Grille tarifaire BENIME du 18/11/2026 (menage simple) : 6 000 FC l'evacuation, 15 USD par mois. */
 const PAR_DEFAUT: Record<string, number> = {
-  prix_par_passage: 2000,
-  prix_mensuel: 7000,
+  prix_par_passage: 6000,
+  prix_mensuel: 15,
 };
 
 export async function lireReglageEntier(cle: keyof typeof PAR_DEFAUT): Promise<number> {
