@@ -1,0 +1,8 @@
+[out:json][timeout:90];
+(
+  way["highway"~"^(motorway|trunk|primary|secondary|tertiary|unclassified|residential|living_street|service)$"](-4.340,15.288,-4.308,15.320);
+  way["building"](-4.340,15.288,-4.308,15.320);
+  way["landuse"~"^(grass|recreation_ground|forest)$"](-4.340,15.288,-4.308,15.320);
+  way["leisure"~"^(park|garden|pitch)$"](-4.340,15.288,-4.308,15.320);
+);
+out geom;

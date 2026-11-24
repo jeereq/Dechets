@@ -5,9 +5,9 @@ import { FondService, type SceneService } from '@/components/ScenesServices';
 /**
  * Bandeau de titre des pages intérieures.
  *
- * Un titre seul dans un grand aplat vert laisse la moitié droite vide ;
- * la colonne de droite reçoit donc soit une photo, soit des chiffres.
- * En fond, la carte de Kinshasa où circulent les camions (CarteCamions).
+ * En fond, la vraie carte de Lingwala où circulent les camions (CarteCamions) : elle occupe
+ * la moitié droite du bandeau, sous un dégradé qui garde le titre lisible à gauche. La photo
+ * n'est donc pas affichée par-dessus quand la carte est là.
  */
 export function TitrePage({
   surtitre,
@@ -46,7 +46,7 @@ export function TitrePage({
             {chapeau ? <p className="chapeau">{chapeau}</p> : null}
           </div>
 
-          {photo ? (
+          {photo && scene !== 'carte' ? (
             <div className="titre-page__media">
               <Image
                 src={photo}

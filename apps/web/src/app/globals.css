@@ -915,13 +915,15 @@ img {
   inset: 0;
 }
 
-/* Texte à gauche : la carte se voit surtout à droite. */
+/* Texte à gauche : la carte et les véhicules sont à droite, un dégradé progressif les fond à gauche. */
 .carte-camions--degrade::after {
   background: linear-gradient(
     90deg,
-    color-mix(in srgb, var(--vert-fonce) 88%, transparent) 0%,
-    color-mix(in srgb, var(--vert-fonce) 55%, transparent) 38%,
-    transparent 70%
+    color-mix(in srgb, var(--vert-fonce) 97%, transparent) 0%,
+    color-mix(in srgb, var(--vert-fonce) 90%, transparent) 30%,
+    color-mix(in srgb, var(--vert-fonce) 62%, transparent) 46%,
+    color-mix(in srgb, var(--vert-fonce) 22%, transparent) 62%,
+    transparent 78%
   );
 }
 
@@ -1118,8 +1120,30 @@ a.contact-ligne:focus-visible {
     min-height: clamp(560px, 74vh, 720px);
   }
 
+  /* La carte animée occupe toute la bande ; la photo devient une vignette en bas à droite. */
   .heros--carte .heros__image {
-    min-height: 420px;
+    position: absolute;
+    right: clamp(20px, 2.6vw, 36px);
+    bottom: clamp(20px, 2.6vw, 36px);
+    width: clamp(240px, 23vw, 330px);
+    min-height: 0;
+    border-radius: var(--r-lg);
+    overflow: hidden;
+    border: 4px solid rgba(255, 255, 255, 0.92);
+    box-shadow: 0 24px 50px -20px rgba(0, 0, 0, 0.65);
+    aspect-ratio: 4 / 3;
+  }
+
+  .heros--carte .heros__image img {
+    min-height: 0;
+  }
+
+}
+
+@media (min-width: 861px) {
+  .heros--carte .heros__texte {
+    flex: 0 1 58%;
+    max-width: 58%;
   }
 }
 
@@ -1139,10 +1163,19 @@ a.contact-ligne:focus-visible {
 }
 
 
-.heros--carte > .heros__texte,
-.heros--carte > .heros__image {
+.heros--carte > .heros__texte {
   position: relative;
   z-index: 1;
+}
+
+.heros--carte > .heros__image {
+  z-index: 1;
+}
+
+@media (max-width: 860px) {
+  .heros--carte > .heros__image {
+    position: relative;
+  }
 }
 
 .heros__texte {

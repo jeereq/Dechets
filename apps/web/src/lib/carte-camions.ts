@@ -1,28 +1,18 @@
 /**
  * Données de l'animation « camions sur la carte de Kinshasa » (voir CarteCamions.tsx).
  *
- * Le réseau de rues, les circuits et les phases de départ viennent de
- * scripts/generer-circuits.py (carte-camions-donnees.ts) : les rues sont une grille
- * STYLISÉE, et les phases sont calculées pour qu'aucun véhicule n'en touche un autre.
+ * Le fond de carte (rues et bâtiments réels d'OpenStreetMap, quartier de Lingwala) est le
+ * fichier public/carte-lingwala.svg ; les circuits, les phases de départ et les tas de déchets
+ * viennent de scripts/generer-carte-reelle.py (carte-camions-donnees.ts). Les phases sont
+ * calculées pour qu'aucun véhicule n'en touche un autre.
  */
 
-export { CIRCUITS_DONNEES as CIRCUITS, RESEAU } from '@/lib/carte-camions-donnees';
+export { CARTE, CIRCUITS_DONNEES as CIRCUITS, ECHELLES, TAS } from '@/lib/carte-camions-donnees';
 
 export type TypeVehicule = 'camion' | 'tricycle';
 
 /** Niveaux de chargement : 1 = plein à ras bord, puis de moins en moins chargé. */
 export const NIVEAUX = [1, 0.8, 0.5, 0.15] as const;
-
-export const COMMUNES_PERIPHERIQUES = new Set(['Nsele', 'Mont-Ngafula', 'Kimbanseke', 'Ngaliema']);
-export const GRANDES_COMMUNES = new Set([
-  'Nsele',
-  'Mont-Ngafula',
-  'Kimbanseke',
-  'Ngaliema',
-  'Masina',
-  'Limete',
-  'Selembao',
-]);
 
 // --- Chargements -------------------------------------------------------------
 

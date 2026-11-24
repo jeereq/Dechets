@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { CIRCUITS, RESEAU } from '@/lib/carte-camions';
+import { CARTE, CIRCUITS, ECHELLES, TAS } from '@/lib/carte-camions';
 import { useAnimationControle } from '@/lib/useAnimationControle';
 
 /**
@@ -21,7 +21,7 @@ import { useAnimationControle } from '@/lib/useAnimationControle';
 
 const arrondi = (n: number) => Math.round(n * 10) / 10;
 
-const VUE_INITIALE = '323 96 343 108';
+const VUE_INITIALE = `${CARTE.largeur - 343} ${CARTE.hauteur / 2 - 54} 343 108`;
 
 export function CarteCamions({ voile = 'degrade' }: { voile?: 'degrade' | 'uniforme' }) {
   const racine = useRef<HTMLDivElement>(null);
@@ -37,12 +37,18 @@ export function CarteCamions({ voile = 'degrade' }: { voile?: 'degrade' | 'unifo
     const mesurer = () => {
       const { width, height } = element.getBoundingClientRect();
       if (!width || !height) return;
-      const echelle = width >= 900 ? 4.2 : 3.4; // pixels par unité de carte
+      const grand = width >= 900;
+      const echelle = grand ? 5 : 3.8; // pixels par unité de carte
       const largeur = width / echelle;
       const hauteur = (largeur * height) / width;
-      setVue(
-        `${arrondi(495 - largeur / 2)} ${arrondi(150 - hauteur / 2)} ${arrondi(largeur)} ${arrondi(hauteur)}`,
-      );
+      // Les véhicules sont dans la moitié droite de la carte : sur grand écran on cale la
+      // vue sur le bord droit (le texte est à gauche, sous le dégradé) ; sur mobile on la
+      // centre sur la zone des véhicules.
+      const centreZone = (CARTE.zoneX + CARTE.largeur) / 2;
+      const brut = grand ? CARTE.largeur - largeur : centreZone - largeur / 2;
+      const x0 = Math.max(0, Math.min(brut, CARTE.largeur - largeur));
+      const y0 = Math.max(0, Math.min(CARTE.hauteur / 2 - hauteur / 2, CARTE.hauteur - hauteur));
+      setVue(`${arrondi(x0)} ${arrondi(y0)} ${arrondi(largeur)} ${arrondi(hauteur)}`);
     };
     mesurer();
     const redim = new ResizeObserver(mesurer);
@@ -60,17 +66,17 @@ export function CarteCamions({ voile = 'degrade' }: { voile?: 'degrade' | 'unifo
         viewBox={vue}
         width="100%"
         height="100%"
-        preserveAspectRatio="xMidYMid slice"
+        preserveAspectRatio="xMaxYMid slice"
         focusable="false"
       >
-        <use href="#cc-fond" />
+        <use href="/carte-lingwala.svg#cc-fond" />
 
         {/* Tas de déchets le long des rues : un halo les signale */}
-        {RESEAU.tas.map(([x, y], i) => (
-          <circle key={i} cx={x} cy={y} r="2" fill="none" stroke="#f5a800" strokeWidth="0.45">
+        {TAS.map(([x, y], i) => (
+          <circle key={i} cx={x} cy={y} r="1.5" fill="none" stroke="#f5a800" strokeWidth="0.4">
             <animate
               attributeName="r"
-              values="2;6.5"
+              values="1.5;5"
               dur="2.8s"
               begin={`-${(i * 0.7).toFixed(1)}s`}
               repeatCount="indefinite"
@@ -88,6 +94,7 @@ export function CarteCamions({ voile = 'degrade' }: { voile?: 'degrade' | 'unifo
         {CIRCUITS.flatMap((circuit) =>
           circuit.vehicules.map((vehicule, i) => {
             const camion = vehicule.type === 'camion';
+            const echelle = camion ? ECHELLES.camion : ECHELLES.tricycle;
             return (
               <g key={`${circuit.nom}-${i}`}>
                 <animateMotion
@@ -97,21 +104,23 @@ export function CarteCamions({ voile = 'degrade' }: { voile?: 'degrade' | 'unifo
                   repeatCount="indefinite"
                   rotate="auto"
                 />
-                <path
-                  d={camion ? 'M6 -1.6L16 -4.6L16 4.6L6 1.6Z' : 'M4 -1.2L11 -3.4L11 3.4L4 1.2Z'}
-                  fill="rgba(255,240,180,0.2)"
-                />
-                <use href={`#cc-${vehicule.type}-${vehicule.niveau}`} />
-                {camion ? (
-                  <circle cx="3.7" cy="0" r="0.5" fill="#f5a800">
-                    <animate
-                      attributeName="opacity"
-                      values="1;0.2;1"
-                      dur="0.9s"
-                      repeatCount="indefinite"
-                    />
-                  </circle>
-                ) : null}
+                <g transform={`scale(${echelle})`}>
+                  <path
+                    d={camion ? 'M6 -1.6L16 -4.6L16 4.6L6 1.6Z' : 'M4 -1.2L11 -3.4L11 3.4L4 1.2Z'}
+                    fill="rgba(255,240,180,0.2)"
+                  />
+                  <use href={`#cc-${vehicule.type}-${vehicule.niveau}`} />
+                  {camion ? (
+                    <circle cx="3.7" cy="0" r="0.5" fill="#f5a800">
+                      <animate
+                        attributeName="opacity"
+                        values="1;0.2;1"
+                        dur="0.9s"
+                        repeatCount="indefinite"
+                      />
+                    </circle>
+                  ) : null}
+                </g>
               </g>
             );
           }),

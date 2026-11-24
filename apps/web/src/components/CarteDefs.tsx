@@ -1,25 +1,12 @@
-import { CARTE_KINSHASA } from '@/lib/carte-kinshasa';
-import {
-  chargement,
-  COMMUNES_PERIPHERIQUES,
-  GRANDES_COMMUNES,
-  NIVEAUX,
-  RESEAU,
-  type Debris,
-  type Sac,
-} from '@/lib/carte-camions';
+import { chargement, NIVEAUX, type Debris, type Sac } from '@/lib/carte-camions';
 
 /**
- * Éléments partagés de l'animation CarteCamions, déclarés une seule fois par page :
- * fond de carte (communes, quartiers, rues), camions et tricycles. Chaque bandeau vert
- * n'a qu'à les référencer avec <use>.
+ * Camions et tricycles de l'animation CarteCamions, déclarés une seule fois par page ; chaque
+ * bandeau vert les référence avec <use>. Le fond de carte, lui, est un fichier statique
+ * (public/carte-lingwala.svg) que le navigateur met en cache.
  *
- * Proportions : la route fait 9 unités de large, le camion 4,4 sur 12,5 et le tricycle
- * 3,5 sur 7,6 — un camion occupe donc à peu près la moitié de la chaussée.
+ * Proportions (avant mise à l'échelle ECHELLES) : camion 4,4 sur 12,5, tricycle 3,5 sur 7,6.
  */
-
-const TEINTES = ['rgba(255,255,255,0.05)', 'rgba(255,255,255,0.075)', 'rgba(255,255,255,0.04)'];
-const TOITS = ['rgba(255,255,255,0.13)', 'rgba(255,255,255,0.2)', 'rgba(255,255,255,0.09)'];
 
 function Sacs({ sacs, debris }: { sacs: Sac[]; debris: Debris[] }) {
   return (
@@ -118,8 +105,6 @@ function Tricycle({ niveau, index }: { niveau: number; index: number }) {
 }
 
 export function CarteDefs() {
-  const communes = CARTE_KINSHASA.communes;
-  const routes = [...RESEAU.aretes, ...RESEAU.boucles];
   return (
     <svg
       width="0"
@@ -129,106 +114,6 @@ export function CarteDefs() {
       style={{ position: 'absolute', overflow: 'hidden' }}
     >
       <defs>
-        {communes.map((commune, i) => (
-          <path key={commune.nom} id={`cc-${i}`} d={commune.d} />
-        ))}
-
-        <g id="cc-fond">
-          {communes.map((commune, i) =>
-            commune.nom === 'Lingwala' ? (
-              <use key={commune.nom} href={`#cc-${i}`} fill="rgba(245,168,0,0.17)" />
-            ) : (
-              <use key={commune.nom} href={`#cc-${i}`} fill={TEINTES[i % TEINTES.length]} />
-            ),
-          )}
-
-          {communes.map((commune, i) =>
-            commune.nom === 'Lingwala' ? (
-              <use
-                key={commune.nom}
-                href={`#cc-${i}`}
-                fill="none"
-                stroke="#f5a800"
-                strokeWidth="1.1"
-                strokeDasharray="5 2.5"
-              />
-            ) : (
-              <use
-                key={commune.nom}
-                href={`#cc-${i}`}
-                fill="none"
-                stroke="rgba(255,255,255,0.28)"
-                strokeWidth="0.7"
-              />
-            ),
-          )}
-
-          {RESEAU.batiments.map((chemins, i) => (
-            <path key={i} d={chemins.join('')} fill={TOITS[i]} />
-          ))}
-          {RESEAU.arbres.map(([x, y, r], i) => (
-            <g key={i}>
-              <circle cx={x} cy={y} r={r} fill="rgba(61,220,106,0.2)" />
-              <circle
-                cx={x - r * 0.25}
-                cy={y - r * 0.25}
-                r={r * 0.5}
-                fill="rgba(61,220,106,0.14)"
-              />
-            </g>
-          ))}
-
-          <g fill="none" strokeLinecap="round" strokeLinejoin="round">
-            {routes.map((d, i) => (
-              <path key={`b${i}`} d={d} stroke="rgba(255,255,255,0.3)" strokeWidth="9.8" />
-            ))}
-            {routes.map((d, i) => (
-              <path key={`c${i}`} d={d} stroke="#2a5a42" strokeWidth="8.4" />
-            ))}
-            {RESEAU.aretes.map((d, i) => (
-              <path
-                key={`p${i}`}
-                d={d}
-                stroke="rgba(255,255,255,0.35)"
-                strokeWidth="0.3"
-                strokeDasharray="2.2 2.6"
-              />
-            ))}
-          </g>
-
-          {RESEAU.tas.map(([x, y], i) => (
-            <g key={i} transform={`translate(${x} ${y})`}>
-              <circle cx="-0.9" cy="0.4" r="1.5" fill="#1b2420" />
-              <circle cx="1" cy="-0.5" r="1.3" fill="#2d3a46" />
-              <circle cx="0.3" cy="1.4" r="1.1" fill="#151b18" />
-              <rect x="0.8" y="1.2" width="1" height="0.6" fill="#b08a55" />
-            </g>
-          ))}
-
-          {communes.map((commune) => {
-            const grande = GRANDES_COMMUNES.has(commune.nom);
-            const pilote = commune.nom === 'Lingwala';
-            return (
-              <text
-                key={commune.nom}
-                x={commune.x}
-                y={commune.y}
-                textAnchor="middle"
-                fontSize={grande ? 5.5 : 3.4}
-                fontWeight={pilote ? 800 : 600}
-                letterSpacing={grande ? 1.3 : 0.6}
-                fill={pilote ? '#f5a800' : 'rgba(255,255,255,0.5)'}
-                stroke="rgba(11,60,34,0.75)"
-                strokeWidth="0.9"
-                paintOrder="stroke"
-                style={{ textTransform: 'uppercase' }}
-              >
-                {commune.nom}
-              </text>
-            );
-          })}
-        </g>
-
         {NIVEAUX.map((niveau, i) => (
           <Camion key={`c${i}`} niveau={niveau} index={i} />
         ))}
