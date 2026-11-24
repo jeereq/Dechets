@@ -1,4 +1,5 @@
 import { COMMUNES_KINSHASA, type CommunePublique } from '@benime/shared';
+import { suivre } from './chargement';
 
 const BASE = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4000';
 
@@ -55,11 +56,13 @@ export async function envoyerLead(payload: {
   communeSlug: string;
 }): Promise<{ ok: boolean; message?: string }> {
   try {
-    const reponse = await fetch(`${BASE}/leads`, {
-      method: 'POST',
-      headers: { 'content-type': 'application/json' },
-      body: JSON.stringify(payload),
-    });
+    const reponse = await suivre(
+      fetch(`${BASE}/leads`, {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify(payload),
+      }),
+    );
 
     if (reponse.ok) return { ok: true };
 

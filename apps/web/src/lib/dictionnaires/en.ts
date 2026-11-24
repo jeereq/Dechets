@@ -24,6 +24,7 @@ export const en: DeepPartial<Dictionnaire> = {
     voirTout: 'See all',
     envoyer: 'Send',
     envoiEnCours: 'Sending...',
+    chargement: 'Loading',
     prixExemple: 'Price for a simple household. Other rates are in the price list.',
     photoAFournir: 'Photo to be provided',
   },

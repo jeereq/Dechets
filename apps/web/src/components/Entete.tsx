@@ -1,3 +1,4 @@
+import { ChargementEntete } from './ChargementEntete';
 import Image from 'next/image';
 import Link from 'next/link';
 import {
@@ -65,6 +66,7 @@ export function Entete({ locale, page }: { locale: Locale; page: keyof typeof CH
 
   return (
     <header className="entete">
+      <ChargementEntete libelle={t.commun.chargement} />
       <div className="entete__barre">
         <Link
           href={lien(locale, 'accueil')}

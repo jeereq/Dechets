@@ -21,6 +21,7 @@ export const fr = {
     voirTout: 'Voir tout',
     envoyer: 'Envoyer',
     envoiEnCours: 'Envoi…',
+    chargement: 'Chargement en cours',
     prixExemple: 'Prix pour un ménage simple. Les autres tarifs sont dans la grille tarifaire.',
     photoAFournir: 'Photo à fournir',
   },
