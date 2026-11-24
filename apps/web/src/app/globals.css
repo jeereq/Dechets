@@ -262,6 +262,119 @@ img {
   flex: none;
 }
 
+/* --- bande du camion compacteur ------------------------------------------ */
+
+.bande-camion {
+  height: clamp(96px, 10.4vw, 150px);
+  overflow: hidden;
+  background: #eef4f0;
+  border-top: 1px solid var(--ligne);
+}
+
+.bande-camion svg {
+  display: block;
+}
+
+.bc-camion {
+  animation: bc-roule 20s infinite;
+}
+
+.bc-corps {
+  animation: bc-tasse 20s infinite;
+}
+
+.bc-roue,
+.bc-sac {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.bc-roue {
+  animation: bc-tourne 20s infinite;
+}
+
+.bc-sac--1 {
+  animation: bc-s1 20s infinite;
+}
+
+.bc-sac--2 {
+  animation: bc-s2 20s infinite;
+}
+
+.bc-sac--3 {
+  animation: bc-s3 20s infinite;
+}
+
+.bande-camion[data-pause='true'] * {
+  animation-play-state: paused;
+}
+
+@keyframes bc-roule {
+  0% { transform: translateX(-320px); animation-timing-function: ease-in-out; }
+  12% { transform: translateX(456px); }
+  20% { transform: translateX(456px); animation-timing-function: ease-in-out; }
+  28% { transform: translateX(716px); }
+  36% { transform: translateX(716px); animation-timing-function: ease-in-out; }
+  44% { transform: translateX(976px); }
+  52% { transform: translateX(976px); animation-timing-function: ease-in-out; }
+  66% { transform: translateX(1700px); }
+  100% { transform: translateX(1700px); }
+}
+
+@keyframes bc-tourne {
+  0% { transform: rotate(0); }
+  12% { transform: rotate(5116deg); }
+  20% { transform: rotate(5116deg); }
+  28% { transform: rotate(6830deg); }
+  36% { transform: rotate(6830deg); }
+  44% { transform: rotate(8544deg); }
+  52% { transform: rotate(8544deg); }
+  66% { transform: rotate(13317deg); }
+  100% { transform: rotate(13317deg); }
+}
+
+@keyframes bc-tasse {
+  0%, 18%, 34%, 50%, 100% { transform: translateY(0); }
+  20%, 36%, 52% { transform: translateY(2px); }
+}
+
+@keyframes bc-s1 {
+  0%, 14% { transform: none; opacity: 1; }
+  18% { transform: translate(0, -54px); }
+  20% { transform: translate(-3px, -48px) scale(0.5); opacity: 0; }
+  99.9% { transform: translate(-3px, -48px) scale(0.5); opacity: 0; }
+  100% { transform: none; opacity: 1; }
+}
+
+@keyframes bc-s2 {
+  0%, 30% { transform: none; opacity: 1; }
+  34% { transform: translate(0, -54px); }
+  36% { transform: translate(-3px, -48px) scale(0.5); opacity: 0; }
+  99.9% { transform: translate(-3px, -48px) scale(0.5); opacity: 0; }
+  100% { transform: none; opacity: 1; }
+}
+
+@keyframes bc-s3 {
+  0%, 46% { transform: none; opacity: 1; }
+  50% { transform: translate(0, -54px); }
+  52% { transform: translate(-3px, -48px) scale(0.5); opacity: 0; }
+  99.9% { transform: translate(-3px, -48px) scale(0.5); opacity: 0; }
+  100% { transform: none; opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bc-camion,
+  .bc-corps,
+  .bc-roue,
+  .bc-sac {
+    animation: none;
+  }
+
+  .bc-camion {
+    transform: translateX(120px);
+  }
+}
+
 /* --- en-tete et pied ----------------------------------------------------- */
 
 .entete {
