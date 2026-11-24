@@ -1,10 +1,12 @@
 import Image from 'next/image';
+import { CarteCamions } from '@/components/CarteCamions';
 
 /**
  * Bandeau de titre des pages intérieures.
  *
  * Un titre seul dans un grand aplat vert laisse la moitié droite vide ;
  * la colonne de droite reçoit donc soit une photo, soit des chiffres.
+ * En fond, la carte de Kinshasa où circulent les camions (CarteCamions).
  */
 export function TitrePage({
   surtitre,
@@ -22,7 +24,8 @@ export function TitrePage({
   chiffres?: Array<{ valeur: string; libelle: string }>;
 }) {
   return (
-    <section className="bandeau-sombre">
+    <section className="bandeau-sombre bandeau-carte">
+      <CarteCamions />
       <div className="conteneur section">
         <div className="titre-page">
           <div className="titre-page__texte">

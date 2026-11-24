@@ -881,6 +881,41 @@ img {
   color: var(--clair);
 }
 
+/* Bandeau avec la carte animée en fond : le texte reste au-dessus et lisible. */
+.bandeau-carte {
+  position: relative;
+  overflow: hidden;
+}
+
+.bandeau-carte > .conteneur {
+  position: relative;
+  z-index: 1;
+}
+
+.carte-camions {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.carte-camions::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--vert-fonce) 88%, transparent) 0%,
+    color-mix(in srgb, var(--vert-fonce) 55%, transparent) 38%,
+    transparent 70%
+  );
+}
+
+@media (max-width: 860px) {
+  .carte-camions::after {
+    background: color-mix(in srgb, var(--vert-fonce) 62%, transparent);
+  }
+}
+
 .heros {
   border-radius: var(--r-xl);
   overflow: hidden;
