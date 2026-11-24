@@ -1,3 +1,4 @@
+import { CarteCamions } from '@/components/CarteCamions';
 import { getDictionnaire, type Locale } from '@/lib/i18n';
 import { COORDONNEES } from '@/lib/societe';
 
@@ -20,7 +21,8 @@ export function BandeauContact({
   ];
 
   return (
-    <section id="contact" className="bandeau-sombre">
+    <section id="contact" className="bandeau-sombre bandeau-carte">
+      <CarteCamions voile="uniforme" />
       <div className="conteneur section">
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '32px 64px', alignItems: 'flex-start' }}>
           <div style={{ flex: '1 1 min(380px, 100%)', display: 'flex', flexDirection: 'column', gap: 18 }}>

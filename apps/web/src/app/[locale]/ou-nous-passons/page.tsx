@@ -1,3 +1,4 @@
+import { CarteCamions } from '@/components/CarteCamions';
 import { notFound } from 'next/navigation';
 import { Entete } from '@/components/Entete';
 import { CarteZones } from '@/components/CarteZones';
@@ -110,7 +111,8 @@ export default async function Zones({ params }: { params: Promise<{ locale: stri
           </div>
         </section>
 
-        <section className="bandeau-sombre" id="prevenir">
+        <section className="bandeau-sombre bandeau-carte" id="prevenir">
+          <CarteCamions voile="uniforme" />
           <div className="conteneur section">
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '32px 64px', alignItems: 'flex-start' }}>
               <div className="pile" style={{ flex: '1 1 380px', gap: 18 }}>

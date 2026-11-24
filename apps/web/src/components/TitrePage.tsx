@@ -15,6 +15,7 @@ export function TitrePage({
   photo,
   alt,
   chiffres,
+  camions = true,
 }: {
   surtitre?: string;
   titre: string;
@@ -22,10 +23,12 @@ export function TitrePage({
   photo?: string;
   alt?: string;
   chiffres?: Array<{ valeur: string; libelle: string }>;
+  /** Faux pour les activités sans rapport avec la collecte (énergie, construction…). */
+  camions?: boolean;
 }) {
   return (
-    <section className="bandeau-sombre bandeau-carte">
-      <CarteCamions />
+    <section className={camions ? 'bandeau-sombre bandeau-carte' : 'bandeau-sombre'}>
+      {camions ? <CarteCamions /> : null}
       <div className="conteneur section">
         <div className="titre-page">
           <div className="titre-page__texte">

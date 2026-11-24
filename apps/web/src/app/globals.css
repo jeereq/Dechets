@@ -902,6 +902,10 @@ img {
   content: '';
   position: absolute;
   inset: 0;
+}
+
+/* Texte à gauche : la carte se voit surtout à droite. */
+.carte-camions--degrade::after {
   background: linear-gradient(
     90deg,
     color-mix(in srgb, var(--vert-fonce) 88%, transparent) 0%,
@@ -910,8 +914,13 @@ img {
   );
 }
 
+/* Texte partout : un voile régulier garde tout lisible. */
+.carte-camions--uniforme::after {
+  background: color-mix(in srgb, var(--vert-fonce) 66%, transparent);
+}
+
 @media (max-width: 860px) {
-  .carte-camions::after {
+  .carte-camions--degrade::after {
     background: color-mix(in srgb, var(--vert-fonce) 62%, transparent);
   }
 }
@@ -924,6 +933,16 @@ img {
   display: flex;
   flex-wrap: wrap;
   align-items: stretch;
+}
+
+.heros--carte {
+  position: relative;
+}
+
+.heros--carte > .heros__texte,
+.heros--carte > .heros__image {
+  position: relative;
+  z-index: 1;
 }
 
 .heros__texte {

@@ -1,5 +1,6 @@
 import { Atkinson_Hyperlegible } from 'next/font/google';
 import { notFound } from 'next/navigation';
+import { CarteDefs } from '@/components/CarteDefs';
 import { DonneesStructurees } from '@/components/DonneesStructurees';
 import { LOCALES, estLocale, getDictionnaire } from '@/lib/i18n';
 import { URL_SITE, urlAbsolue } from '@/lib/seo';
@@ -85,6 +86,7 @@ export default async function LocaleLayout({
     <html lang={locale} className={police.variable}>
       <body style={{ fontFamily: 'var(--police), system-ui, sans-serif' }}>
         <DonneesStructurees donnees={entreprise} />
+        <CarteDefs />
         {children}
       </body>
     </html>

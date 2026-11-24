@@ -1,9 +1,11 @@
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { BandeauContact } from '@/components/BandeauContact';
+import { CarteCamions } from '@/components/CarteCamions';
 import { Entete } from '@/components/Entete';
 import { Icone } from '@/components/Icone';
 import { PiedDePage } from '@/components/PiedDePage';
+import { TitrePage } from '@/components/TitrePage';
 import { estLocale, getDictionnaire } from '@/lib/i18n';
 import { metaPage } from '@/lib/seo';
 import type { Metadata } from 'next';
@@ -38,37 +40,13 @@ export default async function Valorisation({ params }: { params: Promise<{ local
       <Entete locale={locale} page="valorisation" />
 
       <main>
-        <section className="section section--pale">
-          <div
-            className="conteneur"
-            style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 40 }}
-          >
-            <div className="pile" style={{ flex: '1 1 440px', gap: 18 }}>
-              <span
-                className="surtitre"
-                style={{ color: 'var(--vert)', display: 'flex', alignItems: 'center', gap: 10 }}
-              >
-                <Icone nom="feuille" taille={24} />
-                {t.valorisation.surtitre}
-              </span>
-              <h1>{t.valorisation.titre}</h1>
-              <p className="chapeau" style={{ maxWidth: 540 }}>
-                {t.valorisation.chapeau}
-              </p>
-            </div>
-            <div style={{ flex: '1 1 380px' }}>
-              <Image
-                src="/photos/transport.jpg"
-                alt="Camion benne BENIME"
-                width={560}
-                height={320}
-                sizes="(max-width: 860px) 100vw, 50vw"
-                style={{ width: '100%', height: 320, objectFit: 'cover', borderRadius: 'var(--r-lg)' }}
-                priority
-              />
-            </div>
-          </div>
-        </section>
+        <TitrePage
+          surtitre={t.valorisation.surtitre}
+          titre={t.valorisation.titre}
+          chapeau={t.valorisation.chapeau}
+          photo="/photos/transport.jpg"
+          alt="Camion benne BENIME"
+        />
 
         <section className="section">
           <div className="conteneur pile" style={{ gap: 24 }}>
@@ -151,7 +129,8 @@ export default async function Valorisation({ params }: { params: Promise<{ local
           </div>
         </section>
 
-        <section className="bandeau-sombre">
+        <section className="bandeau-sombre bandeau-carte">
+          <CarteCamions voile="uniforme" />
           <div className="conteneur section">
             <div className="pile" style={{ gap: 24 }}>
               <h2 style={{ maxWidth: 760 }}>{t.valorisation.chiffresTitre}</h2>

@@ -72,6 +72,7 @@ export default async function PageService({
           chapeau={item.accroche}
           photo={`/photos/${principale.fichier}`}
           alt={principale.alt}
+          camions={service === 'assainissement'}
         />
 
         <section className="section">

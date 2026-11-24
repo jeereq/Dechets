@@ -1,3 +1,4 @@
+import { CarteCamions } from '@/components/CarteCamions';
 import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
@@ -56,7 +57,8 @@ export default async function Accueil({ params }: { params: Promise<{ locale: st
 
       <main>
         <section className="conteneur" style={{ paddingTop: 28, paddingBottom: 48 }}>
-          <div className="heros">
+          <div className="heros heros--carte">
+            <CarteCamions />
             <div className="heros__texte">
               <span className="surtitre surtitre--clair">{t.accueil.surtitre}</span>
               <h1>{t.accueil.titre}</h1>
