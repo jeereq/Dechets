@@ -54,7 +54,7 @@ export const fr = {
     zoneTexte:
       "D'autres communes de Kinshasa suivront, étape par étape. Regardez où nous passons aujourd'hui.",
     zoneLien: 'Voir les zones desservies',
-    groupeTitre: 'BENIME CONGO, cinq activités',
+    groupeTitre: 'BENIME CONGO, cinq activités principales',
     groupeTexte:
       "L'assainissement est notre activité en service à Lingwala. Découvrez aussi nos autres métiers.",
     groupeLien: 'Voir tous nos services',
@@ -214,7 +214,6 @@ export const fr = {
     filtreFermees: 'Pas encore',
     rechercher: 'Chercher votre commune',
     deploiementTitre: 'Notre déploiement',
-    deploiementNote: 'Les communes des phases suivantes restent à arrêter par BENIME.',
     phases: [
       {
         nom: 'Phase 1',

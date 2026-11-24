@@ -50,7 +50,7 @@ export const en: DeepPartial<Dictionnaire> = {
     zoneTitre: 'We are running a pilot in Lingwala',
     zoneTexte: 'Other communes of Kinshasa will follow, step by step.',
     zoneLien: 'See the areas we serve',
-    groupeTitre: 'BENIME CONGO, five activities',
+    groupeTitre: 'BENIME CONGO, five main activities',
     groupeTexte: 'Sanitation is our service in operation in Lingwala. Discover our other lines of work too.',
     groupeLien: 'See all our services',
   },

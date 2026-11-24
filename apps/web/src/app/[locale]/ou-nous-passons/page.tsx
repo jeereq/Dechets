@@ -107,7 +107,6 @@ export default async function Zones({ params }: { params: Promise<{ locale: stri
                 );
               })}
             </div>
-            <p className="discret">{t.zones.deploiementNote}</p>
           </div>
         </section>
 
