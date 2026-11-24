@@ -892,6 +892,17 @@ img {
   z-index: 1;
 }
 
+/* Pages de service : la scène animée a besoin de hauteur pour se voir en entier. */
+.bandeau-carte--scene {
+  min-height: clamp(400px, 31vw, 470px);
+  display: flex;
+  align-items: center;
+}
+
+.bandeau-carte--scene > .conteneur {
+  width: 100%;
+}
+
 .carte-camions {
   position: absolute;
   inset: 0;
@@ -938,6 +949,32 @@ img {
 .heros--carte {
   position: relative;
 }
+
+@media (min-width: 861px) {
+  .heros--carte {
+    min-height: clamp(560px, 74vh, 720px);
+  }
+
+  .heros--carte .heros__image {
+    min-height: 420px;
+  }
+}
+
+.heros--carte .heros__texte {
+  flex: 1.25 1 480px;
+  padding: clamp(36px, 5vw, 72px) clamp(24px, 4vw, 64px);
+  gap: 26px;
+}
+
+.heros--carte h1 {
+  font-size: clamp(38px, 4.8vw, 64px);
+}
+
+.heros--carte .chapeau {
+  font-size: clamp(19px, 1.7vw, 24px);
+  max-width: 34em;
+}
+
 
 .heros--carte > .heros__texte,
 .heros--carte > .heros__image {

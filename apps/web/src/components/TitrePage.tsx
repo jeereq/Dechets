@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import { CarteCamions } from '@/components/CarteCamions';
+import { FondService, type SceneService } from '@/components/ScenesServices';
 
 /**
  * Bandeau de titre des pages intérieures.
@@ -15,7 +16,7 @@ export function TitrePage({
   photo,
   alt,
   chiffres,
-  camions = true,
+  scene = 'carte',
 }: {
   surtitre?: string;
   titre: string;
@@ -23,12 +24,20 @@ export function TitrePage({
   photo?: string;
   alt?: string;
   chiffres?: Array<{ valeur: string; libelle: string }>;
-  /** Faux pour les activités sans rapport avec la collecte (énergie, construction…). */
-  camions?: boolean;
+  /** Animation de fond : la carte des camions, ou la scène propre à un service. */
+  scene?: 'carte' | SceneService | null;
 }) {
   return (
-    <section className={camions ? 'bandeau-sombre bandeau-carte' : 'bandeau-sombre'}>
-      {camions ? <CarteCamions /> : null}
+    <section
+      className={
+        scene === 'carte'
+          ? 'bandeau-sombre bandeau-carte'
+          : scene
+            ? 'bandeau-sombre bandeau-carte bandeau-carte--scene'
+            : 'bandeau-sombre'
+      }
+    >
+      {scene === 'carte' ? <CarteCamions /> : scene ? <FondService scene={scene} /> : null}
       <div className="conteneur section">
         <div className="titre-page">
           <div className="titre-page__texte">

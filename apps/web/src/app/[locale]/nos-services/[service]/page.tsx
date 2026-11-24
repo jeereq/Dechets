@@ -6,6 +6,7 @@ import { DonneesStructurees } from '@/components/DonneesStructurees';
 import { Entete } from '@/components/Entete';
 import { Icone } from '@/components/Icone';
 import { PiedDePage } from '@/components/PiedDePage';
+import type { SceneService } from '@/components/ScenesServices';
 import { TitrePage } from '@/components/TitrePage';
 import { estLocale, getDictionnaire, lien, LOCALES } from '@/lib/i18n';
 import { IDS_SERVICES, VISUELS_SERVICES } from '@/lib/services';
@@ -70,9 +71,9 @@ export default async function PageService({
           surtitre={s.surtitre}
           titre={item.titre}
           chapeau={item.accroche}
-          photo={`/photos/${principale.fichier}`}
+          photo={service === 'assainissement' ? `/photos/${principale.fichier}` : undefined}
           alt={principale.alt}
-          camions={service === 'assainissement'}
+          scene={service === 'assainissement' ? 'carte' : (service as SceneService)}
         />
 
         <section className="section">

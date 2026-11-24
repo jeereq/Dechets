@@ -1,7 +1,8 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { CIRCUITS } from '@/lib/carte-camions';
+import { CIRCUITS, RESEAU } from '@/lib/carte-camions';
+import { useAnimationControle } from '@/lib/useAnimationControle';
 
 /**
  * Fond animé des bandeaux verts : la carte de Kinshasa, ses avenues, et les camions
@@ -20,7 +21,7 @@ import { CIRCUITS } from '@/lib/carte-camions';
 
 const arrondi = (n: number) => Math.round(n * 10) / 10;
 
-const VUE_INITIALE = '50 105 900 190';
+const VUE_INITIALE = '323 96 343 108';
 
 export function CarteCamions({ voile = 'degrade' }: { voile?: 'degrade' | 'uniforme' }) {
   const racine = useRef<HTMLDivElement>(null);
@@ -36,43 +37,21 @@ export function CarteCamions({ voile = 'degrade' }: { voile?: 'degrade' | 'unifo
     const mesurer = () => {
       const { width, height } = element.getBoundingClientRect();
       if (!width || !height) return;
-      const largeur = Math.min(900, Math.max(300, width / 1.6));
+      const echelle = width >= 900 ? 4.2 : 3.4; // pixels par unité de carte
+      const largeur = width / echelle;
       const hauteur = (largeur * height) / width;
       setVue(
-        `${arrondi(500 - largeur / 2)} ${arrondi(205 - hauteur / 2)} ${arrondi(largeur)} ${arrondi(hauteur)}`,
+        `${arrondi(495 - largeur / 2)} ${arrondi(150 - hauteur / 2)} ${arrondi(largeur)} ${arrondi(hauteur)}`,
       );
     };
     mesurer();
     const redim = new ResizeObserver(mesurer);
     redim.observe(element);
 
-    const sobre = window.matchMedia('(prefers-reduced-motion: reduce)');
-    let visibleEcran = true;
-    const appliquer = () => {
-      if (sobre.matches || !visibleEcran || document.hidden) {
-        svg.pauseAnimations();
-        // Image fixe : les véhicules restent répartis sur les circuits.
-        if (sobre.matches) svg.setCurrentTime(6);
-      } else {
-        svg.unpauseAnimations();
-      }
-    };
-    const observateur = new IntersectionObserver(([entree]) => {
-      visibleEcran = entree?.isIntersecting ?? true;
-      appliquer();
-    });
-    observateur.observe(element);
-    document.addEventListener('visibilitychange', appliquer);
-    sobre.addEventListener('change', appliquer);
-    appliquer();
-
-    return () => {
-      redim.disconnect();
-      observateur.disconnect();
-      document.removeEventListener('visibilitychange', appliquer);
-      sobre.removeEventListener('change', appliquer);
-    };
+    return () => redim.disconnect();
   }, []);
+
+  useAnimationControle(racine, dessin);
 
   return (
     <div className={`carte-camions carte-camions--${voile}`} ref={racine} aria-hidden="true">
@@ -86,27 +65,45 @@ export function CarteCamions({ voile = 'degrade' }: { voile?: 'degrade' | 'unifo
       >
         <use href="#cc-fond" />
 
-        {/* Lingwala, commune pilote : un halo qui pulse */}
-        <circle cx="447" cy="134" r="4" fill="none" stroke="#f5a800" strokeWidth="1">
-          <animate attributeName="r" values="4;16" dur="2.6s" repeatCount="indefinite" />
-          <animate attributeName="opacity" values="0.8;0" dur="2.6s" repeatCount="indefinite" />
-        </circle>
+        {/* Tas de déchets le long des rues : un halo les signale */}
+        {RESEAU.tas.map(([x, y], i) => (
+          <circle key={i} cx={x} cy={y} r="2" fill="none" stroke="#f5a800" strokeWidth="0.45">
+            <animate
+              attributeName="r"
+              values="2;6.5"
+              dur="2.8s"
+              begin={`-${(i * 0.7).toFixed(1)}s`}
+              repeatCount="indefinite"
+            />
+            <animate
+              attributeName="opacity"
+              values="0.85;0"
+              dur="2.8s"
+              begin={`-${(i * 0.7).toFixed(1)}s`}
+              repeatCount="indefinite"
+            />
+          </circle>
+        ))}
 
         {CIRCUITS.flatMap((circuit) =>
-          circuit.vehicules.map((vehicule, i) => (
-            <g key={`${circuit.nom}-${i}`}>
-              <animateMotion
-                path={circuit.d}
-                dur={`${circuit.duree}s`}
-                begin={`-${arrondi(circuit.duree * vehicule.phase)}s`}
-                repeatCount="indefinite"
-                rotate="auto"
-              />
-              <g transform={`scale(${vehicule.type === 'camion' ? 1.6 : 1.9})`}>
-                <circle r="12" fill="rgba(255,255,255,0.1)" />
+          circuit.vehicules.map((vehicule, i) => {
+            const camion = vehicule.type === 'camion';
+            return (
+              <g key={`${circuit.nom}-${i}`}>
+                <animateMotion
+                  path={circuit.d}
+                  dur={`${circuit.duree}s`}
+                  begin={`-${arrondi(circuit.duree * vehicule.phase)}s`}
+                  repeatCount="indefinite"
+                  rotate="auto"
+                />
+                <path
+                  d={camion ? 'M6 -1.6L16 -4.6L16 4.6L6 1.6Z' : 'M4 -1.2L11 -3.4L11 3.4L4 1.2Z'}
+                  fill="rgba(255,240,180,0.2)"
+                />
                 <use href={`#cc-${vehicule.type}-${vehicule.niveau}`} />
-                {vehicule.type === 'camion' ? (
-                  <circle cx="8.4" cy="0" r="0.95" fill="#f5a800">
+                {camion ? (
+                  <circle cx="3.7" cy="0" r="0.5" fill="#f5a800">
                     <animate
                       attributeName="opacity"
                       values="1;0.2;1"
@@ -116,8 +113,8 @@ export function CarteCamions({ voile = 'degrade' }: { voile?: 'degrade' | 'unifo
                   </circle>
                 ) : null}
               </g>
-            </g>
-          )),
+            );
+          }),
         )}
       </svg>
     </div>
