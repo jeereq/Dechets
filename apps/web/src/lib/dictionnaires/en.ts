@@ -28,10 +28,23 @@ export const en: DeepPartial<Dictionnaire> = {
     photoAFournir: 'Photo to be provided',
   },
   accueil: {
-    surtitre: 'Sanitation · Limete, Kinshasa',
+    surtitre: 'Sanitation and integrated waste management · Kinshasa, DR Congo',
     titre: 'Keeping your neighbourhood clean is our work',
     chapeau:
-      'We collect household waste, take it out of the neighbourhood and have it recovered.',
+      'We collect waste from households and businesses. We transport it and turn it into recycled products.',
+    faits: [
+      { titre: 'One collection a week (Saturday)', texte: 'Plus extra pickups on request, as you need.' },
+      { titre: 'SMS and WhatsApp alerts', texte: 'Before every visit from our teams.' },
+      { titre: 'Several ways to pay', texte: 'Mobile money, card, cash, transfer, bank transfer.' },
+    ],
+    etapes: [
+      { titre: 'Collection', texte: 'Our teams come to you on the scheduled collection days.' },
+      {
+        titre: 'Transport',
+        texte: 'Our trucks and tricycles take your waste to the appropriate sites (landfills).',
+      },
+      { titre: 'Recovery', texte: 'We turn waste into recycled products (circular economy).' },
+    ],
     etapesTitre: 'Collection, transport, recovery',
     materielTitre: 'Our teams and our equipment',
     zoneTitre: 'We are running a pilot in Limete',
@@ -207,6 +220,23 @@ export const en: DeepPartial<Dictionnaire> = {
     chapeau:
       'Collecting is not enough. We take your waste out of the neighbourhood and have it recovered, so it ends up neither burnt nor in the gutters.',
     chaineTitre: 'From your plot to recovery',
+    chaine: [
+      { titre: 'Collection', texte: 'Our agents come to you on the scheduled days and load your bags.' },
+      {
+        titre: 'Transport',
+        texte: 'Our trucks and tricycles take your waste to the appropriate sites (landfills).',
+      },
+      { titre: 'Recovery', texte: 'We turn waste into recycled products (circular economy).' },
+    ],
+    produitsTitre: 'What your waste becomes',
+    produitsTexte:
+      'We turn waste into recycled products: this is the circular economy. Here are some of them.',
+    produits: [
+      { titre: 'Eco-friendly paving stones' },
+      { titre: 'Fertiliser' },
+      { titre: 'Eco-friendly charcoal' },
+      { titre: 'Other recycled products' },
+    ],
     triTitre: 'What we take',
     accepte: 'Accepted',
     refuse: 'Refused',
@@ -217,7 +247,7 @@ export const en: DeepPartial<Dictionnaire> = {
     formulesTitre: 'Two plans to choose from',
     parPassage: { nom: 'Per pickup', unite: 'per pickup' },
     mensuelle: { nom: 'Monthly', unite: 'per month' },
-    paiementTitre: 'Seven ways to pay',
+    paiementTitre: 'Several ways to pay',
     creditTitre: 'Pay in advance, with credit',
   },
   questions: {

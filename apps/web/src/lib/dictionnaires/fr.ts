@@ -25,23 +25,29 @@ export const fr = {
     photoAFournir: 'Photo à fournir',
   },
   accueil: {
-    surtitre: 'Assainissement · Limete, Kinshasa',
+    surtitre: 'Assainissement et gestion intégrée des déchets · Kinshasa, RDC',
     titre: "Assainir votre milieu de vie, c'est notre travail",
     chapeau:
-      'Nous collectons les déchets des ménages, nous les transportons hors du quartier et nous les faisons valoriser.',
+      'Nous collectons les déchets des ménages et des entreprises. Nous les transportons et nous les valorisons en produits recyclés.',
     faits: [
-      { titre: 'Un passage par semaine', texte: 'Et des passages en plus sur demande.' },
+      { titre: 'Une évacuation par semaine (samedi)', texte: 'Et des passages en plus sur demande, selon vos besoins.' },
       { titre: 'Alertes SMS et WhatsApp', texte: 'Avant chaque passage de nos équipes.' },
-      { titre: 'Sept façons de payer', texte: "Mobile money, carte, cash à l'agent, virement." },
+      { titre: 'Plusieurs façons de payer', texte: 'Mobile money, carte, cash, virement, transfert bancaire.' },
     ],
     etapesTitre: 'Collecte, transport, valorisation',
     etapes: [
       {
         titre: 'Collecte',
-        texte: 'Nos équipes passent chez vous aux jours prévus de votre avenue.',
+        texte: "Nos équipes passent chez vous aux jours prévus pour l'évacuation.",
       },
-      { titre: 'Transport', texte: 'Camions et tricycles emmènent les déchets hors du quartier.' },
-      { titre: 'Valorisation', texte: "Ce qui peut l'être est valorisé, pour ne pas polluer." },
+      {
+        titre: 'Transport',
+        texte: 'Nos camions et tricycles transportent vos déchets vers les sites appropriés (décharges).',
+      },
+      {
+        titre: 'Valorisation',
+        texte: 'Nous transformons les déchets en produits recyclés (économie circulaire).',
+      },
     ],
     materielTitre: 'Nos équipes et notre matériel',
     zoneTitre: 'Nous sommes en phase pilote à Limete',
@@ -252,12 +258,21 @@ export const fr = {
       },
       {
         titre: 'Transport',
-        texte: 'Camions et tricycles emmènent les déchets hors du quartier, le jour même.',
+        texte: 'Nos camions et tricycles transportent vos déchets vers les sites appropriés (décharges).',
       },
       {
         titre: 'Valorisation',
-        texte: "Ce qui peut l'être est valorisé. Le reste part en décharge contrôlée.",
+        texte: 'Nous transformons les déchets en produits recyclés (économie circulaire).',
       },
+    ],
+    produitsTitre: 'Ce que deviennent vos déchets',
+    produitsTexte:
+      'Nous transformons les déchets en produits recyclés : c’est l’économie circulaire. Voici quelques-uns de ces produits.',
+    produits: [
+      { titre: 'Pavés écologiques' },
+      { titre: 'Engrais (fertilisants)' },
+      { titre: 'Charbons écologiques' },
+      { titre: 'Autres produits recyclés' },
     ],
     triTitre: 'Ce que nous emportons',
     accepte: 'Accepté',
@@ -299,7 +314,7 @@ export const fr = {
       unite: 'par mois',
       points: ['Un passage chaque semaine', 'Paiement en fin de mois', 'Alertes par SMS et WhatsApp'],
     },
-    paiementTitre: 'Sept façons de payer',
+    paiementTitre: 'Plusieurs façons de payer',
     paiementNote: 'Mobile money et carte : paiement traité par FlexPay.',
     modes: [
       { nom: 'Airtel Money', detail: 'Téléphone, via FlexPay' },

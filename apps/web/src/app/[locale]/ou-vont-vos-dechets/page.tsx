@@ -20,6 +20,12 @@ export async function generateMetadata({
 }
 
 const ICONES_CHAINE = ['sac', 'camion', 'recyclage'] as const;
+const PHOTOS_PRODUITS = [
+  'paves-ecologiques.jpg',
+  'engrais.jpg',
+  'charbon-ecologique.jpg',
+  'produits-recycles.jpg',
+] as const;
 
 export default async function Valorisation({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
@@ -86,6 +92,42 @@ export default async function Valorisation({ params }: { params: Promise<{ local
                     {etape.texte}
                   </p>
                 </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="section section--pale">
+          <div className="conteneur pile" style={{ gap: 24 }}>
+            <h2>{t.valorisation.produitsTitre}</h2>
+            <p className="chapeau" style={{ maxWidth: 720 }}>
+              {t.valorisation.produitsTexte}
+            </p>
+            <div
+              className="grille"
+              style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(min(240px, 100%), 1fr))' }}
+            >
+              {t.valorisation.produits.map((produit, index) => (
+                <figure key={produit.titre} className="pile" style={{ gap: 12, margin: 0 }}>
+                  <Image
+                    src={`/photos/${PHOTOS_PRODUITS[index]}`}
+                    alt={produit.titre}
+                    width={560}
+                    height={360}
+                    sizes="(max-width: 860px) 100vw, 25vw"
+                    style={{
+                      width: '100%',
+                      height: 240,
+                      /* le collage « autres produits » s'affiche en entier */
+                      objectFit: index === PHOTOS_PRODUITS.length - 1 ? 'contain' : 'cover',
+                      background: index === PHOTOS_PRODUITS.length - 1 ? '#55a84c' : undefined,
+                      borderRadius: 'var(--r)',
+                    }}
+                  />
+                  <figcaption>
+                    <h3 style={{ fontSize: 22 }}>{produit.titre}</h3>
+                  </figcaption>
+                </figure>
               ))}
             </div>
           </div>

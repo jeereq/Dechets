@@ -14,7 +14,7 @@ import { COORDONNEES, telLien } from '@/lib/societe';
 import type { Metadata } from 'next';
 
 const ICONES_FAITS = ['calendrier', 'cloche', 'portefeuille'] as const;
-const PHOTOS_ETAPES = ['collecte.jpg', 'tri-cote.jpg', null] as const;
+const PHOTOS_ETAPES = ['collecte.jpg', 'transport-avenue.jpg', 'paves-ecologiques.jpg'] as const;
 
 export async function generateMetadata({
   params,
