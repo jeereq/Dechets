@@ -137,7 +137,7 @@ export default async function Valorisation({ params }: { params: Promise<{ local
         </section>
 
         <section className="bandeau-sombre bandeau-carte bandeau-chiffres">
-          <CarteCamions voile="uniforme" />
+          <CarteCamions voile="degrade" />
           <div className="conteneur section">
             <div className="pile" style={{ gap: 36 }}>
               <div className="chiffres-entete">

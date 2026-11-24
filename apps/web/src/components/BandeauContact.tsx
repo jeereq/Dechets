@@ -77,7 +77,7 @@ export function BandeauContact({
 
   return (
     <section id="contact" className="bandeau-sombre bandeau-carte bandeau-contact">
-      <CarteCamions voile="uniforme" />
+      <CarteCamions voile="degrade" />
       <div className="conteneur section">
         <div className="contact-grille">
           <div className="contact-texte">

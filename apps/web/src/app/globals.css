@@ -930,14 +930,6 @@ img {
   background: color-mix(in srgb, var(--vert-fonce) 66%, transparent);
 }
 
-/* Bandeaux vert foncé : la carte reste visible mais en retrait, le contenu se pose sur des cartes. */
-.bandeau-chiffres .carte-camions--uniforme::after,
-.bandeau-contact .carte-camions--uniforme::after {
-  background:
-    radial-gradient(120% 90% at 50% 0%, transparent 0%, color-mix(in srgb, var(--vert-fonce) 45%, transparent) 100%),
-    color-mix(in srgb, var(--vert-fonce) 74%, transparent);
-}
-
 .bandeau-chiffres .section,
 .bandeau-contact .section {
   padding-block: clamp(56px, 7vw, 96px);
