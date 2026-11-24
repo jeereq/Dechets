@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation';
 import { Entete } from '@/components/Entete';
 import { CarteZones } from '@/components/CarteZones';
+import { CommuneChoisieProvider } from '@/components/CommuneChoisie';
 import { FormulairePrevenir } from '@/components/FormulairePrevenir';
 import { Icone } from '@/components/Icone';
 import { ListeCommunes } from '@/components/ListeCommunes';
@@ -35,6 +36,7 @@ export default async function Zones({ params }: { params: Promise<{ locale: stri
       <Entete locale={locale} page="zones" />
 
       <main>
+        <CommuneChoisieProvider>
         <TitrePage
           surtitre={t.zones.surtitre}
           titre={t.zones.titre}
@@ -51,7 +53,7 @@ export default async function Zones({ params }: { params: Promise<{ locale: stri
         <section className="section">
           <div className="conteneur pile" style={{ gap: 20 }}>
             <h2>{t.zones.carteTitre}</h2>
-            <CarteZones locale={locale} communesOuvertes={ouvertes.map((c) => c.nom)} />
+            <CarteZones locale={locale} communes={communes} />
           </div>
         </section>
 
@@ -109,7 +111,7 @@ export default async function Zones({ params }: { params: Promise<{ locale: stri
           </div>
         </section>
 
-        <section className="bandeau-sombre">
+        <section className="bandeau-sombre" id="prevenir">
           <div className="conteneur section">
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '32px 64px', alignItems: 'flex-start' }}>
               <div className="pile" style={{ flex: '1 1 380px', gap: 18 }}>
@@ -132,6 +134,7 @@ export default async function Zones({ params }: { params: Promise<{ locale: stri
             </div>
           </div>
         </section>
+        </CommuneChoisieProvider>
       </main>
 
       <PiedDePage locale={locale} />

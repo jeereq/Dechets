@@ -171,6 +171,13 @@ export const en: DeepPartial<Dictionnaire> = {
     carteTitre: 'The map of our areas',
     carteAide: 'On a phone, drag the map to move around.',
     carteAttribution: 'Base map: © OpenStreetMap contributors',
+    carteChoisir: 'Tap a commune on the map to see where we stand.',
+    panneauDesservie: 'We collect here: one collection every week, plus extra pickups on request.',
+    panneauDemandes: 'Residents of this commune have already asked for the service. Leave your number and we will tell you as soon as we open.',
+    panneauFermee: 'We do not collect here yet. Leave your number and we will tell you as soon as we open.',
+    panneauFormules: 'See the plans',
+    panneauPrevenir: 'Notify me',
+    panneauFermer: 'Close',
     carteProvinceTitre: 'Maluku and the rest of the province',
     carteProvinceTexte:
       'Maluku and Nsele stretch far to the east, beyond the frame of the large map. This small map shows the whole province; the dashed frame is the detailed area above. Served communes are shown in green here too.',

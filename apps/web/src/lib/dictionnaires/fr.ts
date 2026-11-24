@@ -186,6 +186,13 @@ export const fr = {
     carteTitre: 'La carte de nos zones',
     carteAide: 'Sur téléphone, faites glisser la carte pour la parcourir.',
     carteAttribution: 'Fond de carte : © contributeurs OpenStreetMap',
+    carteChoisir: 'Touchez une commune sur la carte pour voir où nous en sommes.',
+    panneauDesservie: 'Nous passons ici : une collecte chaque semaine, et des passages en plus sur demande.',
+    panneauDemandes: "Des habitants de cette commune ont déjà demandé le service. Laissez votre numéro : nous vous prévenons dès l'ouverture.",
+    panneauFermee: "Nous ne passons pas encore ici. Laissez votre numéro : nous vous prévenons dès l'ouverture.",
+    panneauFormules: 'Voir les formules',
+    panneauPrevenir: 'Me prévenir',
+    panneauFermer: 'Fermer',
     carteProvinceTitre: 'Maluku et le reste de la province',
     carteProvinceTexte:
       "Maluku et Nsele s'étendent loin à l'est, au-delà du cadre de la grande carte. Cette petite carte montre toute la province ; le cadre en pointillés est la zone détaillée ci-dessus. Les communes desservies y sont aussi en vert.",

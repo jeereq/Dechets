@@ -1,8 +1,9 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import type { CommunePublique } from '@benime/shared';
 import { envoyerLead } from '@/lib/api';
+import { useCommuneChoisie } from './CommuneChoisie';
 
 export function FormulairePrevenir({
   communes,
@@ -24,6 +25,13 @@ export function FormulairePrevenir({
   const [message, setMessage] = useState<string | null>(null);
 
   const fermees = communes.filter((commune) => commune.statut !== 'OUVERTE');
+  const { choisie } = useCommuneChoisie();
+
+  /** Une commune touchee sur la carte ou dans la liste est deja choisie ici. */
+  useEffect(() => {
+    if (choisie && fermees.some((commune) => commune.slug === choisie)) setCommuneSlug(choisie);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [choisie]);
 
   async function soumettre(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();

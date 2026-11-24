@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from 'react';
 import type { CommunePublique } from '@benime/shared';
+import { useCommuneChoisie } from './CommuneChoisie';
 import { Icone } from './Icone';
 
 type Filtre = 'toutes' | 'ouvertes' | 'fermees';
@@ -25,6 +26,7 @@ export function ListeCommunes({
     fermees: string;
   };
 }) {
+  const { choisie, choisir } = useCommuneChoisie();
   const [recherche, setRecherche] = useState('');
   const [filtre, setFiltre] = useState<Filtre>('toutes');
 
@@ -78,18 +80,25 @@ export function ListeCommunes({
 
       <ul className="communes">
         {visibles.map((commune) => (
-          <li
-            key={commune.slug}
-            className={`commune ${
-              commune.statut === 'OUVERTE'
-                ? 'commune--ouverte'
-                : commune.statut === 'DEMANDES_RECUES'
-                  ? 'commune--demandes'
-                  : ''
-            }`}
-          >
-            {commune.statut === 'OUVERTE' ? <Icone nom="check" taille={20} epaisseur={3} /> : null}
-            {commune.nom}
+          <li key={commune.slug}>
+            <button
+              type="button"
+              aria-pressed={choisie === commune.slug}
+              className={`commune ${
+                commune.statut === 'OUVERTE'
+                  ? 'commune--ouverte'
+                  : commune.statut === 'DEMANDES_RECUES'
+                    ? 'commune--demandes'
+                    : ''
+              }`}
+              onClick={() => {
+                choisir(commune.slug);
+                document.getElementById('carte-panneau')?.scrollIntoView({ block: 'center', behavior: 'smooth' });
+              }}
+            >
+              {commune.statut === 'OUVERTE' ? <Icone nom="check" taille={20} epaisseur={3} /> : null}
+              {commune.nom}
+            </button>
           </li>
         ))}
       </ul>

@@ -677,6 +677,22 @@ img {
   font-size: 17px;
 }
 
+button.commune {
+  width: 100%;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+button.commune:hover {
+  border-color: var(--contour);
+}
+
+button.commune[aria-pressed='true'] {
+  outline: 3px solid var(--encre);
+  outline-offset: 2px;
+}
+
 .commune--ouverte {
   background: var(--vert);
   border-color: var(--vert);
@@ -712,6 +728,56 @@ img {
   height: auto;
 }
 
+.carte-commune {
+  cursor: pointer;
+  outline: none;
+}
+
+.carte-commune:hover {
+  filter: brightness(0.93);
+}
+
+.carte-commune:focus-visible,
+.carte-commune--choisie {
+  stroke: #13211a;
+  stroke-width: 3.5;
+}
+
+.carte-panneau {
+  scroll-margin-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 18px 20px;
+  border: 1px solid var(--ligne);
+  border-radius: var(--r-lg);
+  background: #fff;
+  min-height: 84px;
+  justify-content: center;
+}
+
+.carte-panneau p {
+  margin: 0;
+  font-size: 18px;
+}
+
+.carte-panneau__tete {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 16px;
+}
+
+.carte-panneau__tete h3 {
+  margin: 0;
+}
+
+.carte-panneau__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
 .carte-province {
   display: flex;
   flex-wrap: wrap;
@@ -721,6 +787,10 @@ img {
   border: 1px solid var(--ligne);
   border-radius: var(--r-lg);
   background: #fff;
+}
+
+.carte-province__carte .carte-commune--choisie {
+  stroke-width: 2;
 }
 
 .carte-province__carte {
