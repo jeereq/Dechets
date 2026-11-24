@@ -173,6 +173,33 @@ export const en: DeepPartial<Dictionnaire> = {
     apres: 'After',
     contactTitre: 'A place that needs cleaning?',
     contactTexte: 'Tell us. A team comes, and you see the result here.',
+    galeriesTitre: 'In the field in Lingwala',
+    galeriesChapeau:
+      'Our teams and neighbourhood relays go out to meet residents and explain the service. Tap a photo to enlarge it.',
+    galeries: [
+      {
+        titre: 'Meeting residents',
+        texte: 'On foot along the avenues of Lingwala, our agents and neighbourhood relays talk with residents.',
+        alt: 'BENIME agents and neighbourhood relays on an avenue in Lingwala',
+      },
+      {
+        titre: 'Our tricycles among residents',
+        texte: 'The tricycle goes into narrow streets while agents talk with residents during the collection.',
+        alt: 'BENIME collection tricycle and agents on a street in Lingwala',
+      },
+      {
+        titre: 'Neighbourhood meetings',
+        texte: 'Open-air information sessions with the relays, so everyone knows how the collection works.',
+        alt: 'Open-air neighbourhood meeting with BENIME teams and relays',
+      },
+    ],
+    lightbox: {
+      agrandir: 'Enlarge photo',
+      fermer: 'Close',
+      precedent: 'Previous photo',
+      suivant: 'Next photo',
+      photoSur: 'Photo {n} of {total}',
+    },
   },
   zones: {
     surtitre: 'Areas served',
@@ -183,6 +210,10 @@ export const en: DeepPartial<Dictionnaire> = {
     communesDesservies: 'communes served',
     communesKinshasa: 'communes in Kinshasa',
     carteTitre: 'The map of our areas',
+    detailTitre: 'Lingwala up close',
+    detailTexte: 'The real streets of the neighbourhood (OpenStreetMap), with our trucks and tricycles on their rounds.',
+    detailEtiquette: 'Pilot commune',
+    echelleKm: '10 km',
     carteAide: 'On a phone, drag the map to move around.',
     carteAttribution: 'Base map: © OpenStreetMap contributors',
     carteChoisir: 'Tap a commune on the map to see where we stand.',

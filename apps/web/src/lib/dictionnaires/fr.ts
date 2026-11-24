@@ -181,6 +181,33 @@ export const fr = {
     apres: 'Après',
     contactTitre: 'Un endroit à nettoyer ?',
     contactTexte: 'Signalez-le nous. Une équipe passe, et vous voyez le résultat ici.',
+    galeriesTitre: 'Sur le terrain à Lingwala',
+    galeriesChapeau:
+      "Nos équipes et les relais de quartier vont à la rencontre des habitants pour expliquer le service. Touchez une photo pour l'agrandir.",
+    galeries: [
+      {
+        titre: 'À la rencontre des habitants',
+        texte: 'À pied dans les avenues de Lingwala, nos agents et les relais de quartier échangent avec les riverains.',
+        alt: 'Agents BENIME et relais de quartier dans une avenue de Lingwala',
+      },
+      {
+        titre: 'Nos tricycles au contact des habitants',
+        texte: 'Le tricycle entre dans les rues étroites ; les agents parlent aux riverains pendant la collecte.',
+        alt: 'Tricycle de collecte BENIME et agents dans une rue de Lingwala',
+      },
+      {
+        titre: 'Réunions de quartier',
+        texte: "Des séances d'information en plein air, avec les relais, pour que chacun sache comment fonctionne la collecte.",
+        alt: 'Réunion de quartier en plein air avec les équipes BENIME et les relais',
+      },
+    ],
+    lightbox: {
+      agrandir: 'Agrandir la photo',
+      fermer: 'Fermer',
+      precedent: 'Photo précédente',
+      suivant: 'Photo suivante',
+      photoSur: 'Photo {n} sur {total}',
+    },
   },
   zones: {
     surtitre: 'Zones desservies',
@@ -191,6 +218,10 @@ export const fr = {
     communesDesservies: 'communes desservies',
     communesKinshasa: 'communes à Kinshasa',
     carteTitre: 'La carte de nos zones',
+    detailTitre: 'Lingwala en détail',
+    detailTexte: "Les vraies rues du quartier (OpenStreetMap), avec nos camions et nos tricycles en tournée.",
+    detailEtiquette: 'Commune pilote',
+    echelleKm: '10 km',
     carteAide: 'Sur téléphone, faites glisser la carte pour la parcourir.',
     carteAttribution: 'Fond de carte : © contributeurs OpenStreetMap',
     carteChoisir: 'Touchez une commune sur la carte pour voir où nous en sommes.',

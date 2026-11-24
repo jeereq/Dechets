@@ -2,6 +2,7 @@ import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { BandeauContact } from '@/components/BandeauContact';
 import { Entete } from '@/components/Entete';
+import { GalerieTravaux } from '@/components/GalerieTravaux';
 import { Icone } from '@/components/Icone';
 import { PiedDePage } from '@/components/PiedDePage';
 import { TitrePage } from '@/components/TitrePage';
@@ -20,9 +21,16 @@ export async function generateMetadata({
   return metaPage({ locale, chemin: 'nos-travaux', titre: t.titre, description: t.chapeau });
 }
 
+const NB_PHOTOS = { rencontre: 10, tricycle: 4, reunion: 8 } as const;
+const GROUPES = ['rencontre', 'tricycle', 'reunion'] as const;
+
 const TERRAIN: Array<[string, string, string]> = [
   ['collecte.jpg', 'Collecte', 'Des agents gantés trient et chargent les déchets.'],
-  ['tri-cote.jpg', 'Notre tricycle', 'Il entre dans les avenues étroites, là où le camion ne passe pas.'],
+  [
+    'tri-cote.jpg',
+    'Notre tricycle',
+    'Il entre dans les avenues étroites, là où le camion ne passe pas.',
+  ],
   ['tri-agent.jpg', 'Au volant', 'Un agent conduit le tricycle sur sa tournée.'],
   ['camion.jpg', 'Le camion compacteur', 'Pour les volumes et le transport hors du quartier.'],
   ['tri-face.jpg', 'Prêt à partir', 'Le tricycle au départ du dépôt.'],
@@ -71,6 +79,31 @@ export default async function Travaux({ params }: { params: Promise<{ locale: st
         </section>
 
         <section className="section section--pale">
+          <div className="conteneur pile" style={{ gap: 36 }}>
+            <div className="pile" style={{ gap: 10, maxWidth: 760 }}>
+              <h2>{t.travaux.galeriesTitre}</h2>
+              <p className="chapeau">{t.travaux.galeriesChapeau}</p>
+            </div>
+            {GROUPES.map((groupe, g) => {
+              const texte = t.travaux.galeries[g]!;
+              const photos = Array.from({ length: NB_PHOTOS[groupe] }, (_, i) => ({
+                src: `/photos/travaux/${groupe}-${String(i + 1).padStart(2, '0')}.jpg`,
+                alt: texte.alt,
+              }));
+              return (
+                <div key={groupe} className="pile" style={{ gap: 14 }}>
+                  <div>
+                    <h3>{texte.titre}</h3>
+                    <p className="discret">{texte.texte}</p>
+                  </div>
+                  <GalerieTravaux photos={photos} textes={t.travaux.lightbox} />
+                </div>
+              );
+            })}
+          </div>
+        </section>
+
+        <section className="section">
           <div className="conteneur pile" style={{ gap: 24 }}>
             <h2>{t.travaux.avantApresTitre}</h2>
             <div
@@ -80,11 +113,19 @@ export default async function Travaux({ params }: { params: Promise<{ locale: st
               <PaireAvantApres
                 lieu="[Lieu 1]"
                 avant="/photos/collecte.jpg"
-                etiquettes={{ avant: t.travaux.avant, apres: t.travaux.apres, manquante: t.commun.photoAFournir }}
+                etiquettes={{
+                  avant: t.travaux.avant,
+                  apres: t.travaux.apres,
+                  manquante: t.commun.photoAFournir,
+                }}
               />
               <PaireAvantApres
                 lieu="[Lieu 2]"
-                etiquettes={{ avant: t.travaux.avant, apres: t.travaux.apres, manquante: t.commun.photoAFournir }}
+                etiquettes={{
+                  avant: t.travaux.avant,
+                  apres: t.travaux.apres,
+                  manquante: t.commun.photoAFournir,
+                }}
               />
             </div>
             <p className="discret">{t.travaux.avantApresNote}</p>
@@ -92,7 +133,11 @@ export default async function Travaux({ params }: { params: Promise<{ locale: st
         </section>
       </main>
 
-      <BandeauContact locale={locale} titre={t.travaux.contactTitre} texte={t.travaux.contactTexte} />
+      <BandeauContact
+        locale={locale}
+        titre={t.travaux.contactTitre}
+        texte={t.travaux.contactTexte}
+      />
       <PiedDePage locale={locale} />
     </>
   );
@@ -109,7 +154,9 @@ function PaireAvantApres({
 }) {
   return (
     <div className="carte" style={{ gap: 10, padding: 16, borderRadius: 'var(--r-lg)' }}>
-      <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) minmax(0, 1fr)', gap: 8 }}>
+      <div
+        style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) minmax(0, 1fr)', gap: 8 }}
+      >
         {avant ? (
           <div style={{ position: 'relative', borderRadius: 'var(--r)', overflow: 'hidden' }}>
             <Image

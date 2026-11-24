@@ -23,7 +23,17 @@ const arrondi = (n: number) => Math.round(n * 10) / 10;
 
 const VUE_INITIALE = `${CARTE.largeur - 343} ${CARTE.hauteur / 2 - 54} 343 108`;
 
-export function CarteCamions({ voile = 'degrade' }: { voile?: 'degrade' | 'uniforme' }) {
+export function CarteCamions({
+  voile = 'degrade',
+  echelle: echelleImposee,
+  centre = false,
+}: {
+  voile?: 'degrade' | 'uniforme' | 'aucun';
+  /** Pixels par unité de carte (par défaut : selon la largeur de l'écran). */
+  echelle?: number;
+  /** Centre la vue sur la zone des véhicules au lieu de la caler sur le bord droit. */
+  centre?: boolean;
+}) {
   const racine = useRef<HTMLDivElement>(null);
   const dessin = useRef<SVGSVGElement>(null);
   const [vue, setVue] = useState(VUE_INITIALE);
@@ -38,14 +48,14 @@ export function CarteCamions({ voile = 'degrade' }: { voile?: 'degrade' | 'unifo
       const { width, height } = element.getBoundingClientRect();
       if (!width || !height) return;
       const grand = width >= 900;
-      const echelle = grand ? 5 : 3.8; // pixels par unité de carte
+      const echelle = echelleImposee ?? (grand ? 5 : 3.8); // pixels par unité de carte
       const largeur = width / echelle;
       const hauteur = (largeur * height) / width;
       // Les véhicules sont dans la moitié droite de la carte : sur grand écran on cale la
       // vue sur le bord droit (le texte est à gauche, sous le dégradé) ; sur mobile on la
       // centre sur la zone des véhicules.
       const centreZone = (CARTE.zoneX + CARTE.largeur) / 2;
-      const brut = grand ? CARTE.largeur - largeur : centreZone - largeur / 2;
+      const brut = grand && !centre ? CARTE.largeur - largeur : centreZone - largeur / 2;
       const x0 = Math.max(0, Math.min(brut, CARTE.largeur - largeur));
       const y0 = Math.max(0, Math.min(CARTE.hauteur / 2 - hauteur / 2, CARTE.hauteur - hauteur));
       setVue(`${arrondi(x0)} ${arrondi(y0)} ${arrondi(largeur)} ${arrondi(hauteur)}`);
@@ -55,7 +65,7 @@ export function CarteCamions({ voile = 'degrade' }: { voile?: 'degrade' | 'unifo
     redim.observe(element);
 
     return () => redim.disconnect();
-  }, []);
+  }, [echelleImposee, centre]);
 
   useAnimationControle(racine, dessin);
 
