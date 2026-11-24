@@ -186,7 +186,11 @@ export const fr = {
     carteTitre: 'La carte de nos zones',
     carteAide: 'Sur téléphone, faites glisser la carte pour la parcourir.',
     carteAttribution: 'Fond de carte : © contributeurs OpenStreetMap',
-    carteHorsCadre: "Nsele se prolonge vers l'est, et Maluku, plus loin encore, n'apparaît pas sur cette vue.",
+    carteProvinceTitre: 'Maluku et le reste de la province',
+    carteProvinceTexte:
+      "Maluku et Nsele s'étendent loin à l'est, au-delà du cadre de la grande carte. Cette petite carte montre toute la province ; le cadre en pointillés est la zone détaillée ci-dessus. Les communes desservies y sont aussi en vert.",
+    carteProvinceCadre: 'Zone détaillée',
+    carteProvinceDescription: 'Carte de toute la province de Kinshasa, avec Maluku et Nsele',
     carteDescription: 'Carte des communes de Kinshasa',
     legende: 'Légende',
     legendeOuverte: 'Commune desservie',

@@ -712,6 +712,41 @@ img {
   height: auto;
 }
 
+.carte-province {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px 28px;
+  padding: 16px;
+  border: 1px solid var(--ligne);
+  border-radius: var(--r-lg);
+  background: #fff;
+}
+
+.carte-province__carte {
+  display: block;
+  flex: 0 1 460px;
+  width: 100%;
+  max-width: 460px;
+  height: auto;
+  border-radius: var(--r-md, 12px);
+}
+
+.carte-province__texte {
+  flex: 1 1 280px;
+  min-width: 0;
+}
+
+.carte-province__texte h3 {
+  margin: 0 0 8px;
+  font-size: 22px;
+}
+
+.carte-province__texte p {
+  margin: 0;
+  font-size: 17px;
+}
+
 .carte-kinshasa__pied {
   display: flex;
   flex-wrap: wrap;

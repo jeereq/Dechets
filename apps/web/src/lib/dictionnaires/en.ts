@@ -171,7 +171,11 @@ export const en: DeepPartial<Dictionnaire> = {
     carteTitre: 'The map of our areas',
     carteAide: 'On a phone, drag the map to move around.',
     carteAttribution: 'Base map: © OpenStreetMap contributors',
-    carteHorsCadre: 'Nsele continues to the east, and Maluku, further still, is not shown on this view.',
+    carteProvinceTitre: 'Maluku and the rest of the province',
+    carteProvinceTexte:
+      'Maluku and Nsele stretch far to the east, beyond the frame of the large map. This small map shows the whole province; the dashed frame is the detailed area above. Served communes are shown in green here too.',
+    carteProvinceCadre: 'Detailed area',
+    carteProvinceDescription: 'Map of the whole province of Kinshasa, with Maluku and Nsele',
     carteDescription: 'Map of the communes of Kinshasa',
     legende: 'Legend',
     legendeOuverte: 'Commune served',
