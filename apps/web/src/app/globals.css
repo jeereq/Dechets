@@ -930,6 +930,177 @@ img {
   background: color-mix(in srgb, var(--vert-fonce) 66%, transparent);
 }
 
+/* Bandeaux vert foncé : la carte reste visible mais en retrait, le contenu se pose sur des cartes. */
+.bandeau-chiffres .carte-camions--uniforme::after,
+.bandeau-contact .carte-camions--uniforme::after {
+  background:
+    radial-gradient(120% 90% at 50% 0%, transparent 0%, color-mix(in srgb, var(--vert-fonce) 45%, transparent) 100%),
+    color-mix(in srgb, var(--vert-fonce) 74%, transparent);
+}
+
+.bandeau-chiffres .section,
+.bandeau-contact .section {
+  padding-block: clamp(56px, 7vw, 96px);
+}
+
+/* --- chiffres --- */
+.chiffres-entete {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  max-width: 760px;
+}
+
+.chiffres-trait {
+  width: 56px;
+  height: 5px;
+  border-radius: 3px;
+  background: var(--soleil);
+}
+
+.chiffres-grille {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr));
+}
+
+.chiffre-carte {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 28px 28px 30px;
+  border-radius: var(--r-xl);
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.13), rgba(255, 255, 255, 0.05));
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  box-shadow: 0 18px 40px -22px rgba(0, 0, 0, 0.6);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  position: relative;
+  overflow: hidden;
+}
+
+.chiffre-carte::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--soleil), transparent 75%);
+}
+
+.chiffre-carte__icone {
+  width: 52px;
+  height: 52px;
+  border-radius: 16px;
+  display: grid;
+  place-items: center;
+  color: var(--vert-fonce);
+  background: var(--soleil);
+  margin-bottom: 14px;
+}
+
+.chiffre-carte__valeur {
+  font-size: clamp(40px, 4.6vw, 58px);
+  color: #fff;
+}
+
+.chiffre-carte__libelle {
+  font-size: 18px;
+  color: var(--clair);
+}
+
+.chiffres-note {
+  margin: 0;
+  font-size: 14px;
+  color: var(--clair);
+  opacity: 0.8;
+}
+
+/* --- contact --- */
+.contact-grille {
+  display: grid;
+  gap: 40px clamp(32px, 6vw, 88px);
+  grid-template-columns: minmax(0, 1fr);
+  align-items: center;
+}
+
+@media (min-width: 900px) {
+  .contact-grille {
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+  }
+}
+
+.contact-texte {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.contact-texte h2 {
+  font-size: clamp(32px, 4vw, 46px);
+}
+
+.contact-carte {
+  list-style: none;
+  margin: 0;
+  padding: 10px;
+  display: grid;
+  gap: 4px;
+  border-radius: var(--r-xl);
+  background: rgba(255, 255, 255, 0.95);
+  color: var(--vert-fonce);
+  box-shadow: 0 28px 60px -28px rgba(0, 0, 0, 0.7);
+}
+
+.contact-ligne {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 16px;
+  border-radius: calc(var(--r-xl) - 8px);
+  color: inherit;
+  text-decoration: none;
+  transition: background 0.15s ease;
+}
+
+a.contact-ligne:hover,
+a.contact-ligne:focus-visible {
+  background: #e8f3ec;
+}
+
+.contact-icone {
+  flex: none;
+  width: 46px;
+  height: 46px;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  background: var(--vert-fonce);
+  color: var(--soleil);
+}
+
+.contact-ligne__texte {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.contact-ligne__cle {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #4a6b58;
+}
+
+.contact-ligne__valeur {
+  font-size: 18px;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
 @media (max-width: 860px) {
   .carte-camions--degrade::after {
     background: color-mix(in srgb, var(--vert-fonce) 62%, transparent);
@@ -1724,5 +1895,21 @@ figcaption {
 @media (max-width: 860px) {
   .galerie {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .contact-ligne {
+    gap: 12px;
+    padding: 12px 10px;
+  }
+
+  .contact-ligne__valeur {
+    font-size: 16px;
+    overflow-wrap: break-word;
+  }
+
+  .chiffre-carte {
+    padding: 22px 22px 24px;
   }
 }

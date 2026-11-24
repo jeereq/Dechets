@@ -18,7 +18,12 @@ export async function generateMetadata({
   const { locale } = await params;
   if (!estLocale(locale)) return {};
   const t = getDictionnaire(locale).valorisation;
-  return metaPage({ locale, chemin: 'ou-vont-vos-dechets', titre: t.titre, description: t.chapeau });
+  return metaPage({
+    locale,
+    chemin: 'ou-vont-vos-dechets',
+    titre: t.titre,
+    description: t.chapeau,
+  });
 }
 
 const ICONES_CHAINE = ['sac', 'camion', 'recyclage'] as const;
@@ -54,7 +59,13 @@ export default async function Valorisation({ params }: { params: Promise<{ local
             <div className="grille">
               {t.valorisation.chaine.map((etape, index) => (
                 <div key={etape.titre} className="carte" style={{ padding: 28, gap: 12 }}>
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <div
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                    }}
+                  >
                     <span className="pastille">
                       <Icone nom={ICONES_CHAINE[index] ?? 'check'} taille={28} epaisseur={1.9} />
                     </span>
@@ -118,43 +129,63 @@ export default async function Valorisation({ params }: { params: Promise<{ local
               className="grille"
               style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(min(320px, 100%), 1fr))' }}
             >
-              <ListeTri
-                titre={t.valorisation.accepte}
-                items={t.valorisation.triAccepte}
-                positif
-              />
+              <ListeTri titre={t.valorisation.accepte} items={t.valorisation.triAccepte} positif />
               <ListeTri titre={t.valorisation.refuse} items={t.valorisation.triRefuse} />
             </div>
             <p className="discret">{t.valorisation.triNote}</p>
           </div>
         </section>
 
-        <section className="bandeau-sombre bandeau-carte">
+        <section className="bandeau-sombre bandeau-carte bandeau-chiffres">
           <CarteCamions voile="uniforme" />
           <div className="conteneur section">
-            <div className="pile" style={{ gap: 24 }}>
-              <h2 style={{ maxWidth: 760 }}>{t.valorisation.chiffresTitre}</h2>
-              <div
-                className="grille"
-                style={{
-                  gridTemplateColumns: 'repeat(auto-fit, minmax(min(220px, 100%), 1fr))',
-                  paddingTop: 8,
-                  borderTop: '1px solid #1C5A36',
-                }}
-              >
-                {t.valorisation.chiffres.map((chiffre) => (
-                  <div
-                    key={chiffre.libelle}
-                    style={{ display: 'flex', flexDirection: 'column', gap: 2, alignItems: 'center', textAlign: 'center' }}
-                  >
-                    <span className="chiffre" style={{ color: 'var(--soleil)' }}>
-                      {chiffre.valeur}
-                    </span>
-                    <span style={{ color: 'var(--clair)' }}>{chiffre.libelle}</span>
-                  </div>
-                ))}
+            <div className="pile" style={{ gap: 36 }}>
+              <div className="chiffres-entete">
+                <span className="chiffres-trait" aria-hidden="true" />
+                <h2>{t.valorisation.chiffresTitre}</h2>
               </div>
-              <p style={{ fontSize: 15, color: 'var(--clair)' }}>{t.valorisation.chiffresNote}</p>
+              <ul className="chiffres-grille">
+                {t.valorisation.chiffres.map((chiffre, i) => (
+                  <li key={chiffre.libelle} className="chiffre-carte">
+                    <span className="chiffre-carte__icone" aria-hidden="true">
+                      <svg
+                        viewBox="0 0 24 24"
+                        width="26"
+                        height="26"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="1.8"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        {i === 0 ? (
+                          <>
+                            <path d="M3 16V7h11v9" />
+                            <path d="M14 10h4l3 3v3h-7" />
+                            <circle cx="7" cy="17.5" r="1.8" />
+                            <circle cx="17" cy="17.5" r="1.8" />
+                          </>
+                        ) : i === 1 ? (
+                          <>
+                            <path d="M20 12a8 8 0 0 1-14 5.3" />
+                            <path d="M4 12a8 8 0 0 1 14-5.3" />
+                            <path d="M18 3v4h-4M6 21v-4h4" />
+                          </>
+                        ) : (
+                          <>
+                            <path d="M4 11 12 4l8 7" />
+                            <path d="M6 10v10h12V10" />
+                            <path d="M10 20v-5h4v5" />
+                          </>
+                        )}
+                      </svg>
+                    </span>
+                    <span className="chiffre chiffre-carte__valeur">{chiffre.valeur}</span>
+                    <span className="chiffre-carte__libelle">{chiffre.libelle}</span>
+                  </li>
+                ))}
+              </ul>
+              <p className="chiffres-note">{t.valorisation.chiffresNote}</p>
             </div>
           </div>
         </section>
