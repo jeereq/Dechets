@@ -79,10 +79,176 @@ function Transforme({
   );
 }
 
+function Nuage({
+  x,
+  y,
+  echelle = 1,
+  opacite = 0.3,
+  derive = 0,
+  duree = 20,
+  debut = 0,
+}: {
+  x: number;
+  y: number;
+  echelle?: number;
+  opacite?: number;
+  derive?: number;
+  duree?: number;
+  debut?: number;
+}) {
+  const corps = (
+    <g opacity={opacite}>
+      <ellipse cx="0" cy="0" rx="34" ry="14" fill="#fff" />
+      <ellipse cx="-20" cy="6" rx="24" ry="11" fill="#fff" />
+      <ellipse cx="22" cy="5" rx="26" ry="12" fill="#fff" />
+      <ellipse cx="2" cy="-10" rx="20" ry="12" fill="#fff" />
+    </g>
+  );
+  return (
+    <g transform={`translate(${x} ${y}) scale(${echelle})`}>
+      {derive ? (
+        <g>
+          <Transforme
+            type="translate"
+            valeurs={`${-derive} 0;${derive} 0;${-derive} 0`}
+            duree={duree}
+            debut={debut}
+          />
+          {corps}
+        </g>
+      ) : (
+        corps
+      )}
+    </g>
+  );
+}
+
+function Oiseau({
+  chemin,
+  duree,
+  debut = 0,
+  echelle = 1,
+}: {
+  chemin: string;
+  duree: number;
+  debut?: number;
+  echelle?: number;
+}) {
+  return (
+    <g>
+      <animateMotion
+        path={chemin}
+        dur={`${duree}s`}
+        begin={`-${debut}s`}
+        repeatCount="indefinite"
+        rotate="auto"
+      />
+      <g transform={`scale(${echelle})`}>
+        <path
+          d="M-9 -2Q-4 -8 0 0Q4 -8 9 -2"
+          fill="none"
+          stroke={BLANC(0.7)}
+          strokeWidth="2"
+          strokeLinecap="round"
+        >
+          <animate
+            attributeName="d"
+            values="M-9 -2Q-4 -8 0 0Q4 -8 9 -2;M-9 4Q-4 4 0 0Q4 4 9 4;M-9 -2Q-4 -8 0 0Q4 -8 9 -2"
+            dur="0.7s"
+            repeatCount="indefinite"
+          />
+        </path>
+      </g>
+    </g>
+  );
+}
+
+function Feu({
+  x,
+  y,
+  couleur,
+  rayon = 40,
+  duree = 5,
+  debut = 0,
+}: {
+  x: number;
+  y: number;
+  couleur: string;
+  rayon?: number;
+  duree?: number;
+  debut?: number;
+}) {
+  return (
+    <g transform={`translate(${x} ${y})`}>
+      <g opacity="0">
+        <Anime
+          attr="opacity"
+          valeurs="0;1;0.8;0;0"
+          temps="0;0.1;0.4;0.6;1"
+          duree={duree}
+          debut={debut}
+        />
+        <g>
+          <Transforme
+            type="scale"
+            valeurs="0.15;0.15;1;1.2;1.2"
+            temps="0;0.05;0.4;0.6;1"
+            duree={duree}
+            debut={debut}
+          />
+          {Array.from({ length: 12 }, (_, i) => (
+            <g key={i} transform={`rotate(${i * 30})`}>
+              <line
+                x1={rayon * 0.45}
+                y1="0"
+                x2={rayon}
+                y2="0"
+                stroke={couleur}
+                strokeWidth="2.5"
+                strokeLinecap="round"
+              />
+              <circle cx={rayon + 5} cy="0" r="2.6" fill={couleur} />
+            </g>
+          ))}
+        </g>
+      </g>
+    </g>
+  );
+}
+
+function Ouvrier({ x, y = 330, marteau = false }: { x: number; y?: number; marteau?: boolean }) {
+  return (
+    <g transform={`translate(${x} ${y})`}>
+      <g>
+        {!marteau && (
+          <Transforme type="rotate" valeurs="-22 0 -22;22 0 -22;-22 0 -22" duree={0.8} />
+        )}
+        <rect x="-4.5" y="-22" width="4.5" height="22" rx="2" fill={BLANC(0.6)} />
+      </g>
+      <g>
+        {!marteau && <Transforme type="rotate" valeurs="22 0 -22;-22 0 -22;22 0 -22" duree={0.8} />}
+        <rect x="0.5" y="-22" width="4.5" height="22" rx="2" fill={BLANC(0.6)} />
+      </g>
+      <rect x="-7" y="-46" width="14" height="26" rx="5" fill={BLANC(0.55)} />
+      <circle cx="0" cy="-54" r="6" fill={BLANC(0.8)} />
+      <path d="M-8 -56Q0 -70 8 -56Z" fill={SOLEIL} />
+      <g>
+        {marteau ? (
+          <Transforme type="rotate" valeurs="-70 0 -42;10 0 -42;-70 0 -42" duree={0.9} />
+        ) : (
+          <Transforme type="rotate" valeurs="20 0 -42;-20 0 -42;20 0 -42" duree={0.8} />
+        )}
+        <rect x="-2" y="-42" width="4.5" height="22" rx="2" fill={BLANC(0.7)} />
+        {marteau ? <rect x="-7" y="-24" width="14" height="6" rx="1.5" fill={SOLEIL} /> : null}
+      </g>
+    </g>
+  );
+}
+
 // --- Énergie : solaire, lignes électriques, château d'eau --------------------------------
 
 function SceneEnergie() {
-  const panneaux = [0, 1, 2, 3];
+  const panneaux = [0, 1, 2];
   const grille = (x: number, y: number) => {
     const traits: ReactNode[] = [];
     for (let k = 1; k < 4; k++) {
@@ -125,7 +291,7 @@ function SceneEnergie() {
         </linearGradient>
         <clipPath id="sv-panneaux">
           {panneaux.map((i) => {
-            const x = 700 + i * 118;
+            const x = 700 + i * 114;
             return <polygon key={i} points={`${x},258 ${x + 104},250 ${x + 104},304 ${x},312`} />;
           })}
         </clipPath>
@@ -160,6 +326,35 @@ function SceneEnergie() {
         ))}
       </g>
       <circle cx="1020" cy="146" r="32" fill={SOLEIL} />
+      <Nuage x={980} y={132} echelle={1.4} opacite={0.3} derive={110} duree={26} />
+      <Nuage x={1090} y={104} echelle={0.9} opacite={0.22} derive={80} duree={34} debut={12} />
+
+      {/* éoliennes */}
+      {[
+        { x: 790, y: 142, e: 0.8, dur: 7 },
+        { x: 905, y: 118, e: 1, dur: 5.5 },
+      ].map(({ x, y, e, dur }) => (
+        <g key={x}>
+          <polygon
+            points={`${x - 4},262 ${x + 4},262 ${x + 1.5},${y} ${x - 1.5},${y}`}
+            fill={BLANC(0.4)}
+          />
+          <g transform={`translate(${x} ${y}) scale(${e})`}>
+            <g>
+              <Transforme type="rotate" valeurs="0;360" duree={dur} />
+              {[0, 120, 240].map((a) => (
+                <path
+                  key={a}
+                  d="M0 0L-4 -50L2 -50Z"
+                  fill={BLANC(0.75)}
+                  transform={`rotate(${a})`}
+                />
+              ))}
+            </g>
+            <circle r="5" fill={BLANC(0.9)} />
+          </g>
+        </g>
+      ))}
 
       {/* poteaux et lignes électriques */}
       {[330, 640].map((x) => (
@@ -198,7 +393,7 @@ function SceneEnergie() {
 
       {/* panneaux solaires */}
       {panneaux.map((i) => {
-        const x = 700 + i * 118;
+        const x = 700 + i * 114;
         return (
           <g key={i}>
             <line x1={x + 52} y1="282" x2={x + 52} y2="330" stroke={BLANC(0.4)} strokeWidth="4" />
@@ -214,7 +409,7 @@ function SceneEnergie() {
       })}
       <g clipPath="url(#sv-panneaux)">
         <g>
-          <Transforme type="translate" valeurs="640 0;1180 0" duree={4.5} />
+          <Transforme type="translate" valeurs="620 0;1060 0" duree={4.5} />
           <rect
             x="0"
             y="230"
@@ -225,10 +420,34 @@ function SceneEnergie() {
           />
         </g>
       </g>
-      {/* onduleur et éclair */}
-      <rect x="1012" y="286" width="34" height="44" rx="4" fill={BLANC(0.25)} stroke={BLANC(0.5)} />
-      <polygon points="1032,292 1022,312 1030,312 1026,326 1040,304 1031,304" fill={SOLEIL}>
-        <Anime attr="opacity" valeurs="1;0.35;1" duree={1.6} />
+      {/* câble du champ solaire vers la batterie */}
+      <line x1="700" y1="326" x2="1036" y2="326" stroke={BLANC(0.3)} strokeWidth="2.5" />
+      {[0, 1, 2, 3].map((debut) => (
+        <circle key={debut} cy="326" r="3.4" fill={SOLEIL}>
+          <animateMotion
+            path="M700 0H1036"
+            dur="3.2s"
+            begin={`-${debut * 0.8}s`}
+            repeatCount="indefinite"
+          />
+        </circle>
+      ))}
+
+      {/* batterie de stockage : elle se remplit pendant la journée */}
+      <rect x="1036" y="288" width="24" height="42" rx="4" fill={BLANC(0.22)} stroke={BLANC(0.5)} />
+      <rect x="1042" y="284" width="12" height="5" rx="1" fill={BLANC(0.5)} />
+      {[0, 1, 2].map((k) => (
+        <rect key={k} x="1040" y={318 - k * 11} width="16" height="8" rx="1.5" fill={VERT}>
+          <Anime
+            attr="opacity"
+            valeurs="0.15;0.15;1;1;0.15"
+            temps={`0;${(k * 0.2).toFixed(2)};${(k * 0.2 + 0.15).toFixed(2)};0.9;1`}
+            duree={6}
+          />
+        </rect>
+      ))}
+      <polygon points="1048,262 1042,276 1047,276 1044,288 1054,272 1049,272" fill={SOLEIL}>
+        <Anime attr="opacity" valeurs="1;0.3;1" duree={1.4} />
       </polygon>
 
       {/* château d'eau : forage et pompage */}
@@ -252,7 +471,7 @@ function SceneEnergie() {
         strokeWidth="2"
       />
       <path
-        d="M1060 330V206H1090"
+        d="M1077 330V206H1090"
         fill="none"
         stroke={BLANC(0.5)}
         strokeWidth="5"
@@ -261,14 +480,14 @@ function SceneEnergie() {
       {[0, 0.8, 1.6].map((debut) => (
         <circle key={debut} r="3.2" fill={BLEU}>
           <animateMotion
-            path="M1060 330V206H1090"
+            path="M1077 330V206H1090"
             dur="2.4s"
             begin={`-${debut}s`}
             repeatCount="indefinite"
           />
         </circle>
       ))}
-      <rect x="1034" y="306" width="48" height="24" rx="3" fill={BLANC(0.22)} />
+      <rect x="1064" y="306" width="26" height="24" rx="3" fill={BLANC(0.22)} />
       {[0, 0.6, 1.2].map((debut) => (
         <circle key={debut} cx="1176" cy="240" r="2.8" fill={BLEU}>
           <Anime attr="cy" valeurs="240;326" duree={1.8} debut={debut} />
@@ -407,21 +626,78 @@ function SceneConstruction() {
         </g>
       </g>
 
-      {/* camion benne qui passe */}
+      {/* gyrophare de la grue */}
+      <circle cx="615" cy="102" r="3.4" fill="#ff5a4d">
+        <Anime attr="opacity" valeurs="1;1;0.1;0.1" temps="0;0.5;0.5;1" duree={1.4} />
+      </circle>
+      <circle cx="615" cy="102" r="9" fill="#ff5a4d" opacity="0">
+        <Anime attr="opacity" valeurs="0.35;0.35;0;0" temps="0;0.5;0.5;1" duree={1.4} />
+      </circle>
+
+      {/* soudure en haut des poteaux */}
+      <circle cx="728" cy="190" r="5" fill="#fff">
+        <Anime attr="opacity" valeurs="0.9;0.2;1;0.3;0.9" duree={0.5} />
+      </circle>
+      {[0, 1, 2, 3, 4].map((i) => (
+        <circle key={i} cx={724 + i * 3} cy="190" r="1.8" fill={SOLEIL}>
+          <Anime attr="cy" valeurs="190;216" duree={0.6} debut={i * 0.13} />
+          <Anime attr="cx" valeurs={`${724 + i * 3};${716 + i * 8}`} duree={0.6} debut={i * 0.13} />
+          <Anime attr="opacity" valeurs="1;0" duree={0.6} debut={i * 0.13} />
+        </circle>
+      ))}
+
+      {/* ouvriers : l'un frappe, l'autre porte du matériel */}
+      <Ouvrier x={532} marteau />
+      <g opacity="0">
+        <Anime attr="opacity" valeurs="0;1;1;0" temps="0;0.06;0.92;1" duree={18} />
+        <Transforme type="translate" valeurs="0 0;200 0" duree={18} />
+        <Ouvrier x={830} />
+      </g>
+
+      {/* poussière au pied de la pelleteuse */}
+      {[0, 0.8, 1.6].map((debut) => (
+        <circle key={debut} cx="1004" cy="326" r="4" fill={BLANC(0.5)}>
+          <Anime attr="cy" valeurs="326;292" duree={2.4} debut={debut} />
+          <Anime attr="cx" valeurs="1004;1020" duree={2.4} debut={debut} />
+          <Anime attr="r" valeurs="4;13" duree={2.4} debut={debut} />
+          <Anime attr="opacity" valeurs="0.5;0" duree={2.4} debut={debut} />
+        </circle>
+      ))}
+
+      {/* camion toupie : il roule vers l'avant, cabine à droite */}
       <g>
-        <Transforme type="translate" valeurs="1300 0;-260 0" duree={20} />
+        <Transforme type="translate" valeurs="-260 0;1300 0" duree={24} />
         <g transform="translate(0 348)">
-          <polygon points="0,-34 54,-34 62,-12 0,-12" fill={BLANC(0.3)} />
-          <rect x="54" y="-30" width="30" height="24" rx="4" fill={BLANC(0.45)} />
-          <rect x="62" y="-26" width="14" height="10" fill="rgba(11,60,34,0.7)" />
-          <rect x="0" y="-12" width="86" height="6" fill={BLANC(0.3)} />
-          {[14, 40, 70].map((x) => (
+          <rect x="0" y="-13" width="96" height="6" rx="2" fill={BLANC(0.35)} />
+          <rect x="68" y="-36" width="30" height="26" rx="4" fill={BLANC(0.5)} />
+          <rect x="80" y="-32" width="14" height="11" rx="1.5" fill="rgba(11,60,34,0.7)" />
+          <g transform="rotate(-14 32 -30)">
+            <ellipse cx="32" cy="-30" rx="38" ry="16" fill={BLANC(0.55)} />
+            <ellipse
+              cx="32"
+              cy="-30"
+              rx="30"
+              ry="9"
+              fill="none"
+              stroke={BLANC(0.85)}
+              strokeWidth="3"
+              strokeDasharray="8 10"
+            >
+              <animate
+                attributeName="stroke-dashoffset"
+                values="0;-36"
+                dur="1.4s"
+                repeatCount="indefinite"
+              />
+            </ellipse>
+          </g>
+          {[16, 44, 80].map((x) => (
             <circle key={x} cx={x} cy="-3" r="9" fill={BLANC(0.7)}>
               <animateTransform
                 attributeName="transform"
                 type="rotate"
                 from={`0 ${x} -3`}
-                to={`-360 ${x} -3`}
+                to={`360 ${x} -3`}
                 dur="1.2s"
                 repeatCount="indefinite"
               />
@@ -435,9 +711,9 @@ function SceneConstruction() {
 
 // --- Agriculture : cultures, élevage, pisciculture, laiterie ------------------------------
 
-function Vache({ x, debut }: { x: number; debut: number }) {
+function Vache({ x, debut, s = 1 }: { x: number; debut: number; s?: number }) {
   return (
-    <g transform={`translate(${x} 330)`}>
+    <g transform={`translate(${x} 330) scale(${s})`}>
       {[10, 18, 52, 60].map((l) => (
         <rect key={l} x={l} y="-26" width="5" height="26" fill={BLANC(0.5)} />
       ))}
@@ -472,10 +748,35 @@ function SceneAgriculture() {
       <Sol />
 
       {/* soleil */}
-      <circle cx="930" cy="140" r="26" fill={SOLEIL} />
-      <circle cx="930" cy="140" r="42" fill={SOLEIL} opacity="0.16">
+      <circle cx="1120" cy="140" r="26" fill={SOLEIL} />
+      <circle cx="1120" cy="140" r="42" fill={SOLEIL} opacity="0.16">
         <Anime attr="r" valeurs="38;50;38" duree={5} />
       </circle>
+
+      {/* nuage et pluie sur le champ */}
+      <Nuage x={850} y={122} echelle={1.4} opacite={0.32} derive={26} duree={14} />
+      <g opacity="0">
+        <Anime attr="opacity" valeurs="0;1;1;0;0" temps="0;0.1;0.5;0.6;1" duree={10} />
+        {[0, 1, 2, 3, 4, 5, 6].map((i) => (
+          <line
+            key={i}
+            x1={808 + i * 14}
+            y1="140"
+            x2={804 + i * 14}
+            y2="152"
+            stroke={BLEU}
+            strokeWidth="2"
+            strokeLinecap="round"
+          >
+            <Transforme type="translate" valeurs="0 0;-14 150" duree={0.9} debut={i * 0.13} />
+          </line>
+        ))}
+      </g>
+
+      {/* oiseaux */}
+      <Oiseau chemin="M480 130C700 80 900 170 1260 96" duree={22} />
+      <Oiseau chemin="M440 170C650 130 900 200 1260 150" duree={28} debut={9} echelle={0.8} />
+      <Oiseau chemin="M500 100C720 60 960 130 1260 70" duree={34} debut={20} echelle={0.7} />
 
       {/* étang : pisciculture */}
       <ellipse cx="500" cy="352" rx="116" ry="22" fill={BLEU} opacity="0.28" />
@@ -522,6 +823,36 @@ function SceneAgriculture() {
         </g>
       ))}
 
+      {/* un poisson saute hors de l'eau */}
+      <g opacity="0">
+        <Anime attr="opacity" valeurs="0;1;1;0;0" temps="0;0.02;0.22;0.23;1" duree={7} />
+        <animateMotion
+          path="M468 350Q505 286 542 350"
+          dur="7s"
+          repeatCount="indefinite"
+          rotate="auto"
+          keyPoints="0;1;1"
+          keyTimes="0;0.22;1"
+          calcMode="linear"
+        />
+        <ellipse cx="0" cy="0" rx="10" ry="5" fill={BLANC(0.85)} />
+        <polygon points="-9,0 -17,-6 -17,6" fill={BLANC(0.85)} />
+      </g>
+      <ellipse
+        cx="542"
+        cy="352"
+        rx="4"
+        ry="1.5"
+        fill="none"
+        stroke={BLANC(0.7)}
+        strokeWidth="1.5"
+        opacity="0"
+      >
+        <Anime attr="rx" valeurs="4;4;34" temps="0;0.22;1" duree={7} />
+        <Anime attr="ry" valeurs="1.5;1.5;9" temps="0;0.22;1" duree={7} />
+        <Anime attr="opacity" valeurs="0;0.9;0" temps="0;0.22;0.6" duree={7} />
+      </ellipse>
+
       {/* laiterie : bouteilles de lait sur le tapis */}
       <rect x="586" y="250" width="118" height="80" fill={BLANC(0.16)} />
       <polygon points="578,250 645,214 712,250" fill={BLANC(0.26)} />
@@ -535,6 +866,22 @@ function SceneAgriculture() {
           <rect x="600" y="287" width="11" height="6" fill={BLEU} opacity="0.8" />
         </g>
       ))}
+
+      {/* agriculteur qui sarcle */}
+      <g transform="translate(754 330)">
+        <rect x="-8" y="-24" width="6" height="24" rx="2" fill={BLANC(0.6)} />
+        <rect x="2" y="-24" width="6" height="24" rx="2" fill={BLANC(0.6)} />
+        <rect x="-9" y="-50" width="18" height="28" rx="6" fill={BLANC(0.55)} />
+        <circle cx="0" cy="-58" r="7" fill={BLANC(0.8)} />
+        <ellipse cx="0" cy="-62" rx="14" ry="3.5" fill={SOLEIL} />
+        <path d="M-6 -63Q0 -73 6 -63Z" fill={SOLEIL} />
+        <g>
+          <Transforme type="rotate" valeurs="-10 4 -44;38 4 -44;-10 4 -44" duree={1.6} />
+          <rect x="2" y="-46" width="5" height="22" rx="2" fill={BLANC(0.7)} />
+          <rect x="4" y="-30" width="3" height="40" fill={BLANC(0.5)} />
+          <path d="M-2 8L12 8L9 14L-2 14Z" fill={BLANC(0.7)} />
+        </g>
+      </g>
 
       {/* champ : les cultures poussent, arrosage */}
       {rangs.map((i) => (
@@ -583,6 +930,14 @@ function SceneAgriculture() {
             />
           </circle>
           <circle cx="16" cy="-4" r="5" fill="rgba(11,60,34,0.7)" />
+          {[0, 0.7, 1.4].map((debut) => (
+            <circle key={debut} cx="6" cy="-42" r="3" fill={BLANC(0.6)}>
+              <Anime attr="cy" valeurs="-42;-90" duree={2.1} debut={debut} />
+              <Anime attr="cx" valeurs="6;-26" duree={2.1} debut={debut} />
+              <Anime attr="r" valeurs="3;10" duree={2.1} debut={debut} />
+              <Anime attr="opacity" valeurs="0.6;0" duree={2.1} debut={debut} />
+            </circle>
+          ))}
           <circle cx="52" cy="-1" r="10" fill={BLANC(0.7)}>
             <animateTransform
               attributeName="transform"
@@ -597,8 +952,15 @@ function SceneAgriculture() {
       </g>
 
       {/* vaches */}
-      <Vache x={1010} debut={0} />
-      <Vache x={1100} debut={1.4} />
+      {[970, 1010, 1050, 1090, 1130, 1170].map((x) => (
+        <g key={x}>
+          <rect x={x - 2} y="302" width="4" height="28" fill={BLANC(0.3)} />
+        </g>
+      ))}
+      <rect x="968" y="308" width="206" height="3" fill={BLANC(0.3)} />
+      <rect x="968" y="318" width="206" height="3" fill={BLANC(0.3)} />
+      <Vache x={986} debut={0} s={0.85} />
+      <Vache x={1082} debut={1.4} s={0.85} />
     </>
   );
 }
@@ -618,6 +980,11 @@ function SceneEvenements() {
   return (
     <>
       <Sol />
+
+      {/* feux d'artifice */}
+      <Feu x={690} y={150} couleur={SOLEIL} rayon={42} duree={5} />
+      <Feu x={648} y={206} couleur={VERT} rayon={30} duree={5} debut={2.4} />
+      <Feu x={1192} y={150} couleur="#ffffff" rayon={32} duree={5} debut={3.6} />
 
       {/* ruban lumineux : écran LED et égaliseur */}
       <rect
@@ -680,16 +1047,29 @@ function SceneEvenements() {
         </g>
       ))}
 
-      {/* artiste sur scène */}
+      {/* artiste sur scène : il saute et agite le micro */}
       <g transform="translate(960 296)">
-        <rect x="-9" y="-58" width="18" height="40" rx="8" fill={BLANC(0.7)} />
-        <rect x="-8" y="-18" width="6" height="18" fill={BLANC(0.6)} />
-        <rect x="2" y="-18" width="6" height="18" fill={BLANC(0.6)} />
-        <circle cx="0" cy="-68" r="9" fill={BLANC(0.8)} />
         <g>
-          <Transforme type="rotate" valeurs="-20 6 -52;-150 6 -52;-20 6 -52" duree={1.8} />
-          <rect x="3" y="-56" width="6" height="30" rx="3" fill={BLANC(0.7)} />
-          <circle cx="6" cy="-28" r="4" fill={SOLEIL} />
+          <Transforme type="translate" valeurs="0 0;0 -12;0 0" duree={0.9} />
+          <g>
+            <Transforme type="rotate" valeurs="-18 -4 -18;18 -4 -18;-18 -4 -18" duree={0.9} />
+            <rect x="-8" y="-18" width="6" height="18" rx="2" fill={BLANC(0.6)} />
+          </g>
+          <g>
+            <Transforme type="rotate" valeurs="18 4 -18;-18 4 -18;18 4 -18" duree={0.9} />
+            <rect x="2" y="-18" width="6" height="18" rx="2" fill={BLANC(0.6)} />
+          </g>
+          <rect x="-9" y="-58" width="18" height="40" rx="8" fill={BLANC(0.7)} />
+          <circle cx="0" cy="-68" r="9" fill={BLANC(0.8)} />
+          <g>
+            <Transforme type="rotate" valeurs="150 -6 -52;30 -6 -52;150 -6 -52" duree={1.8} />
+            <rect x="-9" y="-56" width="6" height="30" rx="3" fill={BLANC(0.7)} />
+          </g>
+          <g>
+            <Transforme type="rotate" valeurs="-20 6 -52;-150 6 -52;-20 6 -52" duree={1.8} />
+            <rect x="3" y="-56" width="6" height="30" rx="3" fill={BLANC(0.7)} />
+            <circle cx="6" cy="-28" r="4" fill={SOLEIL} />
+          </g>
         </g>
       </g>
 
@@ -745,6 +1125,26 @@ function SceneEvenements() {
         ))}
       </g>
 
+      {/* ballons qui s'envolent */}
+      {[
+        { x: 628, c: SOLEIL, d: 11, debut: 0 },
+        { x: 668, c: VERT, d: 13, debut: 4 },
+        { x: 708, c: '#ff6b6b', d: 12, debut: 8 },
+        { x: 744, c: BLEU, d: 14, debut: 2 },
+      ].map(({ x, c, d, debut }) => (
+        <g key={x}>
+          <animateMotion
+            path={`M${x} 340C${x + 16} 250 ${x - 16} 150 ${x} 30`}
+            dur={`${d}s`}
+            begin={`-${debut}s`}
+            repeatCount="indefinite"
+          />
+          <ellipse cx="0" cy="0" rx="9" ry="11" fill={c} opacity="0.85" />
+          <polygon points="-2.5,10 2.5,10 0,15" fill={c} opacity="0.85" />
+          <path d="M0 15Q-4 24 0 32" fill="none" stroke={BLANC(0.5)} strokeWidth="1" />
+        </g>
+      ))}
+
       {/* foule */}
       {foule.map((i) => (
         <g key={i} transform={`translate(${718 + i * 28} 346)`}>
@@ -767,8 +1167,26 @@ function SceneEvenements() {
                 />
               </rect>
             ) : null}
+            {i % 3 === 1 ? (
+              <rect x="-3" y="-36" width="6" height="10" rx="1.5" fill="#fff">
+                <Anime attr="opacity" valeurs="0.25;1;0.25" duree={1.1} debut={i * 0.2} />
+              </rect>
+            ) : null}
           </g>
         </g>
+      ))}
+
+      {/* flashs des appareils photo */}
+      {[740, 830, 930, 1040, 1130].map((x, i) => (
+        <circle key={x} cx={x} cy="332" r="9" fill="#fff" opacity="0">
+          <Anime
+            attr="opacity"
+            valeurs="0;0;0.95;0"
+            temps="0;0.8;0.84;1"
+            duree={2.6 + (i % 3) * 0.7}
+            debut={i * 0.9}
+          />
+        </circle>
       ))}
 
       {/* confettis */}
