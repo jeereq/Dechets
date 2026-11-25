@@ -23,7 +23,7 @@ from pathlib import Path
 
 import numpy as np
 from shapely.geometry import LineString, MultiLineString, Polygon, box
-from shapely.ops import polygonize, unary_union
+from shapely.ops import linemerge, polygonize, unary_union
 
 RACINE = Path(__file__).resolve().parent.parent
 DONNEES = RACINE / 'scripts/donnees/osm-lingwala.json.gz'
@@ -341,24 +341,45 @@ for cl in ('trunk', 'primary', 'secondary'):
         fond.append('<path d="%s" stroke="rgba(255,255,255,0.38)" stroke-width="0.3" stroke-dasharray="2.4 2.8"/>' % ''.join(par_classe[cl]))
 fond.append('</g>')
 
-# noms des grandes avenues, le long du trace
+# noms des grandes avenues, le long du trace. Seule la partie du trace qui tombe dans la zone
+# habituellement visible (cadrage de CarteCamions : moitie droite de la carte) porte le nom,
+# et seulement si le nom y tient en entier ; deux noms ne se chevauchent jamais.
+ZONE_NOMS = box(ZONE[0] + 6, 60, LARGEUR - 6, HAUTEUR - 60)
+ORDRE_CLASSES = {'primary': 0, 'trunk': 0, 'secondary': 1, 'tertiary': 2, 'unclassified': 3, 'residential': 3}
 vus = set()
 etiq = []
-for cl, nom, l in sorted(routes, key=lambda r: -r[2].length):
-    if nom and cl in ('secondary', 'tertiary', 'primary') and nom not in vus and l.length > 140:
-        vus.add(nom)
-        pts = list(l.coords)
-        if pts[0][0] > pts[-1][0]:
-            pts = pts[::-1]
-        d = 'M' + 'L'.join('%.1f %.1f' % p for p in pts)
-        etiq.append((nom, d))
-        if len(etiq) >= 4:
-            break
+milieux = []
+candidats = []
+par_nom = {}
+for cl, nom, l in routes:
+    if nom and cl in ORDRE_CLASSES and 'Rond-point' not in nom:
+        par_nom.setdefault((nom, cl), []).append(l)
+for (nom, cl), lignes in par_nom.items():
+    # les voies OSM sont coupees en petits troncons : on les recolle avant de placer le nom
+    l = linemerge(lignes)
+    morceaux = l.intersection(ZONE_NOMS)
+    for m in (morceaux.geoms if hasattr(morceaux, 'geoms') else [morceaux]):
+        if m.geom_type == 'LineString' and m.length >= 2.1 * len(nom) + 6:
+            candidats.append((ORDRE_CLASSES[cl], -m.length, nom, m))
+for _, _, nom, m in sorted(candidats, key=lambda c: c[:2]):
+    if nom in vus:
+        continue
+    centre = m.interpolate(0.5, normalized=True)
+    if any(math.hypot(centre.x - x, centre.y - y) < 40 for x, y in milieux):
+        continue
+    vus.add(nom)
+    milieux.append((centre.x, centre.y))
+    pts = list(m.coords)
+    if pts[0][0] > pts[-1][0]:
+        pts = pts[::-1]
+    etiq.append((nom, 'M' + 'L'.join('%.1f %.1f' % p for p in pts)))
+    if len(etiq) >= 7:
+        break
 defs = ''.join('<path id="nom%d" d="%s"/>' % (i, d) for i, (_, d) in enumerate(etiq))
 for i, (nom, _) in enumerate(etiq):
-    fond.append('<text font-size="3.6" font-weight="600" letter-spacing="0.5" fill="rgba(255,255,255,0.7)" '
+    fond.append('<text font-size="4" font-weight="700" letter-spacing="0.5" fill="rgba(255,255,255,0.88)" '
                 'stroke="rgba(11,60,34,0.8)" stroke-width="0.8" paint-order="stroke" '
-                'style="text-transform:uppercase"><textPath href="#nom%d" startOffset="12%%">%s</textPath></text>' % (i, nom))
+                'style="text-transform:uppercase"><textPath href="#nom%d" startOffset="4%%">%s</textPath></text>' % (i, nom))
 # noms de communes
 for n, p in communes:
     q = p.intersection(fen)

@@ -13,6 +13,12 @@ const NOMBRES: Array<[string, string, string]> = [
   ['passages_par_semaine', 'Passages par semaine (abonnement)', 'Nombre de passages compris dans la formule mensuelle.'],
 ];
 
+/** Chiffres du site public : facultatifs, affiches « — » tant qu'ils sont vides. */
+const STATISTIQUES: Array<[string, string, string]> = [
+  ['stat_plastique_tonnes', 'Déchets plastiques collectés et transportés (tonnes)', 'Affiché sur la page « Où vont vos déchets ». Laissez vide tant que le chiffre n’est pas connu.'],
+  ['stat_part_valorisee', 'Part valorisée (%)', 'Idem. Le nombre de ménages servis à Lingwala se calcule tout seul à partir des abonnés.'],
+];
+
 const TEXTES: Array<[string, string]> = [
   ['devise', 'Devise du prix par passage'],
   ['devise_mensuel', 'Devise de l’abonnement mensuel'],
@@ -50,6 +56,13 @@ export function VueReglages({ ctx }: { ctx: ContexteGestion }) {
           <label key={cle}>
             {libelle}
             <input className="gs-champ" inputMode="numeric" value={v[cle] ?? ''} onChange={(e) => maj(cle, e.target.value.replace(/\D/g, ''))} required />
+            <span className="gs-discret">{aide}</span>
+          </label>
+        ))}
+        {STATISTIQUES.map(([cle, libelle, aide]) => (
+          <label key={cle}>
+            {libelle}
+            <input className="gs-champ" inputMode="decimal" value={v[cle] ?? ''} onChange={(e) => maj(cle, e.target.value.replace(/[^\d.,]/g, ''))} maxLength={10} />
             <span className="gs-discret">{aide}</span>
           </label>
         ))}

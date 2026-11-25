@@ -24,18 +24,15 @@ export async function generateMetadata({
 const NB_PHOTOS = { rencontre: 10, tricycle: 4, reunion: 8 } as const;
 const GROUPES = ['rencontre', 'tricycle', 'reunion'] as const;
 
-const TERRAIN: Array<[string, string, string]> = [
-  ['collecte.jpg', 'Collecte', 'Des agents gantés trient et chargent les déchets.'],
-  [
-    'tri-cote.jpg',
-    'Notre tricycle',
-    'Il entre dans les avenues étroites, là où le camion ne passe pas.',
-  ],
-  ['tri-agent.jpg', 'Au volant', 'Un agent conduit le tricycle sur sa tournée.'],
-  ['camion.jpg', 'Le camion compacteur', 'Pour les volumes et le transport hors du quartier.'],
-  ['tri-face.jpg', 'Prêt à partir', 'Le tricycle au départ du dépôt.'],
-  ['equipe-large.jpg', 'Nos équipes', 'Casque, gilet et materiel adapté pour chaque agent.'],
-];
+/** Photos de la section « Sur le terrain », dans l'ordre des textes du dictionnaire. */
+const PHOTOS_TERRAIN = [
+  'collecte.jpg',
+  'tri-cote.jpg',
+  'tri-chauffeur.jpg',
+  'camion.jpg',
+  'tri-face.jpg',
+  'equipe-epi.jpg',
+] as const;
 
 export default async function Travaux({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
@@ -59,10 +56,10 @@ export default async function Travaux({ params }: { params: Promise<{ locale: st
           <div className="conteneur pile" style={{ gap: 24 }}>
             <h2>{t.travaux.terrainTitre}</h2>
             <div className="grille">
-              {TERRAIN.map(([fichier, titre, texte]) => (
-                <figure key={fichier}>
+              {t.travaux.terrain.map(({ titre, texte }, index) => (
+                <figure key={titre}>
                   <Image
-                    src={`/photos/${fichier}`}
+                    src={`/photos/${PHOTOS_TERRAIN[index]}`}
                     alt={titre}
                     width={560}
                     height={210}

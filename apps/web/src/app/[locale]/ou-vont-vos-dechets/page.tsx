@@ -6,6 +6,7 @@ import { Entete } from '@/components/Entete';
 import { Icone } from '@/components/Icone';
 import { PiedDePage } from '@/components/PiedDePage';
 import { TitrePage } from '@/components/TitrePage';
+import { getCommunes, getReglages } from '@/lib/api';
 import { estLocale, getDictionnaire } from '@/lib/i18n';
 import { metaPage } from '@/lib/seo';
 import type { Metadata } from 'next';
@@ -39,6 +40,22 @@ export default async function Valorisation({ params }: { params: Promise<{ local
   if (!estLocale(locale)) notFound();
 
   const t = getDictionnaire(locale);
+
+  // Chiffres cles : les menages viennent de la base des abonnes, les deux autres
+  // sont renseignes par BENIME dans le back-office. « — » tant qu'ils sont vides.
+  const [reglages, communes] = await Promise.all([getReglages(), getCommunes()]);
+  const nombre = (brut?: string) => {
+    const n = Number((brut ?? '').replace(',', '.'));
+    return brut && Number.isFinite(n) ? n.toLocaleString(locale === 'fr' ? 'fr-FR' : 'en-GB') : null;
+  };
+  const menages = communes.find((c) => c.slug === 'lingwala')?.menages;
+  const plastique = nombre(reglages.stat_plastique_tonnes);
+  const part = nombre(reglages.stat_part_valorisee);
+  const valeurs = [
+    plastique ? `${plastique} t` : '—',
+    part ? `${part} %` : '—',
+    typeof menages === 'number' ? menages.toLocaleString(locale === 'fr' ? 'fr-FR' : 'en-GB') : '—',
+  ];
 
   return (
     <>
@@ -132,7 +149,6 @@ export default async function Valorisation({ params }: { params: Promise<{ local
               <ListeTri titre={t.valorisation.accepte} items={t.valorisation.triAccepte} positif />
               <ListeTri titre={t.valorisation.refuse} items={t.valorisation.triRefuse} />
             </div>
-            <p className="discret">{t.valorisation.triNote}</p>
           </div>
         </section>
       </main>
@@ -182,7 +198,7 @@ export default async function Valorisation({ params }: { params: Promise<{ local
                         )}
                       </svg>
                     </span>
-                    <span className="chiffre chiffre-carte__valeur">{chiffre.valeur}</span>
+                    <span className="chiffre chiffre-carte__valeur">{valeurs[i]}</span>
                     <span className="chiffre-carte__libelle">{chiffre.libelle}</span>
                   </li>
                 ))}

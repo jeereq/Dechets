@@ -18,7 +18,7 @@ export async function generateMetadata({
   const { locale } = await params;
   if (!estLocale(locale)) return {};
   const t = getDictionnaire(locale).formules;
-  return metaPage({ locale, chemin: 'formules', titre: t.titre, description: t.chapeau });
+  return metaPage({ locale, chemin: 'tarification', titre: t.titre, description: t.chapeau });
 }
 
 export default async function Formules({ params }: { params: Promise<{ locale: string }> }) {

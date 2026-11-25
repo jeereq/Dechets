@@ -37,6 +37,8 @@ export interface ReglagesPublics {
   passages_par_semaine?: string;
   devise?: string;
   devise_mensuel?: string;
+  stat_plastique_tonnes?: string;
+  stat_part_valorisee?: string;
 }
 
 const REGLAGES_REPLI: ReglagesPublics = {
