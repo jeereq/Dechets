@@ -83,9 +83,9 @@ export function Entete({ locale, page }: { locale: Locale; page: keyof typeof CH
         <div className="entete__actions">
           {langue('bureau')}
 
-          <a className="bouton bouton--principal bouton--auto" href="#espace">
+          <Link className="bouton bouton--principal bouton--auto" href={lien(locale, 'espace')}>
             {t.nav.espace}
-          </a>
+          </Link>
 
           {/* Menu des petits écrans : un simple details, sans JavaScript. */}
           <details className="menu">

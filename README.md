@@ -24,14 +24,18 @@ packages/
 - **Schéma de données complet** du projet : ménages, équipes, personnel de
   terrain, demandes, passages, paiements, avis, réalisations, notifications,
   réglages.
+- **Application des ménages « My BENIME »** (PWA, `/fr/espace` et `/en/espace`) :
+  connexion par code SMS, inscription, demande de passage (annulable, crédit
+  remboursé), recharge du crédit par mobile money ou carte, suivi du paiement,
+  reçus imprimables, messages (SMS et WhatsApp), profil et langue. Installable
+  sur l'écran d'accueil, avec un service worker pour l'ouverture hors réseau.
 - **Couches d'intégration** FlexPay (mobile money et carte) et notifications
   (SMS, WhatsApp), en mode simulé tant que les identifiants ne sont pas
   fournis.
 
 ## Ce qui reste à faire
 
-- Application PWA des ménages (inscription, demande de collecte, paiement,
-  reçus, messages) et application des agents de terrain.
+- Application des agents de terrain (tournées, passages, encaissements).
 - Back-office : abonnés, demandes, tournées, paiements, réalisations,
   personnel, zones, réglages.
 - Branchement réel de FlexPay, de la passerelle SMS et de WhatsApp.

@@ -64,9 +64,9 @@ export default async function Accueil({ params }: { params: Promise<{ locale: st
               <h1>{t.accueil.titre}</h1>
               <p className="chapeau">{t.accueil.chapeau}</p>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12 }}>
-                <a className="bouton bouton--soleil bouton--grand" href="#espace">
+                <Link className="bouton bouton--soleil bouton--grand" href={lien(locale, 'espace')}>
                   {t.commun.sInscrire}
-                </a>
+                </Link>
                 <a className="bouton bouton--clair bouton--grand" href={telLien(COORDONNEES.telephone1)}>
                   <Icone nom="telephone" taille={22} />
                   <span style={{ whiteSpace: 'nowrap' }}>{COORDONNEES.telephone1}</span>

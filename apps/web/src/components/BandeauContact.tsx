@@ -1,6 +1,7 @@
+import Link from 'next/link';
 import type { ReactNode } from 'react';
 import { CarteCamions } from '@/components/CarteCamions';
-import { getDictionnaire, type Locale } from '@/lib/i18n';
+import { getDictionnaire, lien, type Locale } from '@/lib/i18n';
 import { COORDONNEES } from '@/lib/societe';
 
 const ICONES: Record<'tel' | 'mail' | 'lieu', ReactNode> = {
@@ -91,9 +92,9 @@ export function BandeauContact({
             <h2>{titre ?? t.contact.titre}</h2>
             <p className="chapeau">{texte ?? t.contact.texte}</p>
             <div>
-              <a className="bouton bouton--soleil bouton--grand" href="#espace">
+              <Link className="bouton bouton--soleil bouton--grand" href={lien(locale, 'espace')}>
                 {t.commun.sInscrire}
-              </a>
+              </Link>
             </div>
           </div>
 

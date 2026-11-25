@@ -2,11 +2,11 @@ import type { MetadataRoute } from 'next';
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: 'BENIME CONGO Assainissement',
-    short_name: 'BENIME',
+    name: 'My BENIME · BENIME CONGO Assainissement',
+    short_name: 'My BENIME',
     description: 'Collecte des déchets des ménages à Kinshasa.',
     lang: 'fr',
-    start_url: '/fr',
+    start_url: '/fr/espace',
     scope: '/',
     display: 'standalone',
     background_color: '#FFFFFF',

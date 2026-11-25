@@ -9,6 +9,7 @@ import { contactRoutes } from './routes/contact.js';
 import { demandesRoutes } from './routes/demandes.js';
 import { leadsRoutes } from './routes/leads.js';
 import { menagesRoutes } from './routes/menages.js';
+import { messagesRoutes } from './routes/messages.js';
 import { paiementsRoutes } from './routes/paiements.js';
 import { reglagesRoutes } from './routes/reglages.js';
 
@@ -40,6 +41,7 @@ export async function construireApp() {
   await app.register(authRoutes);
   await app.register(menagesRoutes);
   await app.register(demandesRoutes);
+  await app.register(messagesRoutes);
   await app.register(paiementsRoutes);
 
   app.setNotFoundHandler((request, reply) => {

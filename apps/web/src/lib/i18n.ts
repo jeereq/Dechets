@@ -78,6 +78,7 @@ export const CHEMINS = {
   valorisation: 'ou-vont-vos-dechets',
   formules: 'formules',
   questions: 'questions',
+  espace: 'espace',
 } as const;
 
 export function lien(locale: Locale, cle: keyof typeof CHEMINS): string {
