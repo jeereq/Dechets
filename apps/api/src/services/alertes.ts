@@ -5,7 +5,13 @@ import { envoyerSms, envoyerWhatsapp } from './notifications.js';
 /**
  * Messages envoyes aux menages, en francais ou en anglais.
  */
-type Modele = 'code_connexion' | 'bienvenue' | 'demande_recue' | 'demande_annulee' | 'recu_paiement';
+type Modele =
+  | 'code_connexion'
+  | 'bienvenue'
+  | 'demande_recue'
+  | 'demande_planifiee'
+  | 'demande_annulee'
+  | 'recu_paiement';
 
 const TEXTES: Record<Modele, { fr: (v: Record<string, string>) => string; en: (v: Record<string, string>) => string }> = {
   code_connexion: {
@@ -19,6 +25,10 @@ const TEXTES: Record<Modele, { fr: (v: Record<string, string>) => string; en: (v
   demande_recue: {
     fr: (v) => `BENIME : demande ${v.reference} recue. Nous vous prevenons des que le passage est planifie.`,
     en: (v) => `BENIME: request ${v.reference} received. We will tell you as soon as the pickup is scheduled.`,
+  },
+  demande_planifiee: {
+    fr: (v) => `BENIME : demande ${v.reference} planifiee le ${v.date}. Preparez vos sacs devant la parcelle.`,
+    en: (v) => `BENIME: request ${v.reference} scheduled for ${v.date}. Please leave your bags in front of the plot.`,
   },
   demande_annulee: {
     fr: (v) => `BENIME : demande ${v.reference} annulee. ${v.montant} FC ont ete rendus a votre credit.`,
@@ -50,9 +60,15 @@ export async function alerterMenage(
   valeurs: Record<string, string>,
 ): Promise<void> {
   const contenu = rediger(modele, menage.langue, valeurs);
+  // Le choix de l'abonne, puis l'interrupteur general du back-office (Reglages).
+  const coupes = new Set(
+    (await prisma.reglage.findMany({ where: { cle: { in: ['canal_sms', 'canal_whatsapp'] }, valeur: 'false' } })).map(
+      (r) => r.cle,
+    ),
+  );
   const canaux: Array<'SMS' | 'WHATSAPP'> = [];
-  if (menage.alerteSms) canaux.push('SMS');
-  if (menage.alerteWa) canaux.push('WHATSAPP');
+  if (menage.alerteSms && !coupes.has('canal_sms')) canaux.push('SMS');
+  if (menage.alerteWa && !coupes.has('canal_whatsapp')) canaux.push('WHATSAPP');
 
   for (const canal of canaux) {
     try {

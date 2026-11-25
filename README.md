@@ -29,6 +29,15 @@ packages/
   remboursé), recharge du crédit par mobile money ou carte, suivi du paiement,
   reçus imprimables, messages (SMS et WhatsApp), profil et langue. Installable
   sur l'écran d'accueil, avec un service worker pour l'ouverture hors réseau.
+- **Back-office** (`/fr/gestion`, réservé au personnel, connexion par code SMS) :
+  tableau de bord, abonnés (fiche détaillée), demandes de passage (planifier,
+  terminer, annuler avec remboursement), tournées et équipes (préparer le jour,
+  valider les passages), paiements (rapprochement des virements, encaissement
+  espèces), zones (ouvrir une commune, prévenir par SMS ceux qui attendaient,
+  messages du site), réalisations, équipe BENIME et réglages (prix, canaux).
+  Le superviseur peut tout faire ; l'agent de recouvrement voit les abonnés et
+  les paiements. Le premier superviseur se crée avec `ADMIN_TELEPHONE` dans
+  `.env`, puis `pnpm db:seed`.
 - **Couches d'intégration** FlexPay (mobile money et carte) et notifications
   (SMS, WhatsApp), en mode simulé tant que les identifiants ne sont pas
   fournis.
@@ -36,8 +45,8 @@ packages/
 ## Ce qui reste à faire
 
 - Application des agents de terrain (tournées, passages, encaissements).
-- Back-office : abonnés, demandes, tournées, paiements, réalisations,
-  personnel, zones, réglages.
+- Back-office : envoi de photos pour les réalisations (aujourd'hui, un chemin
+  d'image à renseigner), rappels automatiques de la veille d'un passage.
 - Branchement réel de FlexPay, de la passerelle SMS et de WhatsApp.
 - Carte interactive des communes (OpenStreetMap ou Google Maps) à la place du
   cadre actuel.

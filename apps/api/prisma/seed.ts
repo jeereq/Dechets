@@ -44,6 +44,20 @@ async function main() {
     });
   }
   console.info('%d reglages enregistres', reglages.length);
+
+  // Premier superviseur : sans lui, personne ne peut ouvrir le back-office.
+  // Renseigner ADMIN_TELEPHONE (et ADMIN_NOM) dans .env avant `pnpm db:seed`.
+  const telephone = process.env.ADMIN_TELEPHONE?.replace(/[\s.-]/g, '');
+  if (telephone && /^\+243\d{9}$/.test(telephone)) {
+    await prisma.personnel.upsert({
+      where: { telephone },
+      update: { poste: 'SUPERVISEUR', actif: true },
+      create: { telephone, nom: process.env.ADMIN_NOM?.trim() || 'Superviseur', poste: 'SUPERVISEUR' },
+    });
+    console.info('Superviseur enregistre : %s', telephone);
+  } else {
+    console.info('ADMIN_TELEPHONE absent ou invalide (format +243XXXXXXXXX) : aucun superviseur cree.');
+  }
 }
 
 main()

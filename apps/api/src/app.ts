@@ -7,6 +7,7 @@ import { authRoutes } from './routes/auth.js';
 import { communesRoutes } from './routes/communes.js';
 import { contactRoutes } from './routes/contact.js';
 import { demandesRoutes } from './routes/demandes.js';
+import { gestionRoutes } from './routes/gestion/index.js';
 import { leadsRoutes } from './routes/leads.js';
 import { menagesRoutes } from './routes/menages.js';
 import { messagesRoutes } from './routes/messages.js';
@@ -28,7 +29,7 @@ export async function construireApp() {
   app.setErrorHandler(gestionnaireErreurs);
 
   await app.register(sensible);
-  await app.register(cors, { origin: corsOrigins, credentials: true });
+  await app.register(cors, { origin: corsOrigins, credentials: true, methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE', 'OPTIONS'] });
 
   app.get('/health', async () => ({
     data: { statut: 'ok', service: 'benime-api', heure: new Date().toISOString() },
@@ -42,6 +43,7 @@ export async function construireApp() {
   await app.register(menagesRoutes);
   await app.register(demandesRoutes);
   await app.register(messagesRoutes);
+  await app.register(gestionRoutes, { prefix: '/gestion' });
   await app.register(paiementsRoutes);
 
   app.setNotFoundHandler((request, reply) => {
