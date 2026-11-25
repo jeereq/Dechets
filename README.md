@@ -130,6 +130,40 @@ node apps/api/dist/server.js
 Avec `DATABASE_URL` vers votre PostgreSQL et `CORS_ORIGINS` contenant
 l'adresse du site. Le site reste consultable si l'API est arrêtée.
 
+## Mise en service
+
+Ce qui est vérifié : l'API contre une vraie base PostgreSQL (parcours des
+ménages, back-office et application de terrain, y compris les envois en double
+et simultanés) et l'interface contre cette API. Ce qui ne l'est pas encore : le
+vrai fournisseur SMS et FlexPay, faute d'identifiants. À faire dans l'ordre :
+
+1. **Base de données.** Créer la base PostgreSQL, renseigner `DATABASE_URL`,
+   puis `pnpm --filter @benime/api exec prisma migrate deploy` (la migration
+   initiale est dans `apps/api/prisma/migrations`).
+2. **Secrets.** `JWT_SECRET` (32 caractères au moins, aléatoire) est
+   obligatoire en production. `NODE_ENV=production` empêche l'API de renvoyer
+   le code SMS de test.
+3. **Premier superviseur.** `ADMIN_TELEPHONE=+243XXXXXXXXX` (et `ADMIN_NOM`),
+   puis `pnpm db:seed`. Cette personne ajoute ensuite le reste de l'équipe
+   depuis le back-office.
+4. **Passerelle SMS.** Sans elle, personne ne reçoit de code de connexion : c'est
+   le point bloquant. Renseigner `SMS_PROVIDER`, `SMS_API_URL`, `SMS_API_KEY`
+   (`apps/api/src/services/alertes.ts`) et tester avec son propre numéro.
+5. **FlexPay.** `FLEXPAY_MERCHANT`, `FLEXPAY_TOKEN`, `FLEXPAY_CALLBACK_URL`
+   (adresse publique de l'API, `/webhooks/flexpay`) et `FLEXPAY_CALLBACK_SECRET`
+   (ajouté à l'adresse de rappel sous la forme `?cle=…`). Faire un premier
+   paiement de 500 FC avec un vrai compte avant d'ouvrir au public.
+6. **Site.** `NEXT_PUBLIC_API_URL` vers l'API publique, `CORS_ORIGINS` de l'API
+   vers l'adresse du site, `NEXT_PUBLIC_SITE_URL` vers le vrai domaine.
+
+Tests contre une base **neuve** (`prisma db push --force-reset` puis
+`pnpm db:seed`, sans `ADMIN_TELEPHONE`) :
+
+```bash
+pnpm --filter @benime/api test:e2e           # ménages : connexion, crédit, paiements
+pnpm --filter @benime/api test:e2e:terrain   # back-office et terrain
+```
+
 ## Points de vigilance
 
 **Les prix viennent de la grille tarifaire.** `6 000 FC` par évacuation et

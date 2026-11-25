@@ -168,7 +168,8 @@ export async function terrainRoutes(app: FastifyInstance) {
   /** Cherche un abonne par numero (MN-0001), nom ou telephone. */
   app.get('/abonnes', caisse, async (request, reply) => {
     const { q } = lire(z.object({ q: z.string().trim().min(2).max(60) }), request.query);
-    const chiffres = q.replace(/\D/g, '');
+    // Les numeros sont enregistres en +243...; on tape souvent 0812... ou 243812... : on retire le prefixe.
+    const chiffres = q.replace(/\D/g, '').replace(/^(243|0)/, '');
     const menages = await prisma.menage.findMany({
       where: {
         statut: { not: 'RESILIE' },
