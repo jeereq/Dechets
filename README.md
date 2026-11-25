@@ -38,13 +38,24 @@ packages/
   Le superviseur peut tout faire ; l'agent de recouvrement voit les abonnés et
   les paiements. Le premier superviseur se crée avec `ADMIN_TELEPHONE` dans
   `.env`, puis `pnpm db:seed`.
+- **Application de terrain** (`/fr/terrain`, personnel, même code SMS et même
+  session que le back-office, installable sur l'écran d'accueil) : le chauffeur
+  ou l'éboueur voit la tournée de son équipe, note le résultat de chaque passage
+  (collecté avec le nombre de sacs, accès impossible, etc.) et corrige tant que
+  le superviseur n'a pas validé. Sans réseau, les résultats sont gardés sur le
+  téléphone et envoyés au retour de la connexion ; la tournée déjà ouverte reste
+  lisible. L'agent de recouvrement retrouve un abonné (numéro, nom, téléphone),
+  encaisse en espèces ou note un virement, et suit sa caisse du jour. Les
+  encaissements exigent toujours le réseau, pour ne jamais encaisser deux fois.
+  Le superviseur voit toutes les équipes. API sous `/terrain`.
 - **Couches d'intégration** FlexPay (mobile money et carte) et notifications
   (SMS, WhatsApp), en mode simulé tant que les identifiants ne sont pas
   fournis.
 
 ## Ce qui reste à faire
 
-- Application des agents de terrain (tournées, passages, encaissements).
+- Application de terrain : photos avant/après d'un passage (le stockage de
+  fichiers n'existe pas encore), alerte à l'abonné quand son passage est fait.
 - Back-office : envoi de photos pour les réalisations (aujourd'hui, un chemin
   d'image à renseigner), rappels automatiques de la veille d'un passage.
 - Branchement réel de FlexPay, de la passerelle SMS et de WhatsApp.

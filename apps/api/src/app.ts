@@ -13,6 +13,7 @@ import { menagesRoutes } from './routes/menages.js';
 import { messagesRoutes } from './routes/messages.js';
 import { paiementsRoutes } from './routes/paiements.js';
 import { reglagesRoutes } from './routes/reglages.js';
+import { terrainRoutes } from './routes/terrain.js';
 
 export async function construireApp() {
   const app = Fastify({
@@ -44,6 +45,7 @@ export async function construireApp() {
   await app.register(demandesRoutes);
   await app.register(messagesRoutes);
   await app.register(gestionRoutes, { prefix: '/gestion' });
+  await app.register(terrainRoutes, { prefix: '/terrain' });
   await app.register(paiementsRoutes);
 
   app.setNotFoundHandler((request, reply) => {

@@ -1,8 +1,8 @@
 /* Service worker de My BENIME : l'application s'ouvre même avec une mauvaise connexion.
-   - pages de l'espace : réseau d'abord, dernière version gardée en secours
+   - pages de l'espace et du terrain : réseau d'abord, dernière version gardée en secours
    - fichiers de l'application et images : version gardée d'abord, mise à jour en arrière-plan
    Les appels à l'API ne sont jamais gardés : un solde ou un paiement doit toujours être à jour. */
-const VERSION = 'benime-v1';
+const VERSION = 'benime-v2';
 
 self.addEventListener('install', () => self.skipWaiting());
 
@@ -21,7 +21,7 @@ self.addEventListener('fetch', (event) => {
   const url = new URL(requete.url);
   if (url.origin !== self.location.origin) return;
 
-  if (requete.mode === 'navigate' && /^\/(fr|en)\/espace\/?$/.test(url.pathname)) {
+  if (requete.mode === 'navigate' && /^\/(fr|en)\/(espace|terrain)\/?$/.test(url.pathname)) {
     event.respondWith(
       fetch(requete)
         .then((reponse) => {
@@ -29,7 +29,7 @@ self.addEventListener('fetch', (event) => {
           caches.open(VERSION).then((cache) => cache.put(requete, copie));
           return reponse;
         })
-        .catch(() => caches.match(requete)),
+        .catch(() => caches.match(requete, { ignoreVary: true })),
     );
     return;
   }
@@ -50,4 +50,21 @@ self.addEventListener('fetch', (event) => {
       }),
     );
   }
+});
+
+/* L'application de terrain demande de garder la page et ses fichiers dès la première visite :
+   sans cela, une première ouverture suivie d'une coupure de réseau ne rouvrirait rien. */
+self.addEventListener('message', (event) => {
+  const donnees = event.data;
+  if (!donnees || donnees.type !== 'garder' || !Array.isArray(donnees.urls)) return;
+  const urls = donnees.urls.filter((u) => {
+    try {
+      return new URL(u, self.location.origin).origin === self.location.origin;
+    } catch {
+      return false;
+    }
+  });
+  event.waitUntil(
+    caches.open(VERSION).then((cache) => Promise.all(urls.map((u) => cache.add(u).catch(() => undefined)))),
+  );
 });
