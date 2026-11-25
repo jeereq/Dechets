@@ -44,10 +44,13 @@ export function BandeauContact({
   locale,
   titre,
   texte,
+  avant,
 }: {
   locale: Locale;
   titre?: string;
   texte?: string;
+  /** Contenu placé au-dessus du contact, dans la même bande (même fond animé, sans coupure). */
+  avant?: ReactNode;
 }) {
   const t = getDictionnaire(locale);
   const tel = (n: string) => `tel:${n.replace(/[^+\d]/g, '')}`;
@@ -76,9 +79,13 @@ export function BandeauContact({
     ];
 
   return (
-    <section id="contact" className="bandeau-sombre bandeau-carte bandeau-contact">
+    <section
+      id="contact"
+      className={`bandeau-sombre bandeau-carte bandeau-contact${avant ? ' bandeau-fusion' : ''}`}
+    >
       <CarteCamions voile="degrade" />
       <div className="conteneur section">
+        {avant}
         <div className="contact-grille">
           <div className="contact-texte">
             <h2>{titre ?? t.contact.titre}</h2>

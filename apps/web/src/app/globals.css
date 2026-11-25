@@ -932,6 +932,12 @@ img {
   background: color-mix(in srgb, var(--vert-fonce) 66%, transparent);
 }
 
+.bandeau-fusion .contact-grille {
+  margin-top: clamp(48px, 6vw, 84px);
+  padding-top: clamp(40px, 5vw, 64px);
+  border-top: 1px solid rgba(255, 255, 255, 0.16);
+}
+
 .bandeau-chiffres .section,
 .bandeau-contact .section {
   padding-block: clamp(56px, 7vw, 96px);

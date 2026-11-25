@@ -135,10 +135,12 @@ export default async function Valorisation({ params }: { params: Promise<{ local
             <p className="discret">{t.valorisation.triNote}</p>
           </div>
         </section>
+      </main>
 
-        <section className="bandeau-sombre bandeau-carte bandeau-chiffres">
-          <CarteCamions voile="degrade" />
-          <div className="conteneur section">
+      <BandeauContact
+        locale={locale}
+        avant={
+          <>
             <div className="pile" style={{ gap: 36 }}>
               <div className="chiffres-entete">
                 <span className="chiffres-trait" aria-hidden="true" />
@@ -187,11 +189,9 @@ export default async function Valorisation({ params }: { params: Promise<{ local
               </ul>
               <p className="chiffres-note">{t.valorisation.chiffresNote}</p>
             </div>
-          </div>
-        </section>
-      </main>
-
-      <BandeauContact locale={locale} />
+          </>
+        }
+      />
       <PiedDePage locale={locale} />
     </>
   );
