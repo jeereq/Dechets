@@ -46,7 +46,6 @@ export default async function PageService({
   if (!item || !visuel) notFound();
 
   const estAssainissement = item.id === 'assainissement';
-  const sujet = encodeURIComponent(`${s.sujetDevis} · ${item.titre}`);
   const [principale, ...autresPhotos] = visuel.photos;
   const auteurs = Array.from(new Set(visuel.photos.map((p) => p.auteur).filter(Boolean)));
   const autres = s.items.filter((i) => i.id !== item.id);
@@ -113,9 +112,9 @@ export default async function PageService({
                 </>
               ) : (
                 <>
-                  <a className="bouton bouton--principal" href={`mailto:${COORDONNEES.email}?subject=${sujet}`}>
+                  <Link className="bouton bouton--principal" href={`${lien(locale, 'questions')}?sujet=${item.id}#ecrire`}>
                     {s.devis}
-                  </a>
+                  </Link>
                   <a className="bouton bouton--secondaire" href={telLien(COORDONNEES.telephone1)}>
                     <Icone nom="telephone" taille={20} />
                     {s.appeler}

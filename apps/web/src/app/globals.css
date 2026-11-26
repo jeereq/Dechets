@@ -1348,6 +1348,7 @@ a.contact-ligne:focus-visible {
   display: flex;
   flex-direction: column;
   gap: 6px;
+  min-width: 0;
 }
 
 .champ label {
@@ -1365,11 +1366,16 @@ a.contact-ligne:focus-visible {
   background: var(--blanc);
   font: inherit;
   color: var(--encre);
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
 }
 
 .champ input,
 .champ select {
   border-radius: 999px;
+  text-overflow: ellipsis;
 }
 
 .champ textarea {
@@ -3708,6 +3714,7 @@ figcaption {
 .gs-demande__corps {
   margin: 0;
   color: var(--gris);
+  white-space: pre-line;
 }
 
 .gs-actions-ligne {

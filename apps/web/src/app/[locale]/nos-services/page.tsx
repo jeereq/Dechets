@@ -67,7 +67,6 @@ export default async function Services({ params }: { params: Promise<{ locale: s
         {s.items.map((item, index) => {
           const visuel = VISUELS_SERVICES[item.id];
           const estAssainissement = item.id === 'assainissement';
-          const sujet = encodeURIComponent(`${s.sujetDevis} · ${item.titre}`);
 
           return (
             <section
@@ -120,9 +119,9 @@ export default async function Services({ params }: { params: Promise<{ locale: s
                       </>
                     ) : (
                       <>
-                        <a className="bouton bouton--secondaire" href={`mailto:${COORDONNEES.email}?subject=${sujet}`}>
+                        <Link className="bouton bouton--secondaire" href={`${lien(locale, 'questions')}?sujet=${item.id}#ecrire`}>
                           {s.devis}
-                        </a>
+                        </Link>
                       </>
                     )}
                   </div>
