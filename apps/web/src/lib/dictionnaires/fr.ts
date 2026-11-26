@@ -244,7 +244,7 @@ export const fr = {
     communesKinshasa: 'communes à Kinshasa',
     carteTitre: 'La carte de nos zones',
     detailTitre: 'Lingwala en détail',
-    detailTexte: "Les vraies rues du quartier (OpenStreetMap), avec nos camions et nos tricycles en tournée.",
+    detailTexte: "Les vraies rues du quartier, avec nos camions et nos tricycles en tournée.",
     detailEtiquette: 'Commune pilote',
     echelleKm: '10 km',
     carteAide: 'Sur téléphone, faites glisser la carte pour la parcourir.',

@@ -236,7 +236,7 @@ export const en: DeepPartial<Dictionnaire> = {
     communesKinshasa: 'communes in Kinshasa',
     carteTitre: 'The map of our areas',
     detailTitre: 'Lingwala up close',
-    detailTexte: 'The real streets of the neighbourhood (OpenStreetMap), with our trucks and tricycles on their rounds.',
+    detailTexte: 'The real streets of the neighbourhood, with our trucks and tricycles on their rounds.',
     detailEtiquette: 'Pilot commune',
     echelleKm: '10 km',
     carteAide: 'On a phone, drag the map to move around.',
