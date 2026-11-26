@@ -75,4 +75,28 @@ export async function envoyerLead(payload: {
   }
 }
 
+export async function envoyerContact(payload: {
+  nom: string;
+  telephone: string;
+  email: string;
+  message: string;
+}): Promise<{ ok: boolean; message?: string }> {
+  try {
+    const reponse = await suivre(
+      fetch(`${BASE}/contact`, {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify(payload),
+      }),
+    );
+
+    if (reponse.ok) return { ok: true };
+
+    const corps = (await reponse.json().catch(() => ({}))) as { erreur?: string };
+    return { ok: false, message: corps.erreur };
+  } catch {
+    return { ok: false };
+  }
+}
+
 export const API_BASE = BASE;

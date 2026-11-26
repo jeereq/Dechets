@@ -12,7 +12,7 @@ export const fr = {
     zones: 'Où nous passons',
     valorisation: 'Où vont vos déchets',
     formules: 'Tarification',
-    questions: 'Questions',
+    questions: 'Contact',
     espace: 'Mon espace',
   },
   commun: {
@@ -420,8 +420,21 @@ export const fr = {
     ],
   },
   questions: {
-    titre: 'Questions fréquentes',
-    chapeau: 'Les réponses aux questions les plus posées. Une autre question ? Écrivez-nous.',
+    titre: 'Contact et questions',
+    chapeau: 'Une question, une demande ? Écrivez-nous ou appelez-nous. Les réponses aux questions les plus posées sont plus bas.',
+    ecrireTitre: 'Écrivez-nous',
+    coordonneesTitre: 'Nos coordonnées',
+    faqTitre: 'Questions fréquentes',
+    formulaire: {
+      nom: 'Votre nom',
+      telephone: 'Votre téléphone',
+      email: 'Votre e-mail (facultatif)',
+      message: 'Votre message',
+      envoyer: 'Envoyer le message',
+      envoi: 'Envoi…',
+      succes: 'Merci, votre message est bien envoyé. Nous vous répondons très vite.',
+      erreur: "Le message n'a pas pu être envoyé. Vérifiez les champs ou appelez-nous.",
+    },
     items: [
       { q: 'Dans quelles communes passez-vous ?', r: 'communes' },
       {

@@ -42,9 +42,10 @@ export function Entete({ locale, page }: { locale: Locale; page: keyof typeof CH
         className="langue__bouton"
         aria-label={`Langue du site : ${NOMS_LOCALES[locale]}. Changer de langue`}
       >
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-          <circle cx="12" cy="12" r="9" />
-          <path d="M3 12h18M12 3c3 3.2 3 14.8 0 18M12 3c-3 3.2-3 14.8 0 18" />
+        <svg className="langue__globe" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="9.5" />
+          <ellipse className="langue__meridien" cx="12" cy="12" rx="4.2" ry="9.5" />
+          <path d="M2.5 12h19M4.2 7.2c2.2 1.3 4.8 2 7.8 2s5.6-.7 7.8-2M4.2 16.8c2.2-1.3 4.8-2 7.8-2s5.6.7 7.8 2" />
         </svg>
         <span>{ETIQUETTES_LOCALES[locale]}</span>
         <svg className="langue__fleche" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">

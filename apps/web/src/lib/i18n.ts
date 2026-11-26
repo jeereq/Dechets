@@ -77,7 +77,7 @@ export const CHEMINS = {
   zones: 'ou-nous-passons',
   valorisation: 'ou-vont-vos-dechets',
   formules: 'tarification',
-  questions: 'questions',
+  questions: 'contact',
   espace: 'espace',
 } as const;
 

@@ -1,14 +1,15 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { BandeauContact } from '@/components/BandeauContact';
 import { DonneesStructurees } from '@/components/DonneesStructurees';
 import { Entete } from '@/components/Entete';
+import { FormulaireContact } from '@/components/FormulaireContact';
 import { Icone } from '@/components/Icone';
 import { PiedDePage } from '@/components/PiedDePage';
 import { TitrePage } from '@/components/TitrePage';
 import { getCommunes } from '@/lib/api';
 import { estLocale, getDictionnaire, lien } from '@/lib/i18n';
 import { metaPage } from '@/lib/seo';
+import { COORDONNEES, telLien } from '@/lib/societe';
 import type { Metadata } from 'next';
 
 export async function generateMetadata({
@@ -19,7 +20,7 @@ export async function generateMetadata({
   const { locale } = await params;
   if (!estLocale(locale)) return {};
   const t = getDictionnaire(locale).questions;
-  return metaPage({ locale, chemin: 'questions', titre: t.titre, description: t.chapeau });
+  return metaPage({ locale, chemin: 'contact', titre: t.titre, description: t.chapeau });
 }
 
 export default async function Questions({ params }: { params: Promise<{ locale: string }> }) {
@@ -57,7 +58,52 @@ export default async function Questions({ params }: { params: Promise<{ locale: 
         />
 
         <section className="section">
-          <div className="conteneur">
+          <div
+            className="conteneur"
+            style={{ display: 'flex', flexWrap: 'wrap', gap: '32px 56px', alignItems: 'flex-start' }}
+          >
+            <div className="pile" style={{ flex: '1 1 420px', gap: 20 }}>
+              <h2>{t.questions.ecrireTitre}</h2>
+              <FormulaireContact etiquettes={t.questions.formulaire} />
+            </div>
+
+            <div className="pile" style={{ flex: '1 1 320px', gap: 16 }}>
+              <h2>{t.questions.coordonneesTitre}</h2>
+              {[
+                { cle: t.contact.telephone, valeur: COORDONNEES.telephone1, icone: 'telephone', href: telLien(COORDONNEES.telephone1) },
+                { cle: t.contact.telephone2, valeur: COORDONNEES.telephone2, icone: 'telephone', href: telLien(COORDONNEES.telephone2) },
+                { cle: t.contact.email, valeur: COORDONNEES.email, icone: 'courriel', href: `mailto:${COORDONNEES.email}` },
+                { cle: t.contact.bureau, valeur: COORDONNEES.adresse, icone: 'epingle', href: undefined },
+              ].map(({ cle, valeur, icone, href }) => {
+                const contenu = (
+                  <>
+                    <span className="pastille">
+                      <Icone nom={icone as 'telephone'} taille={24} epaisseur={1.9} />
+                    </span>
+                    <span style={{ display: 'flex', flexDirection: 'column', minWidth: 0 }}>
+                      <span className="discret">{cle}</span>
+                      <strong style={{ fontSize: 18, overflowWrap: 'anywhere' }}>{valeur}</strong>
+                    </span>
+                  </>
+                );
+                const style = { flexDirection: 'row', alignItems: 'center', gap: 14 } as const;
+                return href ? (
+                  <a key={cle} href={href} className="carte carte--lien" style={style}>
+                    {contenu}
+                  </a>
+                ) : (
+                  <div key={cle} className="carte" style={style}>
+                    {contenu}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+
+        <section className="section section--pale">
+          <div className="conteneur pile" style={{ gap: 24 }}>
+            <h2>{t.questions.faqTitre}</h2>
             <div style={{ maxWidth: 860 }}>
               {t.questions.items.map((item, index) => (
                 <details key={item.q} className="question" open={index === 0}>
@@ -105,11 +151,6 @@ export default async function Questions({ params }: { params: Promise<{ locale: 
         </section>
       </main>
 
-      <BandeauContact
-        locale={locale}
-        titre={t.contact.titre}
-        texte={t.contact.texte}
-      />
       <PiedDePage locale={locale} />
     </>
   );

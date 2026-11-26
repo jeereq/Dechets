@@ -706,6 +706,28 @@ img {
   background: var(--vert-pale);
 }
 
+.langue__globe {
+  flex: none;
+  color: var(--vert);
+}
+
+.langue__meridien {
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: transform 0.45s ease;
+}
+
+.langue__bouton:hover .langue__meridien,
+.langue[open] .langue__meridien {
+  transform: scaleX(0.35);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .langue__meridien {
+    transition: none;
+  }
+}
+
 .langue__fleche {
   transition: transform 0.15s ease;
 }
