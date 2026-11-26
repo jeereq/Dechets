@@ -185,7 +185,7 @@ export const en: DeepPartial<Dictionnaire> = {
     terrain: [
       { titre: 'Collection', texte: 'Gloved agents sort and load the waste.' },
       { titre: 'Our tricycle', texte: 'It goes into narrow avenues where the truck cannot pass.' },
-      { titre: 'At the wheel', texte: 'An agent drives the tricycle on their round.' },
+      { titre: 'Rear view', texte: 'A large open bed for loading the bags.' },
       {
         titre: 'The compactor truck',
         texte: 'For larger volumes of waste and long-distance transport.',

@@ -28,7 +28,7 @@ const GROUPES = ['rencontre', 'tricycle', 'reunion'] as const;
 const PHOTOS_TERRAIN = [
   'collecte.jpg',
   'tri-cote.jpg',
-  'tri-chauffeur.jpg',
+  'tri-arriere.jpg',
   'camion.jpg',
   'tri-face.jpg',
   'equipe-epi.jpg',
@@ -48,8 +48,8 @@ export default async function Travaux({ params }: { params: Promise<{ locale: st
         <TitrePage
           titre={t.travaux.titre}
           chapeau={t.travaux.chapeau}
-          photo="/photos/tri-agent.jpg"
-          alt="Un agent BENIME au volant du tricycle de collecte"
+          photo="/photos/tri-profil.jpg"
+          alt="Le tricycle de collecte BENIME à Kinshasa"
         />
 
         <section className="section">

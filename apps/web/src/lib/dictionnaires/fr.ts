@@ -191,7 +191,7 @@ export const fr = {
     terrain: [
       { titre: 'Collecte', texte: 'Des agents gantés trient et chargent les déchets.' },
       { titre: 'Notre tricycle', texte: 'Il entre dans les avenues étroites, là où le camion ne passe pas.' },
-      { titre: 'Au volant', texte: 'Un agent conduit le tricycle sur sa tournée.' },
+      { titre: "Vu de l'arrière", texte: 'Une grande benne ouverte pour charger les sacs.' },
       {
         titre: 'Le camion compacteur',
         texte: 'Pour les volumes plus importants des déchets et le transport de longue distance.',
