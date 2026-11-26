@@ -337,8 +337,82 @@ img {
   animation: bc-gyro 0.9s steps(1) infinite;
 }
 
+.bc-arbre {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: bc-brise 5s ease-in-out infinite alternate;
+}
+
+.bc-nuage {
+  animation: bc-nuage 160s linear infinite;
+}
+
+.bc-oiseau {
+  animation: bc-oiseau 70s linear infinite;
+}
+
+.bc-aile {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: bc-bat 0.7s ease-in-out infinite alternate;
+}
+
+.bc-fumee {
+  transform-box: fill-box;
+  transform-origin: center;
+  opacity: 0;
+  animation: bc-fumee 3s ease-out infinite;
+}
+
+.bc-fumee--2 { animation-delay: -1s; }
+.bc-fumee--3 { animation-delay: -2s; }
+
+.bc-fumee--petite {
+  animation-name: bc-fumee-petite;
+  animation-duration: 2.2s;
+}
+
+.bc-fumee--petite.bc-fumee--2 { animation-delay: -1.1s; }
+
+.bc-halo {
+  mix-blend-mode: normal;
+}
+
 .bande-camion[data-pause='true'] * {
   animation-play-state: paused;
+}
+
+@keyframes bc-brise {
+  0% { transform: rotate(-1.1deg) skewX(-0.6deg); }
+  100% { transform: rotate(1.3deg) skewX(0.8deg); }
+}
+
+@keyframes bc-nuage {
+  0% { transform: translateX(-160px); }
+  100% { transform: translateX(1640px); }
+}
+
+@keyframes bc-oiseau {
+  0% { transform: translate(-60px, 0); }
+  50% { transform: translate(720px, -4px); }
+  100% { transform: translate(1500px, 2px); }
+}
+
+@keyframes bc-bat {
+  0% { transform: scaleY(1); }
+  100% { transform: scaleY(-0.6); }
+}
+
+@keyframes bc-fumee {
+  0% { opacity: 0; transform: translate(0, 0) scale(0.5); }
+  12% { opacity: 0.5; }
+  100% { opacity: 0; transform: translate(-16px, -30px) scale(2.3); }
+}
+
+@keyframes bc-fumee-petite {
+  0% { opacity: 0; transform: translate(0, 0) scale(0.5); }
+  15% { opacity: 0.4; }
+  100% { opacity: 0; transform: translate(-14px, -14px) scale(2); }
 }
 
 @keyframes bc-roule {
@@ -545,8 +619,17 @@ img {
   .bc-plaque,
   .bc-couvercle,
   .bc-vib,
-  .bc-gyrophare {
+  .bc-gyrophare,
+  .bc-arbre,
+  .bc-nuage,
+  .bc-oiseau,
+  .bc-aile,
+  .bc-fumee {
     animation: none;
+  }
+
+  .bc-fumee {
+    opacity: 0;
   }
 
   .bc-tricycle {
