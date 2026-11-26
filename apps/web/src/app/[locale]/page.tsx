@@ -7,6 +7,7 @@ import { Entete } from '@/components/Entete';
 import { Icone } from '@/components/Icone';
 import { PiedDePage } from '@/components/PiedDePage';
 import { getCommunes, getReglages } from '@/lib/api';
+import { EQUIPE_DIRIGEANTE } from '@/lib/equipe';
 import { formaterPrix } from '@/lib/format';
 import { estLocale, getDictionnaire, lien } from '@/lib/i18n';
 import { VISUELS_SERVICES } from '@/lib/services';
@@ -228,6 +229,38 @@ export default async function Accueil({ params }: { params: Promise<{ locale: st
                 {t.accueil.groupeLien}
               </Link>
             </div>
+          </div>
+        </section>
+
+        <section className="section">
+          <div className="conteneur pile" style={{ gap: 24 }}>
+            <h2>{t.accueil.equipeTitre}</h2>
+            <p className="chapeau chapeau--encre">{t.accueil.equipeTexte}</p>
+            <ul className="equipe">
+              {EQUIPE_DIRIGEANTE.map((membre) => (
+                <li key={membre.id} className="equipe__membre">
+                  {membre.photo ? (
+                    <Image
+                      className="equipe__photo"
+                      src={`/photos/equipe/${membre.photo}`}
+                      alt={membre.nom ?? membre.fonction[locale]}
+                      width={240}
+                      height={240}
+                    />
+                  ) : (
+                    <span className="equipe__photo equipe__photo--vide" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" width="44" height="44" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round">
+                        <circle cx="12" cy="8.5" r="3.6" />
+                        <path d="M4.5 20c.9-3.6 3.8-5.6 7.5-5.6s6.6 2 7.5 5.6" />
+                      </svg>
+                    </span>
+                  )}
+                  <strong className="equipe__nom">{membre.nom ?? t.accueil.equipeNomAVenir}</strong>
+                  <span className="equipe__fonction">{membre.fonction[locale]}</span>
+                  {membre.presentation ? <span className="discret">{membre.presentation[locale]}</span> : null}
+                </li>
+              ))}
+            </ul>
           </div>
         </section>
 

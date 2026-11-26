@@ -54,6 +54,9 @@ export const en: DeepPartial<Dictionnaire> = {
     groupeTitre: 'BENIME CONGO, five main activities',
     groupeTexte: 'Sanitation is our service in operation in Lingwala. Discover our other lines of work too.',
     groupeLien: 'See all our services',
+    equipeTitre: 'Our team',
+    equipeTexte: 'The people who lead BENIME CONGO and its five activities.',
+    equipeNomAVenir: 'Name to come',
   },
   services: {
     surtitre: 'The BENIME CONGO group',

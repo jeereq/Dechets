@@ -59,6 +59,9 @@ export const fr = {
     groupeTexte:
       "L'assainissement est notre activité en service à Lingwala. Découvrez aussi nos autres métiers.",
     groupeLien: 'Voir tous nos services',
+    equipeTitre: 'Notre équipe',
+    equipeTexte: 'Les responsables qui dirigent BENIME CONGO et ses cinq activités.',
+    equipeNomAVenir: 'Nom à venir',
   },
   services: {
     surtitre: 'Le groupe BENIME CONGO',

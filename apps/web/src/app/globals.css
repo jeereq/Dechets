@@ -4270,3 +4270,74 @@ figcaption {
   color: var(--gris);
   font-size: 15px;
 }
+
+/* --- équipe dirigeante (accueil) ------------------------------------------ */
+.equipe {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
+}
+
+.equipe__membre {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 24px 16px;
+  text-align: center;
+  background: var(--blanc);
+  border: 1px solid var(--ligne);
+  border-radius: var(--r);
+}
+
+.equipe__photo {
+  width: 112px;
+  height: 112px;
+  margin-bottom: 8px;
+  border-radius: 999px;
+  object-fit: cover;
+}
+
+.equipe__photo--vide {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--vert-pale);
+  color: var(--vert);
+}
+
+.equipe__nom {
+  font-size: 18px;
+}
+
+.equipe__fonction {
+  color: var(--gris);
+  font-size: 15.5px;
+}
+
+@media (max-width: 560px) {
+  .equipe__membre {
+    display: grid;
+    grid-template-columns: 72px 1fr;
+    column-gap: 16px;
+    row-gap: 2px;
+    align-items: center;
+    padding: 16px;
+    text-align: left;
+  }
+
+  .equipe__photo {
+    grid-row: 1 / span 3;
+    width: 72px;
+    height: 72px;
+    margin: 0;
+  }
+
+  .equipe__photo--vide svg {
+    width: 34px;
+    height: 34px;
+  }
+}
