@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { BandeauContact } from '@/components/BandeauContact';
 import { Entete } from '@/components/Entete';
@@ -6,8 +7,10 @@ import { PiedDePage } from '@/components/PiedDePage';
 import { TitrePage } from '@/components/TitrePage';
 import { getReglages } from '@/lib/api';
 import { formaterPrix } from '@/lib/format';
-import { estLocale, getDictionnaire } from '@/lib/i18n';
+import { estLocale, getDictionnaire, lien } from '@/lib/i18n';
+import { groupesOffres, lienOffre } from '@/lib/offres';
 import { metaPage } from '@/lib/seo';
+import { COORDONNEES, telLien } from '@/lib/societe';
 import type { Metadata } from 'next';
 
 export async function generateMetadata({
@@ -68,35 +71,70 @@ export default async function Formules({ params }: { params: Promise<{ locale: s
             <p className="chapeau" style={{ maxWidth: 760 }}>
               {t.formules.grilleSousTitre}
             </p>
-            <table className="grille-tarifaire">
-              <thead>
-                <tr>
-                  <th scope="col">{t.formules.grilleDesignation}</th>
-                  <th scope="col">{t.formules.grilleTarif}</th>
-                </tr>
-              </thead>
-              {t.formules.grille.map((groupe) => (
-                <tbody key={groupe.titre}>
-                  <tr className="grille-tarifaire__groupe">
-                    <th scope="colgroup" colSpan={2}>
-                      {groupe.titre}
+            <div className="tarif-mise">
+              <table className="grille-tarifaire">
+                <thead>
+                  <tr>
+                    <th scope="col">{t.formules.grilleDesignation}</th>
+                    <th scope="col">{t.formules.grilleTarif}</th>
+                    <th scope="col">
+                      <span className="sr-only">{t.formules.souscrire}</span>
                     </th>
                   </tr>
-                  {groupe.lignes.map((ligne) => (
-                    <tr key={ligne.nom}>
-                      <th scope="row">{ligne.nom}</th>
-                      <td>{ligne.prix}</td>
+                </thead>
+                {groupesOffres(locale).map((groupe) => (
+                  <tbody key={groupe.titre}>
+                    <tr className="grille-tarifaire__groupe">
+                      <th scope="colgroup" colSpan={3}>
+                        {groupe.titre}
+                      </th>
                     </tr>
-                  ))}
-                </tbody>
-              ))}
-            </table>
-            <ul className="grille-tarifaire__notes">
-              {t.formules.grilleNotes.map((note) => (
-                <li key={note}>{note}</li>
-              ))}
-            </ul>
-            <p className="discret">{t.formules.grilleDate}</p>
+                    {groupe.offres.map((offre) => (
+                      <tr key={offre.id}>
+                        <th scope="row">{offre.nom}</th>
+                        <td>{offre.prix}</td>
+                        <td>
+                          <Link className="grille-tarifaire__lien" href={lienOffre(locale, offre.id)}>
+                            {t.formules.souscrire}
+                            <Icone nom="fleche" taille={16} epaisseur={2.8} />
+                          </Link>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                ))}
+              </table>
+
+              <aside className="tarif-cote">
+                <div className="carte carte--sombre" style={{ padding: 28, borderRadius: 'var(--r-lg)', gap: 14 }}>
+                  <h3 style={{ fontSize: 24 }}>{t.formules.souscrireTitre}</h3>
+                  <p style={{ color: 'var(--clair)' }}>{t.formules.souscrireTexte}</p>
+                  <div>
+                    <Link className="bouton bouton--soleil bouton--grand" href={lien(locale, 'questions')}>
+                      {t.formules.souscrireBouton}
+                    </Link>
+                  </div>
+                  <a className="tarif-cote__tel" href={telLien(COORDONNEES.telephone1)}>
+                    <Icone nom="telephone" taille={20} />
+                    {COORDONNEES.telephone1}
+                  </a>
+                  <a className="tarif-cote__tel" href={telLien(COORDONNEES.telephone2)}>
+                    <Icone nom="telephone" taille={20} />
+                    {COORDONNEES.telephone2}
+                  </a>
+                </div>
+
+                <div className="carte" style={{ padding: 24, borderRadius: 'var(--r-lg)', gap: 12 }}>
+                  <h3 style={{ fontSize: 20 }}>{t.formules.notesTitre}</h3>
+                  <ul className="grille-tarifaire__notes" style={{ margin: 0 }}>
+                    {t.formules.grilleNotes.map((note) => (
+                      <li key={note}>{note}</li>
+                    ))}
+                  </ul>
+                  <p className="discret">{t.formules.grilleDate}</p>
+                </div>
+              </aside>
+            </div>
           </div>
         </section>
 

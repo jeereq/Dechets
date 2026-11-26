@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, type CSSProperties } from 'react';
 import { CARTE, CIRCUITS, ECHELLES, TAS } from '@/lib/carte-camions';
 import { useAnimationControle } from '@/lib/useAnimationControle';
 
@@ -15,13 +15,24 @@ import { useAnimationControle } from '@/lib/useAnimationControle';
  * Animation SMIL (animateMotion) : fonctionne partout, se met en pause hors écran
  * ou onglet caché, et reste figée si l'appareil demande moins d'animations.
  *
+ * Immersion : la carte est vue en perspective, légèrement inclinée, et dérive très lentement.
+ * Le fond est empilé en couches 3D (le sol, puis cinq étages de bâtiments) : en bougeant, les
+ * toits se décalent des murs et du sol, ce qui donne du relief aux immeubles. La carte est
+ * inscrite dans un cadre à bords fondus (voir .carte-camions) : elle ne touche jamais le bord
+ * de la section.
+ *
  * `voile` règle l'assombrissement qui garde le texte lisible : « degrade » si le
  * texte est à gauche, « uniforme » s'il y en a partout.
  */
 
 const arrondi = (n: number) => Math.round(n * 10) / 10;
 
-const VUE_INITIALE = `${CARTE.largeur - 343} ${CARTE.hauteur / 2 - 54} 343 108`;
+/** Débord de la scène par rapport au cadre visible (en part de la largeur / hauteur du cadre). */
+const DEBORD = { x: 0.18, y: 0.3 } as const;
+/** Nombre d'étages de bâtiments dessinés dans carte-lingwala.svg (cc-n1 … cc-n5). */
+const ETAGES = [1, 2, 3, 4, 5] as const;
+
+const VUE_INITIALE = `${CARTE.largeur - 343 - 343 * DEBORD.x} ${CARTE.hauteur / 2 - 54 - 108 * DEBORD.y} ${343 * (1 + 2 * DEBORD.x)} ${108 * (1 + 2 * DEBORD.y)}`;
 
 export function CarteCamions({
   voile = 'degrade',
@@ -37,6 +48,7 @@ export function CarteCamions({
   const racine = useRef<HTMLDivElement>(null);
   const dessin = useRef<SVGSVGElement>(null);
   const [vue, setVue] = useState(VUE_INITIALE);
+  const [pas, setPas] = useState(1.6); // épaisseur d'un étage, en pixels d'écran
 
   useEffect(() => {
     const element = racine.current;
@@ -58,7 +70,11 @@ export function CarteCamions({
       const brut = grand && !centre ? CARTE.largeur - largeur : centreZone - largeur / 2;
       const x0 = Math.max(0, Math.min(brut, CARTE.largeur - largeur));
       const y0 = Math.max(0, Math.min(CARTE.hauteur / 2 - hauteur / 2, CARTE.hauteur - hauteur));
-      setVue(`${arrondi(x0)} ${arrondi(y0)} ${arrondi(largeur)} ${arrondi(hauteur)}`);
+      // La scène 3D déborde du cadre : on agrandit la vue d'autant, le cadre voit la même carte.
+      setVue(
+        `${arrondi(x0 - largeur * DEBORD.x)} ${arrondi(y0 - hauteur * DEBORD.y)} ${arrondi(largeur * (1 + 2 * DEBORD.x))} ${arrondi(hauteur * (1 + 2 * DEBORD.y))}`,
+      );
+      setPas(Math.round(echelle * 0.27 * 100) / 100);
     };
     mesurer();
     const redim = new ResizeObserver(mesurer);
@@ -71,15 +87,34 @@ export function CarteCamions({
 
   return (
     <div className={`carte-camions carte-camions--${voile}`} ref={racine} aria-hidden="true">
+      <div className="carte-scene" style={{ '--pas': `${pas}px` } as CSSProperties}>
+        {/* Sol : rues, îlots, ombres des bâtiments, noms d'avenues */}
+        <svg className="carte-couche" viewBox={vue} preserveAspectRatio="xMaxYMid slice" focusable="false">
+          <use href="/carte-lingwala.svg#cc-sol" />
+        </svg>
+
+        {/* Étages des bâtiments : chaque couche est surélevée d'un cran (translateZ) */}
+        {ETAGES.map((n) => (
+          <svg
+            key={n}
+            className="carte-couche"
+            style={{ transform: `translateZ(calc(var(--pas) * ${n}))` }}
+            viewBox={vue}
+            preserveAspectRatio="xMaxYMid slice"
+            focusable="false"
+          >
+            <use href={`/carte-lingwala.svg#cc-n${n}`} />
+          </svg>
+        ))}
+
       <svg
         ref={dessin}
+        className="carte-couche"
+        style={{ transform: 'translateZ(calc(var(--pas) * 0.6))' }}
         viewBox={vue}
-        width="100%"
-        height="100%"
         preserveAspectRatio="xMaxYMid slice"
         focusable="false"
       >
-        <use href="/carte-lingwala.svg#cc-fond" />
 
         {/* Tas de déchets le long des rues : un halo les signale */}
         {TAS.map(([x, y], i) => (
@@ -115,6 +150,16 @@ export function CarteCamions({
                   rotate="auto"
                 />
                 <g transform={`scale(${echelle})`}>
+                  {/* Ombre portée sur la chaussée */}
+                  <rect
+                    x={camion ? -7 : -4.6}
+                    y={camion ? -2.9 : -2.3}
+                    width={camion ? 14 : 9.2}
+                    height={camion ? 5.8 : 4.6}
+                    rx="1.6"
+                    transform="translate(0.9 1.3)"
+                    fill="rgba(2,20,10,0.38)"
+                  />
                   <path
                     d={camion ? 'M6 -1.6L16 -4.6L16 4.6L6 1.6Z' : 'M4 -1.2L11 -3.4L11 3.4L4 1.2Z'}
                     fill="rgba(255,240,180,0.2)"
@@ -136,6 +181,8 @@ export function CarteCamions({
           }),
         )}
       </svg>
+      </div>
+      <div className="carte-lueur" />
     </div>
   );
 }

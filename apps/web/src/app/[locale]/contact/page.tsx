@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { Suspense } from 'react';
 import { notFound } from 'next/navigation';
 import { DonneesStructurees } from '@/components/DonneesStructurees';
 import { Entete } from '@/components/Entete';
@@ -8,6 +9,7 @@ import { PiedDePage } from '@/components/PiedDePage';
 import { TitrePage } from '@/components/TitrePage';
 import { getCommunes } from '@/lib/api';
 import { estLocale, getDictionnaire, lien } from '@/lib/i18n';
+import { etiquettesOffres } from '@/lib/offres';
 import { metaPage } from '@/lib/seo';
 import { COORDONNEES, telLien } from '@/lib/societe';
 import type { Metadata } from 'next';
@@ -62,9 +64,15 @@ export default async function Questions({ params }: { params: Promise<{ locale: 
             className="conteneur"
             style={{ display: 'flex', flexWrap: 'wrap', gap: '32px 56px', alignItems: 'flex-start' }}
           >
-            <div className="pile" style={{ flex: '1 1 420px', gap: 20 }}>
+            <div id="ecrire" className="pile" style={{ flex: '1 1 420px', gap: 20, scrollMarginTop: 96 }}>
               <h2>{t.questions.ecrireTitre}</h2>
-              <FormulaireContact etiquettes={t.questions.formulaire} />
+              <Suspense fallback={null}>
+                <FormulaireContact
+                  etiquettes={t.questions.formulaire}
+                  offres={etiquettesOffres(locale)}
+                  modeleOffre={t.questions.formulaire.modeleOffre}
+                />
+              </Suspense>
             </div>
 
             <div className="pile" style={{ flex: '1 1 320px', gap: 16 }}>

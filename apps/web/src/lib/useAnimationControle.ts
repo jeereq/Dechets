@@ -20,7 +20,9 @@ export function useAnimationControle(
     const sobre = window.matchMedia('(prefers-reduced-motion: reduce)');
     let visibleEcran = true;
     const appliquer = () => {
-      if (sobre.matches || !visibleEcran || document.hidden) {
+      const enPause = sobre.matches || !visibleEcran || document.hidden;
+      element.dataset.pause = enPause ? 'oui' : 'non'; // met aussi en pause la dérive CSS
+      if (enPause) {
         svg.pauseAnimations();
         if (sobre.matches) svg.setCurrentTime(imageFixe);
       } else {

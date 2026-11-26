@@ -1,6 +1,7 @@
 import { ChargementEntete } from './ChargementEntete';
 import Image from 'next/image';
 import Link from 'next/link';
+import type { ReactNode } from 'react';
 import {
   CHEMINS,
   ETIQUETTES_LOCALES,
@@ -10,6 +11,7 @@ import {
   lien,
   type Locale,
 } from '@/lib/i18n';
+import { groupesOffres, lienOffre } from '@/lib/offres';
 
 const PAGES: Array<keyof typeof CHEMINS> = [
   'accueil',
@@ -24,16 +26,72 @@ const PAGES: Array<keyof typeof CHEMINS> = [
 export function Entete({ locale, page }: { locale: Locale; page: keyof typeof CHEMINS }) {
   const t = getDictionnaire(locale);
 
-  const liens = PAGES.map((cle) => (
-    <Link
-      key={cle}
-      href={lien(locale, cle)}
-      className="nav__lien"
-      aria-current={cle === page ? 'page' : undefined}
-    >
-      {t.nav[cle]}
-    </Link>
-  ));
+  /** Menus déroulants : « Nos services » liste les activités, « Tarification » les offres. */
+  const sousMenus: Partial<Record<keyof typeof CHEMINS, ReactNode>> = {
+    services: (
+      <ul className="nav__sous-liste">
+        {t.services.items.map((item) => (
+          <li key={item.id}>
+            <Link href={`${lien(locale, 'services')}/${item.id}`}>
+              <strong>{item.titre}</strong>
+              <span>{item.accroche}</span>
+            </Link>
+          </li>
+        ))}
+        <li className="nav__sous-tout">
+          <Link href={lien(locale, 'services')}>{t.accueil.groupeLien}</Link>
+        </li>
+      </ul>
+    ),
+    formules: (
+      <div className="nav__sous-liste nav__sous-liste--deux">
+        {groupesOffres(locale).map((groupe) => (
+          <div key={groupe.titre} className="nav__sous-groupe">
+            <span className="nav__sous-titre">{groupe.titre}</span>
+            <ul>
+              {groupe.offres.map((offre) => (
+                <li key={offre.id}>
+                  <Link href={lienOffre(locale, offre.id)}>
+                    <span>{offre.nom}</span>
+                    <b>{offre.prix}</b>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+        <p className="nav__sous-tout">
+          <Link href={lien(locale, 'formules')}>{t.formules.grilleTitre}</Link>
+        </p>
+      </div>
+    ),
+  };
+
+  const liens = PAGES.map((cle) => {
+    const lienPage = (
+      <Link
+        key={cle}
+        href={lien(locale, cle)}
+        className={`nav__lien${sousMenus[cle] ? ' nav__lien--menu' : ''}`}
+        aria-current={cle === page ? 'page' : undefined}
+        aria-haspopup={sousMenus[cle] ? 'true' : undefined}
+      >
+        {t.nav[cle]}
+        {sousMenus[cle] ? (
+          <svg className="nav__chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <path d="M6 9l6 6 6-6" />
+          </svg>
+        ) : null}
+      </Link>
+    );
+    if (!sousMenus[cle]) return lienPage;
+    return (
+      <div key={cle} className="nav__groupe">
+        {lienPage}
+        <div className="nav__sous">{sousMenus[cle]}</div>
+      </div>
+    );
+  });
 
   const autresLangues = LOCALES.filter((l) => l !== locale);
   const langue = (variante: 'bureau' | 'menu') => (

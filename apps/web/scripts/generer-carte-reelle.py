@@ -317,12 +317,29 @@ for n, p in communes:
         fond.append('<path d="%s" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="0.7"/>' % d)
 if verts:
     fond.append('<path d="%s" fill="rgba(61,220,106,0.16)"/>' % ''.join(chemin(v, 1) for v in verts))
-tons = ['rgba(255,255,255,0.15)', 'rgba(255,255,255,0.22)', 'rgba(255,255,255,0.1)']
+# Batiments en relief : trois hauteurs, empilees en niveaux (cc-n1 a cc-n5) que CarteCamions
+# superpose en 3D (translateZ). Chaque niveau dessine les murs (de plus en plus clairs en
+# montant) des batiments encore en elevation, ou le toit de ceux qui s'arretent la.
+HAUTEURS = {2: 2, 0: 3, 1: 5}                       # groupe -> nombre de niveaux
+TOITS = {2: '#2f6b4d', 0: '#3a7a59', 1: '#4b8d6a'}   # couleur du toit, du plus bas au plus haut
+MURS = ['#0d3a24', '#114029', '#16472e', '#1c5034', '#22593b']
 groupes = {0: [], 1: [], 2: []}
 for i, b in enumerate(batiments):
     groupes[(i * 7 + int(b.area)) % 3].append(chemin(b, 1))
-for k in (0, 1, 2):
-    fond.append('<path d="%s" fill="%s"/>' % (''.join(groupes[k]), tons[k]))
+geo = {k: ''.join(groupes[k]) for k in groupes}
+ombres = ['<g id="cc-ombres" transform="translate(1.3 1.6)" fill="rgba(2,20,10,0.34)">']
+ombres += ['<path d="%s"/>' % geo[k] for k in (0, 1, 2)]
+ombres.append('</g>')
+fond.extend(ombres)
+niveaux = []
+for n in range(1, max(HAUTEURS.values()) + 1):
+    parts = []
+    for k in (2, 0, 1):
+        if n < HAUTEURS[k]:
+            parts.append('<path d="%s" fill="%s"/>' % (geo[k], MURS[n - 1]))
+        elif n == HAUTEURS[k]:
+            parts.append('<path d="%s" fill="%s"/>' % (geo[k], TOITS[k]))
+    niveaux.append('<g id="cc-n%d">%s</g>' % (n, ''.join(parts)))
 
 ordonnees = sorted(routes, key=lambda r: ORDRE.index(r[0]))
 par_classe = {}
@@ -396,7 +413,7 @@ for n, p in communes:
 svg = ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 %d %d" font-family="system-ui, sans-serif">'
        '<!-- Fond de carte : donnees © contributeurs OpenStreetMap, licence ODbL. Genere par '
        'scripts/generer-carte-reelle.py -->'
-       '<defs>%s</defs><g id="cc-fond">%s</g></svg>') % (LARGEUR, HAUTEUR, defs, ''.join(fond))
+       '<defs>%s</defs><g id="cc-sol">%s</g>%s</svg>') % (LARGEUR, HAUTEUR, defs, ''.join(fond), ''.join(niveaux))
 SVG.write_text(svg)
 print('svg', SVG.stat().st_size, 'octets')
 

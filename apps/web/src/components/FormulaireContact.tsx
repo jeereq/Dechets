@@ -1,6 +1,7 @@
 'use client';
 
-import { useState } from 'react';
+import { useSearchParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import { envoyerContact } from '@/lib/api';
 
 export type EtiquettesContact = {
@@ -14,11 +15,29 @@ export type EtiquettesContact = {
   erreur: string;
 };
 
-export function FormulaireContact({ etiquettes }: { etiquettes: EtiquettesContact }) {
+export function FormulaireContact({
+  etiquettes,
+  offres,
+  modeleOffre,
+}: {
+  etiquettes: EtiquettesContact;
+  /** id d'offre -> libellé (voir lib/offres.ts) */
+  offres: Record<string, string>;
+  /** Message type, « {offre} » est remplacé par le libellé de l'offre choisie. */
+  modeleOffre: string;
+}) {
+  const offreChoisie = useSearchParams().get('offre');
   const [nom, setNom] = useState('');
   const [telephone, setTelephone] = useState('');
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
+  // Arrivée depuis le menu Tarification : le message est déjà rédigé pour l'offre choisie.
+  useEffect(() => {
+    const libelle = offreChoisie ? offres[offreChoisie] : undefined;
+    if (libelle) setMessage(modeleOffre.replace('{offre}', libelle));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [offreChoisie]);
+
   const [etat, setEtat] = useState<'repos' | 'envoi' | 'succes' | 'erreur'>('repos');
 
   async function soumettre(event: React.FormEvent<HTMLFormElement>) {

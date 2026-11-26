@@ -815,6 +815,8 @@ img {
   display: flex;
   flex-direction: column;
   gap: 2px;
+  max-height: calc(100dvh - 84px);
+  overflow-y: auto;
 }
 
 .menu__panneau .nav {
@@ -925,16 +927,98 @@ img {
   width: 100%;
 }
 
+/*
+ * Carte animée (CarteCamions) : un cadre retiré du bord de la section, aux bords fondus,
+ * qui garde la carte à distance des limites de la section. À l'intérieur, une scène 3D
+ * inclinée (perspective) qui dérive lentement ; ses couches (sol, étages des bâtiments)
+ * sont à des hauteurs différentes, d'où le relief des immeubles.
+ */
 .carte-camions {
+  --marge: clamp(10px, 1.6vw, 22px);
+  --fondu: clamp(36px, 7vw, 110px);
   position: absolute;
-  inset: 0;
+  inset: var(--marge);
+  overflow: hidden;
+  border-radius: clamp(16px, 2.4vw, 30px);
   pointer-events: none;
+  perspective: 1200px;
+  perspective-origin: 50% 35%;
+  -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 var(--fondu), #000 calc(100% - var(--fondu)), transparent 100%),
+    linear-gradient(180deg, transparent 0, #000 calc(var(--fondu) * 0.8), #000 calc(100% - var(--fondu) * 0.8), transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask-image: linear-gradient(90deg, transparent 0, #000 var(--fondu), #000 calc(100% - var(--fondu)), transparent 100%),
+    linear-gradient(180deg, transparent 0, #000 calc(var(--fondu) * 0.8), #000 calc(100% - var(--fondu) * 0.8), transparent 100%);
+  mask-composite: intersect;
 }
 
 .carte-camions::after {
   content: '';
   position: absolute;
   inset: 0;
+}
+
+/* La scène déborde du cadre pour que l'inclinaison ne laisse jamais de vide. */
+.carte-scene {
+  position: absolute;
+  left: -18%;
+  top: -30%;
+  width: 136%;
+  height: 160%;
+  transform-style: preserve-3d;
+  transform-origin: 50% 52%;
+  transform: rotateX(44deg) scale(1.12);
+  animation: carte-derive 46s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+.carte-couche {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  backface-visibility: hidden;
+}
+
+/* Caméra : un léger balancement et une avancée, à peine perceptibles. */
+@keyframes carte-derive {
+  from {
+    transform: rotateX(41deg) rotateZ(-2.2deg) translate3d(-1.6%, 1%, 0) scale(1.1);
+  }
+  to {
+    transform: rotateX(48deg) rotateZ(2.2deg) translate3d(1.6%, -1%, 0) scale(1.18);
+  }
+}
+
+.carte-camions[data-pause='oui'] .carte-scene {
+  animation-play-state: paused;
+}
+
+/* Lueur chaude qui respire au-dessus de la ville : de la profondeur, sans nuire au texte. */
+.carte-lueur {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(60% 55% at 72% 46%, rgba(245, 168, 0, 0.13), transparent 70%),
+    radial-gradient(90% 70% at 50% 120%, rgba(61, 220, 106, 0.1), transparent 70%);
+  mix-blend-mode: screen;
+  animation: carte-lueur 9s ease-in-out infinite alternate;
+}
+
+@keyframes carte-lueur {
+  from {
+    opacity: 0.55;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .carte-scene,
+  .carte-lueur {
+    animation: none;
+  }
 }
 
 /* Texte à gauche : la carte et les véhicules sont à droite, un dégradé progressif les fond à gauche. */
@@ -4362,4 +4446,215 @@ figcaption {
     width: 34px;
     height: 34px;
   }
+}
+
+/* --- grille tarifaire + colonne latérale ---------------------------------- */
+.tarif-mise {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 32px 48px;
+  align-items: flex-start;
+}
+
+.tarif-mise .grille-tarifaire {
+  flex: 1 1 520px;
+  min-width: 0;
+}
+
+.tarif-cote {
+  flex: 1 1 320px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  position: sticky;
+  top: 92px;
+}
+
+.tarif-cote__tel {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 700;
+  color: var(--blanc);
+}
+
+.grille-tarifaire__lien {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--vert);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.grille-tarifaire__lien:hover {
+  text-decoration: underline;
+}
+
+/* --- menus déroulants de la navigation ------------------------------------ */
+.nav__groupe {
+  position: relative;
+}
+
+.nav__chevron {
+  margin-left: 5px;
+  transition: transform 0.15s ease;
+}
+
+.nav__groupe:hover .nav__chevron,
+.nav__groupe:focus-within .nav__chevron {
+  transform: rotate(180deg);
+}
+
+.nav__sous {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  z-index: 30;
+  min-width: 320px;
+  padding-top: 10px; /* pont entre le lien et le panneau : la souris ne le perd pas */
+  transform: translateX(-50%);
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.14s ease, visibility 0s linear 0.14s;
+}
+
+.nav__groupe:hover .nav__sous,
+.nav__groupe:focus-within .nav__sous {
+  visibility: visible;
+  opacity: 1;
+  transition-delay: 0s;
+}
+
+.nav__sous-liste {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin: 0;
+  padding: 10px;
+  list-style: none;
+  max-height: min(70vh, 560px);
+  overflow-y: auto;
+  background: var(--blanc);
+  border: 1px solid var(--ligne);
+  border-radius: var(--r);
+  box-shadow: 0 18px 40px rgba(11, 60, 34, 0.18);
+}
+
+.nav__sous-liste a {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  color: var(--encre);
+  white-space: normal;
+}
+
+.nav__sous-liste a:hover,
+.nav__sous-liste a:focus-visible {
+  background: var(--vert-pale);
+}
+
+.nav__sous-liste a span {
+  font-size: 14.5px;
+  color: var(--gris);
+}
+
+.nav__sous-liste ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.nav__sous-groupe ul a {
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.nav__sous-groupe ul a span {
+  font-size: 16px;
+  color: var(--encre);
+}
+
+.nav__sous-groupe ul a b {
+  color: var(--vert);
+  white-space: nowrap;
+}
+
+.nav__sous-titre {
+  display: block;
+  padding: 10px 14px 4px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--gris);
+}
+
+.nav__sous-tout {
+  margin: 4px 0 0;
+  padding-top: 6px;
+  border-top: 1px solid var(--ligne);
+}
+
+.nav__sous-tout a {
+  flex-direction: row;
+  color: var(--vert);
+  font-weight: 700;
+}
+
+/* Menu Tarification : les deux familles d'offres côte à côte, sans défilement. */
+.nav__sous-liste--deux {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px 14px;
+  min-width: 640px;
+}
+
+.nav__sous-liste--deux .nav__sous-tout {
+  grid-column: 1 / -1;
+}
+
+/* Menu des petits écrans : les sous-listes sont toujours ouvertes, en retrait. */
+.menu__panneau .nav__groupe {
+  width: 100%;
+}
+
+.menu__panneau .nav__chevron {
+  display: none;
+}
+
+.menu__panneau .nav__sous {
+  position: static;
+  min-width: 0;
+  padding: 0 0 6px 14px;
+  transform: none;
+  visibility: visible;
+  opacity: 1;
+}
+
+.menu__panneau .nav__sous-liste {
+  display: flex;
+  min-width: 0;
+  max-height: none;
+  padding: 0;
+  border: 0;
+  box-shadow: none;
+  background: transparent;
+}
+
+.menu__panneau .nav__sous-liste > li > a > span {
+  display: none;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
 }
