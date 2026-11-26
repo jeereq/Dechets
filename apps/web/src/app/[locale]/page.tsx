@@ -75,12 +75,12 @@ export default async function Accueil({ params }: { params: Promise<{ locale: st
             </div>
             <div className="heros__image">
               <Image
-                src="/photos/equipe-hero.jpg"
-                alt="Équipe BENIME à Kinshasa devant un véhicule de collecte"
+                src="/photos/accueil-chauffeur.jpg"
+                alt="Agent BENIME au volant du tricycle de collecte à Kinshasa"
                 width={1200}
                 height={900}
                 sizes="(max-width: 860px) 100vw, 50vw"
-                style={{ objectPosition: '55% 30%' }}
+                style={{ objectPosition: '50% 40%' }}
                 priority
               />
             </div>
